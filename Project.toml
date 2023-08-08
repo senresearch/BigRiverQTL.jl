@@ -1,4 +1,8 @@
 name = "BigRiverQTL"
 uuid = "8f8ec94a-26d1-428c-aa0e-4e66223094bc"
-authors = ["harperkole <harperkole@gmail.com>"]
+authors = ["Gregory Farage", "Harper Kolehmainen", "Saunak Sen"]
 version = "0.1.0"
+
+[deps]
+BulkLMM = "b8d15608-0852-4141-ae38-222578e2ed7b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"

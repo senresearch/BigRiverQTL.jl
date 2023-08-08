@@ -1,5 +1,8 @@
 module BigRiverQTL
+using BulkLMM
+using DataFrames
 
-greet() = print("Hello World!")
+include("loco_helpers.jl")
 
-end # module BigRiverQTL
+
+end 
