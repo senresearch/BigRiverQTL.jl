@@ -11,7 +11,7 @@ Returns a vector of genotype matrices based on the chromosome.
 function get_loco_geno(dfG::DataFrame;
 	chromosome_colname::String = "Chr",
 	idx_start::Int = 5, # TODO is it better to indicate geno column names?
-    kwargs...,
+	kwargs...,
 )
 
 	gdf = groupby(dfG, chromosome_colname)
@@ -41,7 +41,7 @@ Returns a vector of genotype information dataframes based on the chromosome.
 function get_loco_geno_info(dfG::DataFrame;
 	chromosome_colname = "Chr",
 	idx_info = collect(1:4),
-    kwargs...,
+	kwargs...,
 )
 
 	select(dfG, idx_info) |>
@@ -62,12 +62,12 @@ of kinship matrices per chromosome.
 function calcLocoKinship(G::Vector{Matrix{Float64}})
 
 	N = length(G)
-    K = Vector{Matrix{Float64}}(undef, N)
+	K = Vector{Matrix{Float64}}(undef, N)
 
 	Q = calcKinship.(G)
 	KK = sum(Q)
-	
-    for i in 1:N
+
+	for i in 1:N
 		K[i] = (KK - Q[i]) ./ (N - 1)
 	end
 

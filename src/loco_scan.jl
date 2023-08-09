@@ -8,8 +8,8 @@ Single trait scan without covariates for LOCO data structure.
 - `y`is the phenotype column matrix. 
 - `dfG`is is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
 - `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
-	example: `reml`` = false, `permutation_test`` = true, `nperms`` = 1000, 
-	`weights`` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
+	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
+	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
 
 # Example
@@ -32,8 +32,8 @@ Single trait scan without covariates for LOCO data structure.
 - `G`is vector of genotype matrices based on the chromosome.
 - `K` is a vector of kinship matrices.
 - `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
-	example: `reml`` = false, `permutation_test`` = true, `nperms`` = 1000, 
-	`weights`` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
+	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
+	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
 	
 
@@ -56,22 +56,17 @@ Single trait scan with covariates for LOCO data structure.
 - `covar` is covariate column matrix.
 - `K` is a vector of kinship matrices.
 - `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
-	example: `reml`` = false, `permutation_test`` = true, `nperms`` = 1000, 
-	`weights`` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
+	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
+	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
 	
+# Example
 
 ```julia
-loco_scan(y, arr_geno, arr_kinship;
+loco_scan(y, arr_geno, covar, arr_kinship;
 		 reml = false, permutation_test = true, nperms = 1000, 
 		 weights = missing, prior_variance = 0.0, prior_sample_size = 0.0)
 ```
-loco_scan(y, geno_array, covar, kinship_array; reml=false, permutation_test=true, nperms=1000, weights=missing, prior_variance=0.0, prior_sample_size=0.0)
-
-Single trait scan with covariates for LOCO data structure.
-Takes in the phenotype column matrix y, the covariate column matrix covar, and the geno and kinship arrays that would be returned by the loco_processing function, as well as optional keywords pertaining to the scan.
-
-and the geno and kinship arrays 
 
 """
 function loco_scan(y::Matrix{Float64}, df_geno::DataFrame; kwargs...)
