@@ -99,8 +99,8 @@ function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, covar::Matrix
 
 	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
 		h2_null = [results_loco[i].h2_null for i in 1:N],
-		lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
-		L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
+		lod = reduce(vcat, ([results_loco[i].lod[2:end] for i in 1:N])),
+		L_perms = reduce(vcat, ([results_loco[i].L_perms[2:end, :] for i in 1:N])),
 	)
 end
 
