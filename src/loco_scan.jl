@@ -81,6 +81,7 @@ end
 function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, K::Vector{Matrix{Float64}};
 	kwargs...)
 
+    N = length(G)
 	results_loco = map((g, k) -> scan(y, g, k; kwargs...), G, K)
 
 	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
@@ -93,6 +94,7 @@ end
 function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, covar::Matrix{Float64},
 	K::Vector{Matrix{Float64}}; kwargs...)
 
+    N = length(G)
 	results_loco = map((g, k) -> scan(y, g, covar, k; kwargs...), G, K)
 
 	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
