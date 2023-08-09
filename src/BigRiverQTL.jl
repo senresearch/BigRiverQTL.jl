@@ -1,5 +1,11 @@
 module BigRiverQTL
+    using BulkLMM
+    using DataFrames
 
-greet() = print("Hello World!")
+    include("loco_helpers.jl")
+    export get_loco_geno, get_loco_geno_info, calcLocoKinship
 
-end # module BigRiverQTL
+    include("loco_scan.jl")
+    export loco_scan
+
+end
