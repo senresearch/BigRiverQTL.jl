@@ -1,5 +1,7 @@
 using BulkLMM
 using DataFrames
+using BenchmarkTools
+using BigRiverQTL
 
 ########
 # Data #
@@ -30,9 +32,43 @@ df_geno = leftjoin(gInfo, df_tmp, on = :Locus);
 ############
 # Function #
 ############
-gd = groupby(df_geno, :Chr)  
 
-combine(gd, nrow)
-combine(gd, x-> x[:,5:end])
-size(gd[1])
-map(x -> size(x, 1), gd)
+G = get_loco_geno(df_geno);
+K = calcLocoKinship(G);
+
+
+
+@btime begin
+gd = groupby(df_geno, :Chr); 
+N = length(gd)
+
+G = Vector{Matrix{Float64}}(undef, N)
+K = Vector{Matrix{Float64}}(undef, N)
+for i in 1:N
+    G[i] = Matrix{Float64}(permutedims(gd[i][:,5:end]))
+end
+
+Q = calcKinship.(geno_array);
+KK = sum(Q)
+for i in 1:N
+    K[i] = (KK-Q[i])./(N-1)
+end
+end
+
+genome_start_index = 5
+select(df_geno, collect(1:4)) |> 
+    x -> groupby(x, :Chr) |>
+    x -> DataFrame.(collect(x))
+
+@btime begin
+chr_names = unique(df_geno[:,"Chr"])
+geno_array = Vector{Matrix{Float64}}(undef, length(chr_names))
+kinship_array = Vector{Matrix{Float64}}(undef, length(chr_names))
+for i in 1:length(chr_names)
+    chr = chr_names[i]
+    only_chr = Matrix{Float64}(permutedims(subset(df_geno, :Chr => ByRow(==(chr)))[:,genome_start_index:end]))
+    kinship_array[i] = calcKinship(Matrix{Float64}(permutedims(subset(df_geno, :Chr => ByRow(!=(chr)))[:,genome_start_index:end])))
+    geno_array[i] = only_chr
+end
+end
+
