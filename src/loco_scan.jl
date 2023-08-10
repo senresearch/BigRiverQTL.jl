@@ -99,26 +99,7 @@ function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, covar::Matrix
 
 	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
 		h2_null = [results_loco[i].h2_null for i in 1:N],
-		lod = reduce(vcat, ([results_loco[i].lod[2:end] for i in 1:N])),
-		L_perms = reduce(vcat, ([results_loco[i].L_perms[2:end, :] for i in 1:N])),
+		lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+		L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
 	)
-end
-
-
-
-
-
-function loco_scan2(y, geno_array, kinship_array; reml = false, permutation_test = true, nperms = 1000, weights = missing, prior_variance = 0.0, prior_sample_size = 0.0)
-	results_by_chr = map((g, k) -> scan(y, g, k; reml = reml, permutation_test = permutation_test, nperms = nperms, weights = weights, prior_variance = prior_variance, prior_sample_size = prior_sample_size), geno_array, kinship_array)
-	flattened = collect(Iterators.Flatten(results_by_chr))
-	results_full = (sigma2_e = reduce(vcat, flattened[1:4:end]), h2_null = reduce(vcat, flattened[2:4:end]), lod = reduce(vcat, flattened[3:4:end]), L_perms = reduce(vcat, flattened[4:4:end]))
-	return results_full
-end
-
-
-function loco_scan2(y, geno_array, covar, kinship_array; reml = false, permutation_test = true, nperms = 1000, weights = missing, prior_variance = 0.0, prior_sample_size = 0.0)
-	results_by_chr = map((g, k) -> scan(y, g, covar, k; reml = reml, permutation_test = permutation_test, nperms = nperms, weights = weights, prior_variance = prior_variance, prior_sample_size = prior_sample_size), geno_array, kinship_array)
-	flattened = collect(Iterators.Flatten(results_by_chr))
-	results_full = (sigma2_e = reduce(vcat, flattened[1:4:end]), h2_null = reduce(vcat, flattened[2:4:end]), lod = reduce(vcat, flattened[3:4:end]), L_perms = reduce(vcat, flattened[4:4:end]))
-	return results_full
 end

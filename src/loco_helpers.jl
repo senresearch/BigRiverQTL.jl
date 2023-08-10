@@ -74,22 +74,3 @@ function calcLocoKinship(G::Vector{Matrix{Float64}})
 	return K
 end
 
-
-"""
-loco_processing(geno::DataFrame, genome_start_index::Int)
-
-Takes in a genotype DataFrame and the index of the first actual genome data column (after the informational columns end) 
-Generates an array of kinship matrices based on LOCO, and the corresopnding genotype array by chromosome.
-"""
-function loco_processing(geno::DataFrame, genome_start_index::Int)
-	chr_names = unique(geno[:, "Chr"])
-	geno_array = Vector{Matrix{Float64}}(undef, length(chr_names))
-	kinship_array = Vector{Matrix{Float64}}(undef, length(chr_names))
-	for i in 1:length(chr_names)
-		chr = chr_names[i]
-		only_chr = Matrix{Float64}(permutedims(subset(geno, :Chr => ByRow(==(chr)))[:, genome_start_index:end]))
-		kinship_array[i] = calcKinship(Matrix{Float64}(permutedims(subset(geno, :Chr => ByRow(!=(chr)))[:, genome_start_index:end])))
-		geno_array[i] = only_chr
-	end
-	return geno_array, kinship_array
-end
