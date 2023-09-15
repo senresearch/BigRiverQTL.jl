@@ -84,11 +84,26 @@ function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, K::Vector{Mat
     N = length(G)
 	results_loco = map((g, k) -> scan(y, g, k; kwargs...), G, K)
 
-	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
-		h2_null = [results_loco[i].h2_null for i in 1:N],
-		lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
-		L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
-	)
+	results_keys = keys(results_loco[1]);
+
+	if :L_perms in results_keys
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+			L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
+		)
+	elseif :h2_each_marker in results_keys
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			h2_each_marker = reduce(vcat, ([results_loco[i].h2_each_marker for i in 1:N])),
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+		)
+	else
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+		)		
+	end
 end
 
 function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, covar::Matrix{Float64},
@@ -97,9 +112,24 @@ function loco_scan(y::Matrix{Float64}, G::Vector{Matrix{Float64}}, covar::Matrix
     N = length(G)
 	results_loco = map((g, k) -> scan(y, g, covar, k; kwargs...), G, K)
 
-	return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
-		h2_null = [results_loco[i].h2_null for i in 1:N],
-		lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
-		L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
-	)
+	results_keys = keys(results_loco[1]);
+
+	if :L_perms in results_keys
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+			L_perms = reduce(vcat, ([results_loco[i].L_perms for i in 1:N])),
+		)
+	elseif :h2_each_marker in results_keys
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			h2_each_marker = reduce(vcat, ([results_loco[i].h2_each_marker for i in 1:N])),
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+		)
+	else
+		return (sigma2_e = [results_loco[i].sigma2_e for i in 1:N],
+			h2_null = [results_loco[i].h2_null for i in 1:N],
+			lod = reduce(vcat, ([results_loco[i].lod for i in 1:N])),
+		)		
+	end
 end
