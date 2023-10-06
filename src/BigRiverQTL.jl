@@ -8,4 +8,8 @@ module BigRiverQTL
     include("loco_scan.jl")
     export loco_scan
 
+    include("loco_bulkscan.jl")
+    export loco_bulkscan
+
+
 end
