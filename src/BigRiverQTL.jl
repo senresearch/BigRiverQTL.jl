@@ -2,14 +2,22 @@ module BigRiverQTL
     using BulkLMM
     using DataFrames
 
-    include("loco_helpers.jl")
+    ########
+    # Loco #
+    ########
+
+    include("loco/loco_helpers.jl")
     export get_loco_geno, get_loco_geno_info, calcLocoKinship
 
-    include("loco_scan.jl")
+    include("loco/loco_scan.jl")
     export loco_scan
 
-    include("loco_bulkscan.jl")
+    include("loco/loco_bulkscan.jl")
     export loco_bulkscan
+
+    ###########
+    # Kinship #
+    ###########
 
 
 end
