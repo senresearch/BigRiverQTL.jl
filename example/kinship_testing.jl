@@ -28,16 +28,11 @@ Pkg.instantiate()
 
 using BigRiverQTL
 
-# +
-
 using Statistics
 using Distributed
 using LinearAlgebra
 import StatsBase: sample
-
 # include("Miscellanea.jl")
-
-# -
 
 # ### Data
 
@@ -70,186 +65,148 @@ gene_mat=[[1 2 3 4 5 6]/sum([1 2 3 4 5 6]); [1 0 0 0 0 0]/sum([1 0 0 0 0 0]); [1
     [1 2 3 4 5 6.1]/sum([1 2 3 4 5 6.1])]
 
 
+# Another constructed data set for functions like "kinship_ctr" and "kinship_std".
+gene_mat2=rand([0.0, 1.0, 2.0], 5, 10)
+
 # ## Check the data sets for different functions:
 
-# +
-# testing calckinship
-
-
-function calckinship(geno::Matrix{Float64})
-
-    # get dimensions
-    sz = size(geno)
-
-    # assign to variables for convenience
-    nr = sz[1]
-    nc = sz[2]
-
-    # if empty then there is nothing to do
-    if(nr==0)
-        error("Nothing to do here.")
-    else
-        # make matrix to hold distances
-        d = zeros(nr,nr)
-    end
-
-    # assign diagonals to ones
-    for i=1:nr
-        d[i,i] = 1.0
-    end
-
-    ncomplete = nc
-    # off-diagonal elements need to be calculated
-    if(nr>=2)
-        for i=1:(nr-1)
-            for j=(i+1):nr
-                p1 = geno[i,:]
-                p2 = geno[j,:]
-                d[i,j] = d[j,i] = sum( p1 .* p2 + (1 .- p1) .* (1 .- p2) ) / ncomplete
-
-            end
-        end
-    end
-    return d
-end
-# -
-
-calckinship(gpr)
-
-calckinship(gene_mat)
+# ### We will check the following properties for each kinship matrix: 
+# * Dimensions: $n \times n$ where $n$ is the number of subjects.
+# * All elements in the diagonals are $1$.
+# * All elements in each kinship matrix lie between $-1$ and $1$.
+# * Symmetric
+# * Positive Definite
+#
+# We create a function "kinship_test" to test all the mentioned properties. 
 
 # +
-# testing kinship_man
-function kinship_man(genematrix::Matrix{Float64})
-#    c0=findall(.!isna.(genematrix[1,:]));
-#    c1=findall(.!isna.(genematrix[2,:]));
-#    ckeep=intersect(c0,c1);
-#                  for j=3:nrow
-#                  ck=find(.!isna.(genematrix[j,:]));
-#                  ckeep=intersect(ck,ckeep);
-#                   end
-#                         geneupdate = genematrix[:,ckeep];
-                        col = axes(genematrix,2)
-                    kin=zeros(col,col);
-                        @views for c=col, r=c:length(col)
-                            kin[r,c]= 1.0-mean(abs.(genematrix[:,c]-genematrix[:,r]))
-                                    kin[c,r]=kin[r,c]
-                        end
+# Checks the above mentioned properties
+function kinship_test(kinmat::Matrix{Float64})
+    a=zeros(4)
+    
+    #checking dimensions
+    if(size(kinmat,1)==size(kinmat,2))
+        a[1]=1
+        else(a[1]==0)
+        println("The matrix is not a square matrix.")
+    end
+    
+    # checking if all elements between -1 and 1
+    if(maximum(kinmat)<=1.0 && minimum(kinmat)>=-1.0)
+        a[2]=1
+        else(a[2]==0)
+        println("Not all elements of the matrix lie between -1 and 1.")
+    end
 
-return kin
+    # checking if all elements in the diagonal are 1
+    if(diag(kinmat)==ones(size(kinmat,1)))
+        a[3]=1
+        else(a[3]==0)
+        println("Not all elements of the diagonal  are 1.")
+    end
 
+    # checking if 'kinmat' symmetric and positive definite
+    if(isposdef(kinmat)==1)
+        a[4]=1
+        else(a[4]==0)
+        println("The matrix is not positive definite.")
+    end
+    
+    if(a==ones(4))
+        println("All mentioned properties of a kinship matrix are satisfied.")
+        
+    
+    
+    
+    
+    
+    
+        
+    
+        
+
+    end
+        
+        
 end
-
+    
 # -
 
-kinship_man(gpr)
+# ## Testing "calckinship"
 
-kinship_man(gene_mat)
+A=calckinship(gpr)
 
-# testing kinship_lin
-function kinship_lin(mat,cross)
-r=size(mat,1)/cross; n=size(mat,2)
-     K=Symmetric(BLAS.syrk('U','T',1.0,mat))/r
-   @views for j=1:n
-        K[j,j]=1.0
-          end
-    return convert(Array{Float64,2},K)
-end
+kinship_test(A)
+
+A=calckinship(gene_mat)
+
+kinship_test(A)
+
+# ***Testing "kinship_man"***
+
+A=kinship_man(gpr)
+
+kinship_test(A)
+
+A=kinship_man(gene_mat)
+
+kinship_test(A)
+
+# ***Testing "kinship_lin"***
 
 
-kinship_lin(gpr,1)
+A=kinship_lin(gpr,1)
+
+kinship_test(A)
 
 kinship_lin(gene_mat,1)
 
-# +
-# testing kinship_ctr
-function kinship_ctr(genmat::Array{Float64,2})
-   p=size(genmat,1)
-    cgene= genmat.-mean(genmat,dims=2)
-    # K=(1-ρ)*transpose(cgene)*cgene/n+ρ*Matrix(1.0I,n,n)
-     #K=cgene'*cgene/p
-     K=Symmetric(BLAS.syrk('U','T',1.0,cgene))/p
-    return convert(Array{Float64,2},K)
+kinship_test(A)
 
-end
-# -
+# ***Testing "kinship_ctr"***
 
-kinship_ctr(gpr)
+A=kinship_ctr(gene_mat2)
 
-kinship_ctr(gene_mat)
+kinship_test(A)
 
-# testing kinship_std
-function kinship_std(genmat::Array{Float64,2})
-    p=size(genmat,1)
-    sgene=(genmat.-mean(genmat,dims=2))./std(genmat,dims=2)
-   #(1-ρ)*transpose(sgene)*sgene/n+ρ*Matrix(1.0I,n,n)
-     K=Symmetric(BLAS.syrk('U','T',1.0,sgene))/p
 
-    return convert(Array{Float64,2},K)
-end
 
-kinship_std(gpr)
 
-kinship_std(gene_mat)
 
-# +
-# testing kinship_gs
-function kinship_gs(climate::Array{Float64,2},ρ::Float64)
- env=axes(climate,2);
- Kc=zeros(env,env);
+# ***Testing "kinship_std"***
 
-    @views for c=env, r=c:length(env)
-            Kc[r,c]=exp(-mean(abs.(climate[:,c]-climate[:,r]).^2)/ρ)
-            Kc[c,r]=Kc[r,c]
-    end
+A=kinship_std(gene_mat2)
 
-    return Kc
+kinship_test(A)
 
-end
-# -
+# ***Testing "kinship_gs"***
 
-kinship_gs(gpr,.9)
+A=kinship_gs(gpr,.9)
 
-kinship_gs(gene_mat,.9)
+kinship_test(A)
 
-# +
-# testing kinship_4way
-function kinship_4way(genmat::Array{Float64,2})
-    nmar, nind=axes(genmat)
-    kmat=zeros(nind,nind);
-    dist=zeros(nmar);
 
-    for i=nind
-        for j=i:length(nind)
-            for k=nmar
-                if (genmat[k,i]==genmat[k,j])
-                    dist[k]= 0.0
-                elseif (genmat[k,i]+genmat[k,j]==5)
-                    dist[k]=2.0
-                else
-                    dist[k]=1.0
-                end
 
-            end
-        kmat[j,i]=1.0-0.5*mean(dist)
-        kmat[i,j]=kmat[j,i]
-        end
-    end
 
-return kmat
 
-end
+eigvals(A)
 
-# -
+A=kinship_gs(gene_mat,.9)
 
-kinship_4way(gpr)
+kinship_test(A)
 
-kinship_4way(gene_mat)
+# ***Testing "kinship_4way"***
 
-# ***All proporties of kinship are satisfied.***
+A=kinship_4way(gpr)
 
-A=ones(4,8)*7
+kinship_test(A)
 
-kinship_ctr(A)
+A=kinship_4way(gene_mat)
+
+kinship_test(A)
+
+BLAS.syrk
+
+eigvals(A)
 
 

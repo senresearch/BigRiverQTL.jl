@@ -15,6 +15,8 @@ This function is for recombinant inbred line (RIL) (AA/BB), not for 4-way cross-
 Returns a n x n symmetric matrix containing 1's on the diagonal.
 
 """
+
+
 function kinship_man(genematrix::Matrix{Float64})
 #    c0=findall(.!isna.(genematrix[1,:]));
 #    c1=findall(.!isna.(genematrix[2,:]));
