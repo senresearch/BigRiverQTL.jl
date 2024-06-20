@@ -1,10 +1,10 @@
 """
 
-     kinshipStd(genmat::Array{Float64,2})
+     kinship_std(genmat::Array{Float64,2})
 
 
 Calculates a kinship by a standardized (or normalized) genotype matrix (linear kernel), i.e. genotypes subtracted by marker mean and divided by marker standard deviation.
-Can also do with climatic information data. See [`kinshipGs`](@ref).
+It can also do with climatic information data. See [`kinship_gs`](@ref).
 
 # Argument
 
@@ -13,7 +13,7 @@ Can also do with climatic information data. See [`kinshipGs`](@ref).
 # Output
 
 Returns a n x n symmetric matrix.
-See also [`kinshipCtr`](@ref).
+See also [`kinship_ctr`](@ref).
 
 """
 function kinship_std(genmat::Array{Float64,2})

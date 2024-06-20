@@ -14,6 +14,20 @@
 #     name: julia_6_threads-1.10
 # ---
 
+# # Testing Kinship functions
+
+using Pkg, Revise
+
+pwd()
+
+Pkg.activate("..")
+
+Pkg.instantiate()
+
+# ### Libraries
+
+using BigRiverQTL
+
 # +
 
 using Statistics
@@ -24,6 +38,8 @@ import StatsBase: sample
 # include("Miscellanea.jl")
 
 # -
+
+# ### Data
 
 #genoprob
 gpr=[4.44965e-9  1.21848e-6  1.21848e-6  0.999998    8.34238e-16  2.23014e-12  2.23014e-12  1.0          8.34192e-16  2.25839e-12  2.25839e-12  1.0
@@ -231,5 +247,9 @@ kinship_4way(gpr)
 kinship_4way(gene_mat)
 
 # ***All proporties of kinship are satisfied.***
+
+A=ones(4,8)*7
+
+kinship_ctr(A)
 
 

@@ -1,9 +1,9 @@
 """
 
-      kinshipMan(genematrix::Matrix{Float64})
+      kinship_man(genematrix::Matrix{Float64})
 
-Calculates a kinship matrix using a manhattan distance. Missing values need to be either omitted or imputed.
-This function is for recombinant inbred line (RIL) (AA/BB), not for 4-way cross genotype data.  See [`kinship4way`](@ref).
+Calculates a kinship matrix using a Manhattan distance. Missing values need to be either omitted or imputed.
+This function is for recombinant inbred line (RIL) (AA/BB), not for 4-way cross-genotype data.  See [`kinship_4way`](@ref).
 
 # Argument
 

@@ -1,12 +1,12 @@
 #=
-  `kinship.jl` contains functions for computing genetic relatedness matrix (or kinship).
+  `kinship.jl` contains functions for computing the genetic relatedness matrix (or kinship).
 =#
 
 
 """
     calckinship(geno::Matrix{Float64})
 
-Calculate kinship from genotype probability array.
+Calculate kinship from the genotype probability array.
 
 # Arguments
 
@@ -20,7 +20,7 @@ ___
 
 calckinship(geno::Matrix{Union{Missing,Float64}})
 
-Calculate kinship from genotype probability array.
+Calculate kinship from the genotype probability array.
 
 # Arguments
 

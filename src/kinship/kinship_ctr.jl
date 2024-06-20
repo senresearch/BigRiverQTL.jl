@@ -1,6 +1,6 @@
 """
 
-     kinshipCtr(genmat::Array{Float64,2})
+     kinship_ctr(genmat::Array{Float64,2})
 
 Calculates a kinship by a centered genotype matrix (linear kernel), i.e. genotypes subtracted by marker mean.
 
@@ -11,7 +11,7 @@ Calculates a kinship by a centered genotype matrix (linear kernel), i.e. genotyp
 # Output
 
 Returns a n x n symmetric matrix.
-See also [`kinshipStd`](@ref).
+See also [`kinship_std`](@ref).
 
 """
 function kinship_ctr(genmat::Array{Float64,2})
