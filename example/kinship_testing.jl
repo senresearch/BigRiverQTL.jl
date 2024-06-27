@@ -205,8 +205,16 @@ A=kinship_4way(gene_mat)
 
 kinship_test(A)
 
-BLAS.syrk
+genmat=gene_mat2.-1
+p=size(gene_mat2,2)
 
-eigvals(A)
+cgene= genmat#.-mean(genmat,dims=2)
+    # K=(1-ρ)*transpose(cgene)*cgene/n+ρ*Matrix(1.0I,n,n)
+     #K=cgene'*cgene/p
+     K=cgene'*cgene/p
 
+eigvals(K)
 
+det(K)
+
+K|>x->eigvals(x)|>x->round.(x,digits=15)
