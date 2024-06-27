@@ -1,7 +1,10 @@
 module BigRiverQTL
     using BulkLMM
     using DataFrames
-
+    using Statistics
+    using Distributed
+   using LinearAlgebra
+   import StatsBase: sample
     ########
     # Loco #
     ########
@@ -19,5 +22,28 @@ module BigRiverQTL
     # Kinship #
     ###########
 
+    include("kinship/kinship.jl")
+    export calckinship
+
+    include("kinship/kinship_4way.jl")
+    export kinship_4way
+
+    include("kinship/kinship_ctr.jl")
+    export kinship_ctr
+
+    include("kinship/kinship_gs.jl")
+    export kinship_gs
+
+    include("kinship/kinship_lin.jl")
+    export kinship_lin
+
+    include("kinship/kinship_man.jl")
+    export kinship_man
+
+    include("kinship/kinship_std.jl")
+    export kinship_std
+
+    include("kinship/shrinkg.jl")
+    export shrinkg
 
 end
