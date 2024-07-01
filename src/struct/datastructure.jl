@@ -75,10 +75,10 @@ end
 
 """
 `CrossType`: type containing the cross type for example: risib => Recombinant inbred lines (RILs) by sibling mating.
-* crs_typ is a string indicating the type of the cross.
+* crstyp is a string indicating the type of the cross.
 """
 struct CrossType
-    crs_typ::String
+    crstyp::String
 end
 
 """
