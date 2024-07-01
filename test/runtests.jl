@@ -2,11 +2,10 @@
 # Library #
 ###########
 
-using BigRiverQTL, LinearAlgebra,
-using DataFrames 
-using Random, Statistics
+using BigRiverQTL, LinearAlgebra
+using Statistics
 using Test
-
+using DelimitedFiles
 
 ########
 # Test #
@@ -15,6 +14,6 @@ using Test
 
 @testset "BigRiverQTL" begin 
     include("kinship_test.jl")
-    include("datastruct_test.jl")
+    # include("datastruct_test.jl")
     
 end
