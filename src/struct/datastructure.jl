@@ -1,5 +1,3 @@
-using Revise
-
 """
 `Geno` type containing genotype information for all chromosomes.
 
