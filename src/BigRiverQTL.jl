@@ -1,10 +1,10 @@
 module BigRiverQTL
     using BulkLMM
-    using DataFrames
+    using DataFrames, JSON, CSV
     using Statistics
     using Distributed
-   using LinearAlgebra
-   import StatsBase: sample
+    using LinearAlgebra
+    import StatsBase: sample
     ########
     # Loco #
     ########
@@ -45,5 +45,18 @@ module BigRiverQTL
 
     include("kinship/shrinkg.jl")
     export shrinkg
+
+    #############
+    # Structure #
+    #############
+    include("struct/datastructure.jl")
+    export Gmap, Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar, Alleles, CrossInfo, CrossType
+    export BigRiverQTLData
+
+    #############
+    # IO #
+    #############
+    include("io/io_utils.jl")
+    
 
 end

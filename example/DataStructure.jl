@@ -8,9 +8,9 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.16.2
 #   kernelspec:
-#     display_name: Julia_6_Threads 1.10.3
-#     language: julia
-#     name: julia_6_threads-1.10
+#     display_name: R
+#     language: R
+#     name: ir
 # ---
 
 # # Data Structure for genomics data
