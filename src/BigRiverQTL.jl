@@ -1,10 +1,10 @@
 module BigRiverQTL
     using BulkLMM
-    using DataFrames
+    using DataFrames, JSON
     using Statistics
     using Distributed
-   using LinearAlgebra
-   import StatsBase: sample
+    using LinearAlgebra
+    import StatsBase: sample
     ########
     # Loco #
     ########
@@ -45,5 +45,11 @@ module BigRiverQTL
 
     include("kinship/shrinkg.jl")
     export shrinkg
+
+    #############
+    # Structure #
+    #############
+
+    include("io/parse_json.jl")
 
 end
