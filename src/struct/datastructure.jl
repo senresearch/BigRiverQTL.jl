@@ -1,3 +1,17 @@
+
+"""
+`Gmap` type contains relative position of markers in each chromosome.
+
+* `chr` contains chromosomes names.
+* `marker` contains markers's names for each chromosome.
+* `pos` is a vector of vector  containing relative position of markers in each chromosome.
+"""
+struct Gmap
+    chr::Vector{String}
+    marker::Vector{Vector{String}}
+    pos::Vector{Vector{Float64}}
+end
+
 """
 `Geno` type contains genotype information for all chromosomes.
 
@@ -11,19 +25,6 @@ struct Geno
     chromosomes::Vector{String}
     markers::Vector{Vector{String}}
     val::Vector{Array{Int}}
-end
-
-"""
-`Gmap` type contains relative position of markers in each chromosome.
-
-* `chromosomes` contains chromosomes names.
-* `markers` contains markers's names for each chromosome.
-* `val` is a vector of vector  containing relative position of markers in each chromosome.
-"""
-struct Gmap
-    chromosomes::Vector{String}
-    markers::Vector{Vector{String}}
-    val::Vector{Vector{Float64}}
 end
 
 """
@@ -121,10 +122,10 @@ end
 * `alleles` is a field of type `Alleles`. Refer to `Alleles` type for more imformation.
 """
 struct BigRiverQTLData
-    geno::Geno
     gmap::Gmap
-    pheno::Pheno
+    geno::Geno
     pmap::Pmap
+    pheno::Pheno
     phenocov::Phenocov
     isXchar::IsXChar
     isfemale::IsFemale

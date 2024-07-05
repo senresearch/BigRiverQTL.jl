@@ -49,7 +49,14 @@ module BigRiverQTL
     #############
     # Structure #
     #############
+    include("struct/datastructure.jl")
+    export Gmap, Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar, Alleles, CrossInfo, CrossType
+    export BigRiverQTLData
 
-    include("io/parse_json.jl")
+    #############
+    # IO #
+    #############
+    include("io/io_utils.jl")
+    
 
 end

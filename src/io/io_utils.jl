@@ -33,3 +33,19 @@ function parse_json(file::String)
 	end
 	return indict
 end
+
+
+"""
+
+"""
+function read_data(filename)
+	# read the file into lines
+	lines = readlines(filename)
+	# which lines have # as first character
+	firstpound = (x->match(r"^#",x)).( lines ) .!= nothing
+	# last line of comment
+	startdata = findfirst(firstpound.==0)
+
+	return CSV.read(filename, DataFrame; header=startdata)
+end
+
