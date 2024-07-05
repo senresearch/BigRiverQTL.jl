@@ -53,9 +53,9 @@ kinship_test(K1, "calckinship()")
 
 
 
-#####################
+######################
 # Test: kinship_4way #
-#####################
+######################
 
 K1 = kinship_4way(geno1)
 K2 = kinship_4way(geno2)
@@ -65,9 +65,9 @@ kinship_test(K1, "kinship_4way()")
 
 
 
-#####################
+####################
 # Test: kinship_gs #
-#####################
+####################
 
 K1 = kinship_gs(geno1)
 K2 = kinship_gs(geno2)
@@ -115,9 +115,9 @@ kinship_test(K1, "kinship_std()")
 
 
 
-#####################
+#################
 # Test: shrinkg #
-#####################
+#################
 
 K1 = shrinkg(geno1)
 K2 = shrinkg(geno2)
