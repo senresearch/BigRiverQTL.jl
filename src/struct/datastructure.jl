@@ -28,6 +28,20 @@ struct Geno
 end
 
 """
+ `Pmap` type contains the genetic map showing the relative location of genetic markers as phenotype.
+* `chromosomes` contains chromosomes names.
+* `markers` contains markers's names for each chromosome.
+* `pos` is a vector of vector containing relative position of markers as phenotypes in each chromosome.
+* `unit` contains unit for the chromosome length.
+"""
+struct Pmap
+    chromosomes::Vector{String}
+    markers::Vector{Vector{String}}
+    pos::Vector{Vector{Float64}}
+    unit::String
+end
+
+"""
 `Pheno` type contains phenotypes data.
 * `samples` contains sample names such as genotypes or individual IDs.
 * `traits` contains trait names.
@@ -49,18 +63,6 @@ struct Phenocov
     descriptions::Vector{String}
 end
 
-"""
- `Pmap` type contains the genetic map showing the relative location of genetic markers as phenotype.
-* `chromosomes` contains chromosomes names.
-* `markers` contains markers's names for each chromosome.
-* `val` is a vector of vector containing relative position of markers as phenotypes in each chromosome.
-"""
-struct Pmap
-    chromosomes::Vector{String}
-    markers::Vector{Vector{String}}
-    locations::Vector{Vector{Float64}}
-    unit::String
-end
 
 """
 IsFemale type indicates if the samples (genotypes or individuals) are females.
