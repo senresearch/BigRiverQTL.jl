@@ -14,7 +14,6 @@ Returns a `Gmap` type/struct.
 
 
 """
-
 function get_gmap(filename::String)
     # load file   
     gdf = groupby(read_data(filename) , :chr)
@@ -50,7 +49,6 @@ Returns a `Geno` type/struct.
 
 
 """
-
 function get_geno(gmapfile::String,genofile::String)
     # load file   
     gmap=get_gmap(gmapfile);
@@ -97,7 +95,6 @@ Returns a `Pmap` type/struct.
 
 
 """
-
 function get_pmap(filename::String)
     # load file   
     gdf = groupby(read_data(filename) , :chr)
@@ -134,7 +131,6 @@ Returns a `Pheno` type/struct.
 
 
 """
-
 function get_pheno(filename::String)
     # load file   
     
@@ -150,14 +146,10 @@ function get_pheno(filename::String)
 
     # value of the traits
     df_pheno=Matrix(df_pheno)
-    df_pheno[findall(x->x=="NA",df_pheno)].="-9999"
-    val=parse.(Float64,df_pheno[:,2:end])
+    val=tryparse.(Float64,df_pheno[:,2:end])
 
     return Pheno(samples,traits, val)
 end
-
-
-
 
 
 
@@ -177,7 +169,6 @@ Returns a `Phenocovar` type/struct.
 
 
 """
-
 function get_phenocovar(filename::String)
     # load file   
     
@@ -186,7 +177,7 @@ function get_phenocovar(filename::String)
     # make type
     
    # traits' names
-   traits =df_phenocovar[:,1]
+   traits =string.(df_phenocovar[:,1])
 
 
    # description
@@ -217,7 +208,6 @@ Returns a `Crossinfo` type/struct.
 
 
 """
-
 function get_crossinfo(filename::String)
     # load file   
     
@@ -226,11 +216,292 @@ function get_crossinfo(filename::String)
     # make type
     
    # traits' names
-   samples =df_phenocovar[:,1]
+   samples =df_crossdirection[:,1]
 
 
    # description
-   direction=df_phenocovar[:,2]
+   direction=df_crossdirection[:,2]
 
     return CrossInfo(samples, direction)
 end
+
+
+
+
+
+
+
+
+
+
+"""
+get_isxchar(file::String)
+
+Creates a `IsXChar` type/struct from gmap CSV file.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the gmap CSV file.
+
+# Output
+
+Returns a `IsXChar` type/struct.
+
+
+"""
+function get_isxchar(filename::String)
+    # load file   
+    
+    gmap=get_gmap(filename)
+
+    # make type
+
+    # chromosome
+    chr = gmap.chr
+
+    # isXchar
+
+    isxchar = zeros(Bool, length(chr))
+    isxchar[findfirst(x->x=="X",chr)]=1
+
+    return IsXChar(chr, isxchar)
+end
+
+
+
+
+
+
+
+"""
+get_isfemale(file::String)
+
+Creates a `IsFemale` type/struct from cross_info CSV file.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the cross_info CSV file.
+
+# Output
+
+Returns a `IsFemale` type/struct.
+
+
+"""
+function get_isfemale(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(file)
+    crossinfofile = joinpath(data_dir, jsondict["cross_info"]["file"])
+
+    # make type
+
+    # samples
+    samples=get_crossinfo(crossinfofile).samples
+
+    # isfemale
+
+    isfemale = ones(Bool, length(samples))
+    if(in("sex",keys(jsondict)))
+        isfemale[findall(x->x=="Male",jsondict["sex"])]=0
+    end
+
+    return IsFemale(samples, isfemale)
+end
+
+
+
+
+
+
+
+
+
+"""
+get_crosstype(file::String)
+
+Creates a `CrossType` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `CrossType` type/struct.
+
+
+"""
+function get_crosstype(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #crosstype
+    if(in("crosstype",keys(jsondict)))
+        crosstype=jsondict["crosstype"]
+
+    else
+        throw("Error: CrossType not found")
+    end
+
+    
+
+    return CrossType(crosstype)
+end
+
+
+
+
+
+
+
+
+
+"""
+get_alleles(file::String)
+
+Creates a `Alleles` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `Alleles` type/struct.
+
+
+"""
+function get_alleles(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #alleles
+    alleles=jsondict["alleles"]
+
+    
+
+    return Alleles(alleles)
+end
+
+
+
+
+
+
+
+
+
+"""
+get_bigriverqtldata(file::String)
+
+Creates a `BigRiverQTLData` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `BigRiverQTLData` type/struct.
+
+
+"""
+function get_bigriverqtldata(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #gmap
+    if(in("gmap",keys(jsondict)))
+        gmapfile = joinpath(data_dir, jsondict["gmap"])
+
+    else
+        throw("Error: gmap not found in control file")
+    end
+    
+    gmap=get_gmap(gmapfile)
+
+    #geno
+    if(in("geno",keys(jsondict)))
+        genofile = joinpath(data_dir, jsondict["geno"])
+
+    else
+        throw("Error: geno not found in control file")
+    end
+    
+    geno=get_geno(gmapfile,genofile)
+
+    #pmap
+    if(in("pmap",keys(jsondict)))
+        pmapfile = joinpath(data_dir, jsondict["pmap"])
+
+    else
+        throw("Error: pmap not found in control file")
+    end
+    
+    pmap=get_pmap(pmapfile)
+
+    #pheno
+    if(in("pheno",keys(jsondict)))
+        phenofile = joinpath(data_dir, jsondict["pheno"])
+
+    else
+        throw("Error: pheno not found in control file")
+    end
+    
+    pheno=get_pheno(phenofile)
+
+    #phenocov
+    if(in("phenocovar",keys(jsondict)))
+        phenocovfile = joinpath(data_dir, jsondict["phenocovar"])
+
+    else
+        throw("Error: phenocovar not found in control file")
+    end
+    
+    phenocov=get_phenocovar(phenocovfile)
+
+    #isXchar
+    isXchar=get_isxchar(gmapfile)
+    
+    #isfemale
+    isfemale=get_isfemale(filename)
+
+    #crosstype
+    crosstype=get_crosstype(filename)
+
+    #crossinfo
+    crossinfofile = joinpath(data_dir, jsondict["cross_info"]["file"])
+    crossinfo=get_crossinfo(crossinfofile)
+   
+    #alleles
+    alleles=get_alleles(filename)
+
+
+    
+
+    return BigRiverQTLData( gmap,
+    geno,
+    pmap,
+    pheno,
+    phenocov,
+    isXchar,
+    isfemale,
+    crosstype,
+    crossinfo,
+    alleles)
+end
+
+
+
+
+

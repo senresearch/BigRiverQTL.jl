@@ -50,7 +50,7 @@ end
 struct Pheno
     samples::Vector{String}
     traits::Vector{String}
-    val::Matrix{Float64}
+    val::Matrix{Union{Nothing, Float64}}
 end
 
 """
