@@ -581,7 +581,6 @@ function get_bigriverqtldata(filename::String)
 
 
 
-
     #genotranspose
     genotranspose=get_genotranspose(filename)
 
