@@ -398,6 +398,94 @@ end
 
 
 
+
+"""
+get_genotype(file::String)
+
+Creates a `GenoType` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `GenoType` type/struct.
+
+
+"""
+function get_genotype(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #genotype
+    if(in("genotypes",keys(bg_ctrl_dict)))
+        label=jsondict["genotypes"]
+
+    else
+       label=Dict{String,Int}("A"=>1, "H"=>2, "B"=>3, "D"=>4, "C"=>5)
+    end
+
+    
+
+    return GenoType(label)
+end
+
+
+
+
+
+
+
+
+
+
+
+"""
+get_genotranspose(file::String)
+
+Creates a `GenoTranspose` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `GenoTranspose` type/struct.
+
+
+"""
+function get_genotranspose(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #genotype
+    if(in("geno_transposed",keys(bg_ctrl_dict)))
+        val=jsondict["geno_transposed"]
+
+    else
+       val=FALSE
+    end
+
+    
+
+    return GenoTranspose(val)
+end
+
+
+
+
+
+
+
+
 """
 get_bigriverqtldata(file::String)
 
@@ -487,6 +575,17 @@ function get_bigriverqtldata(filename::String)
     alleles=get_alleles(filename)
 
 
+
+    #genotype
+    genotype=get_genotype(filename)
+
+
+
+
+    #genotranspose
+    genotranspose=get_genotranspose(filename)
+
+
     
 
     return BigRiverQTLData( gmap,
@@ -498,7 +597,9 @@ function get_bigriverqtldata(filename::String)
     isfemale,
     crosstype,
     crossinfo,
-    alleles)
+    alleles,
+    genotype,
+    genotranspose)
 end
 
 

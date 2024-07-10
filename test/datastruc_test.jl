@@ -28,3 +28,4 @@ end
 
 
 BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
+

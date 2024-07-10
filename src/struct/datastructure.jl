@@ -110,6 +110,30 @@ struct IsXChar
     val::Vector{Bool}
 end
 
+
+"""
+`GenoType` type indicates the transformation or label for genotypes. For example, "(A=1, H=2, B=3, D=4, C=5)"
+* `label` is a dictionary type indicating the transformation or label for genotypes.
+"""
+struct GenoType
+    label::Dict
+end
+
+
+
+
+
+
+"""
+`GenoTranspose` type indicates whether the geno matrix is transposed.
+* `val` is a boolean type indicating whether the geno matrix is transposed.
+"""
+struct GenoTranspose
+    val::Bool
+end
+
+
+
 """
 `BigRiverQTLData` type contains genomics stuctured data suitable to use for QTL analysis.
 * `geno` is a field of type `Geno`. Refer to `Geno` type for more imformation.
@@ -122,6 +146,8 @@ end
 * `crosstype` is a field of type `CrossType`. Refer to `CrossType` type for more imformation.
 * `crossinfo` is a field of type `CrossInfo`. Refer to `CrossInfo` type for more imformation.
 * `alleles` is a field of type `Alleles`. Refer to `Alleles` type for more imformation.
+* `genotype` is a field of type `Genotype`. Refer to `Genotype` type for more imformation.
+* `genotranspose` is a field of type `GenoTranspose`. Refer to `GenoTranspose` type for more imformation.
 """
 struct BigRiverQTLData
     gmap::Gmap
@@ -134,4 +160,6 @@ struct BigRiverQTLData
     crosstype::CrossType
     crossinfo::CrossInfo
     alleles::Alleles
+    genotype::GenoType
+    genotranspose::GenoTranspose
 end
