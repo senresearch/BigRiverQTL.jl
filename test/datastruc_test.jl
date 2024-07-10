@@ -27,4 +27,4 @@ end
 
 
 
-BigRiverQTLData_struct_test(K1, "get_bigriverqtldata")
+BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
