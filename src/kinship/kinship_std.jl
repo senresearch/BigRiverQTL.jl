@@ -20,7 +20,7 @@ function kinship_std(genmat::Array{Float64,2})
     p=size(genmat,2)
     sgene=(genmat.-mean(genmat,dims=2))./std(genmat,dims=2)
    #(1-ρ)*transpose(sgene)*sgene/n+ρ*Matrix(1.0I,n,n)
-     K=sgene*sgene'
+     K=(sgene*sgene') ./ (p-1)
 
     return convert(Array{Float64,2},K)
 end
