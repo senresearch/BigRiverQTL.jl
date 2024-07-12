@@ -37,11 +37,13 @@ end
 """
 get_geno(file::String)
 
-Creates a `Geno` type/struct from gmap CSV file.
+Creates a `Geno` type/struct from gmap CSV file and geno CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the geno CSV file.
+- `gmapfile` : A string containing the name(with directory) of the gmap CSV file.
+- `genofile` : A string containing the name(with directory) of the geno CSV file.
+
 
 # Output
 
@@ -75,6 +77,108 @@ function get_geno(gmapfile::String,genofile::String)
 
     return Geno(samples,chr, marker, val)
 end
+
+
+
+
+
+
+"""
+get_chromosome(file::String)
+
+Creates a `Chromosome` type/struct from gmap CSV file and geno CSV file.
+
+# Argument
+
+- `gmapfile` : A string containing the name(with directory) of the gmap CSV file.
+- `genofile` : A string containing the name(with directory) of the geno CSV file.
+- `number` : A number/index of the chromosome we want to get information.
+
+# Output
+
+Returns a `Chromosome` type/struct.
+
+
+
+"""
+function get_chromosome(gmapfile::String,genofile::String,number::Int)
+    # load file   
+    gmap=get_gmap(gmapfile);
+    df_gmap=read_data(gmapfile)
+    df_geno=read_data(genofile)
+
+    # make type
+    
+    
+    # name
+    name=gmap.chr[number]
+
+    # markers
+    markers=gmap.marker[number]
+
+
+    # values
+    val=Matrix{Int}(undef,length(samples),length(marker[number])) 
+    for j in 1:length(marker[number])
+        uni=unique(Vector(df_geno[findfirst(x -> x==marker[number][j],marker[number]),2:end]))
+       val[:,j]= recode(Vector(df_geno[findfirst(x -> x==marker[number][j],marker[number]),2:end]), uni[1]=>1, uni[2]=>2, uni[3]=>0)
+    end
+    
+    return Chromosome(name, markers, val)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+get_geno2(file::String)
+
+Creates a `Geno2` type/struct from gmap CSV file and geno CSV file.
+
+# Argument
+
+- `gmapfile` : A string containing the name(with directory) of the gmap CSV file.
+- `genofile` : A string containing the name(with directory) of the geno CSV file.
+
+
+# Output
+
+Returns a `Geno2` type/struct.
+
+
+"""
+function get_geno2(gmapfile::String,genofile::String)
+    # load file   
+    gmap=get_gmap(gmapfile);
+    df_gmap=read_data(gmapfile)
+    df_geno=read_data(genofile)
+
+    # make type
+    
+    # samples
+    samples=names(df_geno)[2:end]
+   
+    # chromosomes
+    chromosomes=[get_chromosome(gmapfile,genofile,i) for i in 1:length(chr)]
+    
+    return Geno(samples,chromosomes)
+end
+
+
+
+
+
+
 
 
 
