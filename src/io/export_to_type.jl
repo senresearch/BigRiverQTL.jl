@@ -114,17 +114,17 @@ function get_chromosome(gmapfile::String,genofile::String,number::Int)
     name=gmap.chr[number]
 
     # markers
-    markers=gmap.marker[number]
+    marker=gmap.marker[number]
 
 
     # values
-    val=Matrix{Int}(undef,length(samples),length(marker[number])) 
-    for j in 1:length(marker[number])
-        uni=unique(Vector(df_geno[findfirst(x -> x==marker[number][j],marker[number]),2:end]))
-       val[:,j]= recode(Vector(df_geno[findfirst(x -> x==marker[number][j],marker[number]),2:end]), uni[1]=>1, uni[2]=>2, uni[3]=>0)
+    val=Matrix{Int}(undef,length(samples),length(marker)) 
+    for j in 1:length(marker)
+        uni=unique(Vector(df_geno[findfirst(x -> x==marker[j],marker),2:end]))
+       val[:,j]= recode(Vector(df_geno[findfirst(x -> x==marker[j],marker),2:end]), uni[1]=>1, uni[2]=>2, uni[3]=>0)
     end
     
-    return Chromosome(name, markers, val)
+    return Chromosome(name, marker, val)
 end
 
 
@@ -165,13 +165,16 @@ function get_geno2(gmapfile::String,genofile::String)
 
     # make type
     
+
+     # chromosomes
+     chr=gmap.chr
     # samples
     samples=names(df_geno)[2:end]
    
     # chromosomes
     chromosomes=[get_chromosome(gmapfile,genofile,i) for i in 1:length(chr)]
     
-    return Geno(samples,chromosomes)
+    return Geno2(samples,chromosomes)
 end
 
 

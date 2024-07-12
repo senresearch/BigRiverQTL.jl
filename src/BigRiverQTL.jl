@@ -57,7 +57,7 @@ module BigRiverQTL
     # IO #
     #############
     include("io/io_utils.jl")
-    include("io/export_to_typed.jl")
+    include("io/export_to_type.jl")
 
     
     
