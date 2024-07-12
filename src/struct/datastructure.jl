@@ -27,6 +27,53 @@ struct Geno
     val::Vector{Array{Int}}
 end
 
+
+
+
+
+
+
+
+
+
+"""
+`Chromosome` type contains genotype information for a chromosome.
+
+* `name` contains name of the chromosome.
+* `marker` contains names of markers in the chromosome.
+* `val` is a vector of matrices containing allele information in the chromosome.
+"""
+struct Chromosome
+    name:: String
+    markers::Vector{String}
+    val::Matrix{Int}
+end
+
+
+
+
+
+
+
+
+
+"""
+`Geno2` type contains genotype information for all chromosomes.
+
+* `samples` contains sample names such as genotypes or individual IDs.
+* `chromosomes` is a vector of type `Chromosome` containing genotype informaton for each chromosome.
+
+"""
+struct Geno2
+    samples::Vector{String}
+    chromosomes::Vector{Chromosome}
+end
+
+
+
+
+
+
 """
  `Pmap` type contains the genetic map showing the relative location of genetic markers as phenotype.
 * `chromosomes` contains chromosomes names.

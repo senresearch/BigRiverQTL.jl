@@ -40,7 +40,6 @@ Returns a data frame.
 
 
 """
-
 function read_data(filename)
 	# read the file into lines
 	lines = readlines(filename)
@@ -48,7 +47,7 @@ function read_data(filename)
 	firstpound = (x->match(r"^#",x)).( lines ) .!= nothing
 	# last line of comment
 	startdata = findfirst(firstpound.==0)
-
-	return CSV.read(filename, DataFrame; header=startdata)
+    # Check if the comment lines can be run directly from "CSV.read". 
+	return CSV.read(filename, DataFrame; header = startdata)#comment="#")
 end
 
