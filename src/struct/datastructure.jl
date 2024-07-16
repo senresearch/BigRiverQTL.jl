@@ -1,125 +1,17 @@
 
 """
-`Gmap` type contains relative position of markers in each chromosome.
+`Gmap` type contains relative position of marker_name in each chromosome.
 
 * `chr` contains chromosomes names.
-* `marker` contains markers's names for each chromosome.
-* `pos` is a vector of vector  containing relative position of markers in each chromosome.
+* `marker_name` contains marker name's names for each chromosome.
+* `pos` is a vector of vector  containing relative position of marker_name in each chromosome.
 """
 struct Gmap
     chr::Vector{String}
-    marker::Vector{Vector{String}}
+    marker_name::Vector{Vector{String}}
     pos::Vector{Vector{Float64}}
 end
 
-"""
-`Geno` type contains genotype information for all chromosomes.
-
-* `samples` contains sample names such as genotypes or individual IDs.
-* `chromosomes` contains chromosome names.
-* `markers` contains marker names for each chromosome.
-* `val` is a vector of matrices containing allele information in each chromosome.
-"""
-struct Geno
-    samples::Vector{String}
-    chromosomes::Vector{String}
-    markers::Vector{Vector{String}}
-    val::Vector{Array{Int}}
-end
-
-
-
-
-
-
-
-
-
-
-"""
-`Chromosome` type contains genotype information for a chromosome.
-
-* `name` contains name of the chromosome.
-* `marker` contains names of markers in the chromosome.
-* `val` is a vector of matrices containing allele information in the chromosome.
-"""
-struct Chromosome
-    name:: String
-    markers::Vector{String}
-    val::Matrix{Int}
-end
-
-
-
-
-
-
-
-
-
-"""
-`Geno2` type contains genotype information for all chromosomes.
-
-* `samples` contains sample names such as genotypes or individual IDs.
-* `chromosomes` is a vector of type `Chromosome` containing genotype informaton for each chromosome.
-
-"""
-struct Geno2
-    samples::Vector{String}
-    chromosomes::Vector{Chromosome}
-end
-
-
-
-
-
-
-"""
- `Pmap` type contains the genetic map showing the relative location of genetic markers as phenotype.
-* `chromosomes` contains chromosomes names.
-* `markers` contains markers's names for each chromosome.
-* `pos` is a vector of vector containing relative position of markers as phenotypes in each chromosome.
-* `unit` contains unit for the chromosome length.
-"""
-struct Pmap
-    chromosomes::Vector{String}
-    markers::Vector{Vector{String}}
-    pos::Vector{Vector{Float64}}
-    unit::String
-end
-
-"""
-`Pheno` type contains phenotypes data.
-* `samples` contains sample names such as genotypes or individual IDs.
-* `traits` contains trait names.
-*  `val` is a matrix containing phenotype/ traits values.
-"""
-struct Pheno
-    samples::Vector{String}
-    traits::Vector{String}
-    val::Matrix{Union{Nothing, Float64}}
-end
-
-"""
-`Phenocov` type contains the description of the phenotypes.
-* `traits` contains trait names.
-* `descriptions` is a vector containing the description for each phenotype.
-"""
-struct Phenocov
-    traits::Vector{String}
-    descriptions::Vector{String}
-end
-
-
-"""
-IsFemale type indicates if the samples (genotypes or individuals) are females.
-* `samples` contains sample names such as genotypes or individual IDs.
-* `val` is a vector containing boolean values indicating if each sample (genotype or individual) is a female.
-"""
-struct IsFemale
-    samples::Vector{String}
-    val::Vector{Bool}
-end
 
 """
 `CrossType` type contains the cross type, for example: risib => Recombinant inbred lines (RILs) by sibling mating.
@@ -130,14 +22,19 @@ struct CrossType
 end
 
 """
-`CrossInfo` type contains information about the cross direction of samples.
-* `samples` contains sample names such as genotypes or individual IDs.
-* `direction` is a vector containing the cross direction of samples.
+`CrossInfo` type contains information about the cross direction of sample_id.
+* `sample_id` contains sample names such as genotypes or individual IDs.
+* `direction` is a vector containing the cross direction of sample_id.
 """
 struct CrossInfo
-    samples::Vector{String}
+    sample_id::Vector{String}
     direction:: Vector{Int}
 end
+
+
+
+
+
 
 """
 `Alleles` type contains the names of the alleles.
@@ -147,15 +44,10 @@ struct Alleles
     val::Vector{String}
 end
 
-"""
-`IsXChar` type indicates which chromosome is the X one.
-* `chromosomes` contains chromosome names.
-* `val` is a vector of boolean values indicating which chromosome is the X one.
-"""
-struct IsXChar
-    chromosomes::Vector{String}
-    val::Vector{Bool}
-end
+
+
+
+
 
 
 """
@@ -181,8 +73,139 @@ end
 
 
 
+
+
+
 """
-`BigRiverQTLData` type contains genomics stuctured data suitable to use for QTL analysis.
+`Geno` type contains genotype information for all chromosomes.
+
+* `sample_id` contains sample names such as genotypes or individual IDs.
+* `chromosomes` contains chromosome names.
+* `marker_name` contains marker names for each chromosome.
+* `val` is a vector of matrices containing allele information in each chromosome.
+"""
+struct Geno
+    sample_id::Vector{String}
+    chromosomes::Vector{String}
+    marker_name::Vector{Vector{String}}
+    val::Vector{Matrix{Int16}}
+    cross_type::CrossType
+    alleles::Alleles
+    geno_type::GenoType
+    geno_transpose::GenoTranspose
+    
+end
+
+
+
+
+
+
+
+
+
+"""
+`Chromosome` type contains genotype information for a chromosome.
+
+* `name` contains name of the chromosome.
+* `marker_name` contains names of marker_name in the chromosome.
+* `val` is a vector of matrices containing allele information in the chromosome.
+"""
+struct Chromosome
+    name:: String
+    marker_name::Vector{String}
+    val::Matrix{Int}
+end
+
+
+
+
+
+
+
+
+
+"""
+`Geno2` type contains genotype information for all chromosomes.
+
+* `sample_id` contains sample names such as genotypes or individual IDs.
+* `chromosomes` is a vector of type `Chromosome` containing genotype informaton for each chromosome.
+
+"""
+struct Geno2
+    sample_id::Vector{String}
+    chromosomes::Vector{Chromosome}
+end
+
+
+
+
+
+
+"""
+ `Pmap` type contains the genetic map showing the relative location of genetic marker_name as phenotype.
+* `chromosomes` contains chromosomes names.
+* `marker_name` contains marker  names for each chromosome.
+* `pos` is a vector of vector containing relative position of marker_name as phenotypes in each chromosome.
+* `unit` contains unit for the chromosome length.
+"""
+struct Pmap
+    chromosomes::Vector{String}
+    marker_name::Vector{Vector{String}}
+    pos::Vector{Vector{Float64}}
+    unit::String
+end
+
+"""
+`Pheno` type contains phenotypes data.
+* `sample_id` contains sample names such as genotypes or individual IDs.
+* `traits` contains trait names.
+*  `val` is a matrix containing phenotype/ traits values.
+"""
+struct Pheno
+    sample_id::Vector{String}
+    traits::Vector{String}
+    val::Matrix{Union{Nothing, Float64}}
+end
+
+"""
+`Phenocov` type contains the description of the phenotypes.
+* `traits` contains trait names.
+* `descriptions` is a vector containing the description for each phenotype.
+"""
+struct Phenocov
+    traits::Vector{String}
+    descriptions::Vector{String}
+end
+
+
+"""
+IsFemale type indicates if the sample_id (genotypes or individuals) are females.
+* `sample_id` contains sample names such as genotypes or individual IDs.
+* `val` is a vector containing boolean values indicating if each sample (genotype or individual) is a female.
+"""
+struct IsFemale
+    sample_id::Vector{String}
+    val::Vector{Bool}
+end
+
+
+"""
+`IsXChar` type indicates which chromosome is the X one.
+* `chromosomes` contains chromosome names.
+* `val` is a vector of boolean values indicating which chromosome is the X one.
+"""
+struct IsXChar
+    chromosomes::Vector{String}
+    val::Vector{Bool}
+end
+
+
+
+
+
+"""
+`GeneticStudyData` type contains genomics stuctured data suitable to use for QTL analysis.
 * `geno` is a field of type `Geno`. Refer to `Geno` type for more imformation.
 * `gmap` is a field of type `Gmap`. Refer to `Gmap` type for more imformation.
 * `pheno` is a field of type `Pheno`. Refer to `Pheno` type for more imformation.
@@ -196,7 +219,7 @@ end
 * `genotype` is a field of type `Genotype`. Refer to `Genotype` type for more imformation.
 * `genotranspose` is a field of type `GenoTranspose`. Refer to `GenoTranspose` type for more imformation.
 """
-struct BigRiverQTLData
+struct GeneticStudyData
     gmap::Gmap
     geno::Geno
     pmap::Pmap
@@ -204,9 +227,6 @@ struct BigRiverQTLData
     phenocov::Phenocov
     isXchar::IsXChar
     isfemale::IsFemale
-    crosstype::CrossType
     crossinfo::CrossInfo
-    alleles::Alleles
-    genotype::GenoType
-    genotranspose::GenoTranspose
+  
 end

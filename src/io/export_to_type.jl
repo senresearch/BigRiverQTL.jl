@@ -33,6 +33,170 @@ end
 
 
 
+"""
+get_crosstype(file::String)
+
+Creates a `CrossType` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `CrossType` type/struct.
+
+
+"""
+function get_crosstype(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #crosstype
+    if(in("crosstype",keys(jsondict)))
+        crosstype=jsondict["crosstype"]
+
+    else
+        throw("Error: CrossType not found")
+    end
+
+    
+
+    return CrossType(crosstype)
+end
+
+
+
+
+"""
+get_alleles(file::String)
+
+Creates a `Alleles` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `Alleles` type/struct.
+
+
+"""
+function get_alleles(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #alleles
+    alleles=jsondict["alleles"]
+
+    
+
+    return Alleles(alleles)
+end
+
+
+
+
+
+
+
+
+
+
+"""
+get_genotype(file::String)
+
+Creates a `GenoType` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `GenoType` type/struct.
+
+
+"""
+function get_genotype(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #genotype
+    if(in("genotypes",keys(bg_ctrl_dict)))
+        label=jsondict["genotypes"]
+
+    else
+       label=Dict{String,Int}("A"=>1, "H"=>2, "B"=>3, "D"=>4, "C"=>5)
+    end
+
+    
+
+    return GenoType(label)
+end
+
+
+
+
+
+
+
+
+
+
+
+"""
+get_genotranspose(file::String)
+
+Creates a `GenoTranspose` type/struct from  control file in json format.
+
+# Argument
+
+- `filename` : A string containing the name(with directory) of the control file in json format.
+
+# Output
+
+Returns a `GenoTranspose` type/struct.
+
+
+"""
+function get_genotranspose(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #genotype
+    if(in("geno_transposed",keys(bg_ctrl_dict)))
+        val=jsondict["geno_transposed"]
+
+    else
+       val=FALSE
+    end
+
+    
+
+    return GenoTranspose(val)
+end
+
+
+
+
+
+
+
+
 
 """
 get_geno(file::String)
@@ -51,7 +215,32 @@ Returns a `Geno` type/struct.
 
 
 """
-function get_geno(gmapfile::String,genofile::String)
+function get_geno(filename::String)
+    # load file   
+    
+    jsondict=BigRiverQTL.parse_json(filename)
+
+    # make type
+
+    #gmap
+    if(in("gmap",keys(jsondict)))
+        gmapfile = joinpath(data_dir, jsondict["gmap"])
+
+    else
+        throw("Error: gmap not found in control file")
+    end
+    
+    gmap=get_gmap(gmapfile)
+
+    #geno
+    if(in("geno",keys(jsondict)))
+        genofile = joinpath(data_dir, jsondict["geno"])
+
+    else
+        throw("Error: geno not found in control file")
+    end
+    
+    
     # load file   
     gmap=get_gmap(gmapfile);
     df_gmap=read_data(gmapfile)
@@ -75,7 +264,25 @@ function get_geno(gmapfile::String,genofile::String)
         
     end
 
-    return Geno(samples,chr, marker, val)
+    #crosstype
+    crosstype=get_crosstype(filename)
+
+
+     #alleles
+     alleles=get_alleles(filename)
+
+
+
+     #genotype
+     genotype=get_genotype(filename)
+ 
+ 
+ 
+     #genotranspose
+     genotranspose=get_genotranspose(filename)
+
+
+    return Geno(samples,chr, marker, val,crosstype,alleles,genotype,genotranspose)
 end
 
 
@@ -424,10 +631,21 @@ end
 
 
 
-"""
-get_crosstype(file::String)
 
-Creates a `CrossType` type/struct from  control file in json format.
+
+
+
+
+
+
+
+
+
+
+"""
+get_geneticstudydata(file::String)
+
+Creates a `GeneticStudyData` type/struct from  control file in json format.
 
 # Argument
 
@@ -435,180 +653,11 @@ Creates a `CrossType` type/struct from  control file in json format.
 
 # Output
 
-Returns a `CrossType` type/struct.
+Returns a `GeneticStudyData` type/struct.
 
 
 """
-function get_crosstype(filename::String)
-    # load file   
-    
-    jsondict=BigRiverQTL.parse_json(filename)
-
-    # make type
-
-    #crosstype
-    if(in("crosstype",keys(jsondict)))
-        crosstype=jsondict["crosstype"]
-
-    else
-        throw("Error: CrossType not found")
-    end
-
-    
-
-    return CrossType(crosstype)
-end
-
-
-
-
-
-
-
-
-
-"""
-get_alleles(file::String)
-
-Creates a `Alleles` type/struct from  control file in json format.
-
-# Argument
-
-- `filename` : A string containing the name(with directory) of the control file in json format.
-
-# Output
-
-Returns a `Alleles` type/struct.
-
-
-"""
-function get_alleles(filename::String)
-    # load file   
-    
-    jsondict=BigRiverQTL.parse_json(filename)
-
-    # make type
-
-    #alleles
-    alleles=jsondict["alleles"]
-
-    
-
-    return Alleles(alleles)
-end
-
-
-
-
-
-
-
-
-
-
-"""
-get_genotype(file::String)
-
-Creates a `GenoType` type/struct from  control file in json format.
-
-# Argument
-
-- `filename` : A string containing the name(with directory) of the control file in json format.
-
-# Output
-
-Returns a `GenoType` type/struct.
-
-
-"""
-function get_genotype(filename::String)
-    # load file   
-    
-    jsondict=BigRiverQTL.parse_json(filename)
-
-    # make type
-
-    #genotype
-    if(in("genotypes",keys(bg_ctrl_dict)))
-        label=jsondict["genotypes"]
-
-    else
-       label=Dict{String,Int}("A"=>1, "H"=>2, "B"=>3, "D"=>4, "C"=>5)
-    end
-
-    
-
-    return GenoType(label)
-end
-
-
-
-
-
-
-
-
-
-
-
-"""
-get_genotranspose(file::String)
-
-Creates a `GenoTranspose` type/struct from  control file in json format.
-
-# Argument
-
-- `filename` : A string containing the name(with directory) of the control file in json format.
-
-# Output
-
-Returns a `GenoTranspose` type/struct.
-
-
-"""
-function get_genotranspose(filename::String)
-    # load file   
-    
-    jsondict=BigRiverQTL.parse_json(filename)
-
-    # make type
-
-    #genotype
-    if(in("geno_transposed",keys(bg_ctrl_dict)))
-        val=jsondict["geno_transposed"]
-
-    else
-       val=FALSE
-    end
-
-    
-
-    return GenoTranspose(val)
-end
-
-
-
-
-
-
-
-
-"""
-get_bigriverqtldata(file::String)
-
-Creates a `BigRiverQTLData` type/struct from  control file in json format.
-
-# Argument
-
-- `filename` : A string containing the name(with directory) of the control file in json format.
-
-# Output
-
-Returns a `BigRiverQTLData` type/struct.
-
-
-"""
-function get_bigriverqtldata(filename::String)
+function get_geneticstudydata(filename::String)
     # load file   
     
     jsondict=BigRiverQTL.parse_json(filename)
@@ -671,41 +720,24 @@ function get_bigriverqtldata(filename::String)
     #isfemale
     isfemale=get_isfemale(filename)
 
-    #crosstype
-    crosstype=get_crosstype(filename)
+    
 
     #crossinfo
     crossinfofile = joinpath(data_dir, jsondict["cross_info"]["file"])
     crossinfo=get_crossinfo(crossinfofile)
-   
-    #alleles
-    alleles=get_alleles(filename)
-
-
-
-    #genotype
-    genotype=get_genotype(filename)
-
-
-
-    #genotranspose
-    genotranspose=get_genotranspose(filename)
+  
 
 
     
 
-    return BigRiverQTLData( gmap,
+    return GeneticStudyData( gmap,
     geno,
     pmap,
     pheno,
     phenocov,
     isXchar,
     isfemale,
-    crosstype,
-    crossinfo,
-    alleles,
-    genotype,
-    genotranspose)
+    crossinfo)
 end
 
 
