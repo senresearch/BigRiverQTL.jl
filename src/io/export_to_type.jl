@@ -133,7 +133,7 @@ function get_genotype(filename::String)
     # make type
 
     #genotype
-    if(in("genotypes",keys(bg_ctrl_dict)))
+    if(in("genotypes",keys(jsondict)))
         label=jsondict["genotypes"]
 
     else
@@ -178,7 +178,7 @@ function get_genotranspose(filename::String)
     # make type
 
     #genotype
-    if(in("geno_transposed",keys(bg_ctrl_dict)))
+    if(in("geno_transposed",keys(jsondict)))
         val=jsondict["geno_transposed"]
 
     else
