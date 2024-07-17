@@ -1,6 +1,6 @@
 
 """
-get_gmap(file::String)
+get_gmap(filename::String)
 
 Creates a `Gmap` type/struct from gmap CSV file.
 
@@ -133,7 +133,7 @@ function get_genotype(filename::String)
     # make type
 
     #genotype
-    if(in("genotypes",keys(bg_ctrl_dict)))
+    if(in("genotypes",keys(jsondict)))
         label=jsondict["genotypes"]
 
     else
@@ -178,7 +178,7 @@ function get_genotranspose(filename::String)
     # make type
 
     #genotype
-    if(in("geno_transposed",keys(bg_ctrl_dict)))
+    if(in("geno_transposed",keys(jsondict)))
         val=jsondict["geno_transposed"]
 
     else
@@ -199,14 +199,13 @@ end
 
 
 """
-get_geno(file::String)
+get_geno(filename::String)
 
 Creates a `Geno` type/struct from gmap CSV file and geno CSV file.
 
 # Argument
 
-- `gmapfile` : A string containing the name(with directory) of the gmap CSV file.
-- `genofile` : A string containing the name(with directory) of the geno CSV file.
+- `filename` : A string containing the name(with directory) of the control file in json format.
 
 
 # Output
@@ -253,7 +252,7 @@ function get_geno(filename::String)
     # chromosomes
     chr=gmap.chr
     # markers
-    marker=gmap.marker
+    marker=gmap.marker_name
     # values
     val=[Matrix{Int}(undef,length(samples),length(marker[i])) for i in 1:length(chr)]
     for i in 1:length(chr)
@@ -291,7 +290,7 @@ end
 
 
 """
-get_chromosome(file::String)
+get_chromosome(filename::String)
 
 Creates a `Chromosome` type/struct from gmap CSV file and geno CSV file.
 
@@ -348,7 +347,7 @@ end
 
 
 """
-get_geno2(file::String)
+get_geno2(filename::String)
 
 Creates a `Geno2` type/struct from gmap CSV file and geno CSV file.
 
@@ -395,7 +394,7 @@ end
 
 
 """
-get_pmap(file::String)
+get_pmap(filename::String)
 
 Creates a `Pmap` type/struct from Pmap CSV file.
 
@@ -431,7 +430,7 @@ end
 
 
 """
-get_pheno(file::String)
+get_pheno(filename::String)
 
 Creates a `Pheno` type/struct from Pheno CSV file.
 
@@ -469,7 +468,7 @@ end
 
 
 """
-get_phenocovar(file::String)
+get_phenocovar(filename::String)
 
 Creates a `Phenocovar` type/struct from phenocovar CSV file.
 
@@ -508,7 +507,7 @@ end
 
 
 """
-get_crossinfo(file::String)
+get_crossinfo(filename::String)
 
 Creates a `Crossinfo` type/struct from crossinfo CSV file.
 
@@ -549,7 +548,7 @@ end
 
 
 """
-get_isxchar(file::String)
+get_isxchar(filename::String)
 
 Creates a `IsXChar` type/struct from gmap CSV file.
 
@@ -588,13 +587,13 @@ end
 
 
 """
-get_isfemale(file::String)
+get_isfemale(filename::String)
 
-Creates a `IsFemale` type/struct from cross_info CSV file.
+Creates a `IsFemale` type/struct from control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the cross_info CSV file.
+- `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -611,7 +610,7 @@ function get_isfemale(filename::String)
     # make type
 
     # samples
-    samples=get_crossinfo(crossinfofile).samples
+    samples=get_crossinfo(crossinfofile).sample_id
 
     # isfemale
 
@@ -643,7 +642,7 @@ end
 
 
 """
-get_geneticstudydata(file::String)
+get_geneticstudydata(filename::String)
 
 Creates a `GeneticStudyData` type/struct from  control file in json format.
 
@@ -682,7 +681,7 @@ function get_geneticstudydata(filename::String)
         throw("Error: geno not found in control file")
     end
     
-    geno=get_geno(gmapfile,genofile)
+    geno=get_geno(filename)
 
     #pmap
     if(in("pmap",keys(jsondict)))
