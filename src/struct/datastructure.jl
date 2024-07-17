@@ -28,7 +28,7 @@ end
 """
 struct CrossInfo
     sample_id::Vector{String}
-    direction:: Vector{Int}
+    direction:: Vector{String}
 end
 
 
