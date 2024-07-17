@@ -23,11 +23,6 @@ geno2 =  [1    2    3    4    5    6;
 =#
 
 
-
-
-
-
-
 # Checks the above mentioned properties
 function kinship_test(kinmat::Matrix{Float64}, testname::String)
     @testset "$testname" begin
@@ -50,9 +45,6 @@ K2 = calckinship(geno2)
 
 kinship_test(K1, "calckinship()")
 
-
-
-
 ######################
 # Test: kinship_4way #
 ######################
@@ -61,9 +53,6 @@ K1 = kinship_4way(geno1)
 K2 = kinship_4way(geno2)
 
 kinship_test(K1, "kinship_4way()")
-
-
-
 
 ####################
 # Test: kinship_gs #
@@ -74,10 +63,6 @@ K2 = kinship_gs(geno2)
 
 kinship_test(K1, "kinship_gs()")
 
-
-
-
-
 #####################
 # Test: kinship_lin #
 #####################
@@ -86,10 +71,6 @@ K1 = kinship_lin(geno1)
 K2 = kinship_lin(geno2)
 
 kinship_test(K1, "kinship_lin()")
-
-
-
-
 
 #####################
 # Test: kinship_man #
@@ -100,9 +81,6 @@ K2 = kinship_man(geno2)
 
 kinship_test(K1, "kinship_man()")
 
-
-
-
 #####################
 # Test: kinship_std #
 #####################
@@ -111,9 +89,6 @@ K1 = kinship_std(geno1)
 K2 = kinship_std(geno2)
 
 kinship_test(K1, "kinship_std()")
-
-
-
 
 #################
 # Test: shrinkg #
