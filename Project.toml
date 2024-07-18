@@ -4,6 +4,7 @@ authors = ["Gregory Farage, Harper Kolehmainen, Saunak Sen"]
 version = "0.1.0"
 
 [deps]
+BigRiverQTLPlots = "042156b7-ffc6-4e52-80f3-70a9c31dd28f"
 BulkLMM = "b8d15608-0852-4141-ae38-222578e2ed7b"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
