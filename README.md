@@ -1,3 +1,13 @@
 # BigRiverQTL.jl
 
-`BigRiverQTL` is a comprehensive and user-friendly Julia package designed to facilitate transparent and interpretable quantitative trait locus (QTL) analysis. This package stands out for its modular approach, comprising three distinct components that streamline the complex process of QTL analysis. The first module, preprocessing, serves a dual purpose: it adeptly transforms genomic data into an accessible format that is both computationally efficient and memory-conservative while also calculating kinship matrices with ease. The second module tackles genomic scans, employing `BulkLMM` for rapid single-trait scans that outpace competing methods in computational speed. For multi-trait scans, `BigRiverQTL` uses `FlxQTL`, an innovative method capable of discerning intricate trait associations. Lastly, the third module offers robust plotting capabilities to visually represent genomic scan results, enhancing interpretability and facilitating insightful conclusions. Overall, `BigRiverQTL` exemplifies the synergy between advanced bioinformatics techniques and user-centric design, offering researchers an intuitive interface paired with powerful analytical tools for their QTL studies.
+
+
+*A Statistical Toolbox for QTL Analysis*
+
+`BigRiverQTL.jl` is a user-friendly Julia package that supports efficient and interpretable quantitative trait locus (QTL) analysis. This comprehensive toolbox encompasses three core components tailored to streamline the entire QTL analysis workflow: preprocessing, genomic scanning, and result visualization.
+
+- **Preprocessing:** The preprocessing functions are designed to seamlessly import and convert genomic data into an efficient and memory-conservative format. This component also offers function capabilities for quickly calculating kinship matrices, ensuring data readiness for subsequent analysis phases.
+
+- **Genomic Scanning:** `BigRiverQTL.jl` provides advanced genomic scanning capabilities through `BulkLMM.jl` for swift single-trait scans, which surpass other methods in terms of computational speed. For analyses involving multiple traits, the package employs `FlxQTL.jl`, a cutting-edge approach that detects complex trait interrelations.
+
+- **Result Visualization:** The third component of `BigRiverQTL.jl` enriches the analytical experience by offering plotting tools designed to illustrate the outcomes of genomic scans. The plotting functions are useful for interpreting the results and aid in the derivation of meaningful conclusions
