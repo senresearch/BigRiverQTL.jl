@@ -24,4 +24,103 @@ Pkg.add("BigRiverQTL")
 
 
 ## Contribution
-Contributions to BigRiverQTLPlots.jl are welcome and appreciated. If you'd like to contribute, please fork the repository and make changes as you'd like. If you have any questions or issues, feel free to open an 
+Contributions to BigRiverQTL.jl are welcome and appreciated. If you'd like to contribute, please fork the repository and make changes as you'd like. If you have any questions or issues, feel free to open an 
+
+
+## Examples
+```julia
+using Pkg
+Pkg.activate("../")
+```
+
+
+```julia
+using Revise
+```
+
+
+```julia
+using BigRiverQTLPlots
+using BulkLMM
+using Random, Statistics
+using Plots
+using Helium
+using BigRiverQTL
+using CSV
+using DataFrames
+```
+
+
+```julia
+##############
+# BXD spleen #
+##############
+
+########
+# Data #
+########
+data_dir = joinpath(@__DIR__, "../data/BXD/");
+file = joinpath(data_dir, "bxd.json");
+```
+
+
+```julia
+# Transforming data to a optimised and accessible data type
+data = get_geneticstudydata(file);
+```
+
+
+```julia
+gInfo=data.gmap;
+pInfo=data.phenocov;
+pheno=data.pheno;
+pheno=data.pheno.val;
+geno=data.geno.val[1];
+geno_processed=convert(Array{Float64}, geno);
+```
+
+
+```julia
+#################
+# Preprocessing #
+#################
+traitID = 1112;
+pheno_y = pheno[:, traitID];
+pheno_y2=ones(length(pheno_y));
+pheno_y2[findall(x->x!=nothing,pheno_y)]=pheno_y[findall(x->x!=nothing,pheno_y)];
+```
+
+
+```julia
+###########
+# Kinship #
+###########
+kinship = kinship_gs(geno_processed,.99)
+```
+
+
+```julia
+########
+# Scan #
+########
+
+single_results_perms = scan(
+	pheno_y2,
+	geno_processed,
+	kinship;
+	permutation_test = true,
+	nperms = 1000,
+);
+```
+
+
+```julia
+########
+# Plot #
+########
+
+plot_QTL(single_results_perms, gInfo)
+
+
+```
+[]()
