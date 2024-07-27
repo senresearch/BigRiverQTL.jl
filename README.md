@@ -106,4 +106,4 @@ plot_QTL(single_results_perms, gInfo)
 
 
 ```
-[]()
+![image](https://github.com/senresearch/BigRiverQTLPlots.jl/blob/main/images/QTL_thrs_example.png)
