@@ -29,25 +29,8 @@ Contributions to BigRiverQTL.jl are welcome and appreciated. If you'd like to co
 
 ## Examples
 ```julia
-using Pkg
-Pkg.activate("../")
-```
-
-
-```julia
-using Revise
-```
-
-
-```julia
-using BigRiverQTLPlots
-using BulkLMM
-using Random, Statistics
 using Plots
-using Helium
 using BigRiverQTL
-using CSV
-using DataFrames
 ```
 
 
@@ -123,4 +106,4 @@ plot_QTL(single_results_perms, gInfo)
 
 
 ```
-[]()
+![image](https://github.com/senresearch/BigRiverQTLPlots.jl/blob/main/images/QTL_thrs_example.png)
