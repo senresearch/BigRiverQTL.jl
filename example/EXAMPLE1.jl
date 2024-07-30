@@ -6,15 +6,19 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.16.2
+#       jupytext_version: 1.16.4
 #   kernelspec:
-#     display_name: Julia 1.10.3
+#     display_name: Julia 1.10.4
 #     language: julia
 #     name: julia-1.10
 # ---
 
 using Pkg
 Pkg.activate("../")
+
+# + jupyter={"outputs_hidden": true}
+Pkg.instantiate()
+# -
 
 using Revise
 
@@ -46,8 +50,10 @@ gInfo=data.gmap;
 pInfo=data.phenocov;
 pheno=data.pheno;
 pheno=data.pheno.val;
-geno=data.geno.val[1];
+geno=reduce(hcat, data.geno.val);
 geno_processed=convert(Array{Float64}, geno);
+
+size(geno)
 
 #################
 # Preprocessing #
@@ -55,7 +61,8 @@ geno_processed=convert(Array{Float64}, geno);
 traitID = 1112;
 pheno_y = pheno[:, traitID];
 pheno_y2=ones(length(pheno_y));
-pheno_y2[findall(x->x!=nothing,pheno_y)]=pheno_y[findall(x->x!=nothing,pheno_y)];
+idx_nothing = findall(x->x!=nothing,pheno_y)
+pheno_y2[idx_nothing]=pheno_y[idx_nothing];
 
 ###########
 # Kinship #
@@ -74,6 +81,9 @@ single_results_perms = scan(
 	permutation_test = true,
 	nperms = 1000,
 );
+# -
+
+size(geno_processed)
 
 # +
 ########
@@ -90,36 +100,41 @@ gInfo2;
 
 # +
 function gmap2df(gmap::Gmap)
-    Locus=reduce(vcat,gmap.marker_name);
-    Mb=reduce(vcat,gmap.pos);
+    # Locus = reduce(vcat,gmap.marker_name);
+    # Mb= reduce(vcat,gmap.pos);
     start=0
-    Chr=repeat(["0"],sum(length.(gmap.marker_name)))
-    Cm=repeat(["Missing"],sum(length.(gmap.marker_name)))
-    for i in 1: eachindex(gmap.chr)
+    Chr =repeat(["0"],sum(length.(gmap.marker_name)))
+    
+    # Pos =repeat(["Missing"],sum(length.(gmap.marker_name)))
+    
+    for i in eachindex(gmap.chr)
         l_i=length(gmap.marker_name[i])
         Chr[start+1:l_i+start] .= gmap.chr[i]
         start=start+l_i
     end
-    df=DataFrame((Locus=Locus,Chr=Chr,Mb=Mb,Cm=Cm))
+    df=DataFrame(
+        Locus = reduce(vcat,gmap.marker_name),
+        Chr = Chr,
+        Pos= reduce(vcat,gmap.pos)
+    )
+        # Cm = repeat(["Missing"],sum(length.(gmap.marker_name)))
     return df
 
 end
 # -
 
-gmap=gInfo
+gInfo.chr
 
-gmap.chr
-
-Locus=reduce(vcat,gmap.marker_name);
-Mb=reduce(vcat,gmap.pos);
-start=0
-Chr=repeat(["0"],sum(length.(gmap.marker_name)))
-Cm=repeat(["Missing"],sum(length.(gmap.marker_name)))
-for i in  eachindex(gmap.chr)
-    l_i=length(gmap.marker_name[i])
-    Chr[start+1:l_i+start] .= gmap.chr[i]
-    start=start+l_i
-end
+# Locus=reduce(vcat,gmap.marker_name);
+# Mb=reduce(vcat,gmap.pos);
+# start=0
+# Chr=repeat(["0"],sum(length.(gmap.marker_name)))
+# Cm=repeat(["Missing"],sum(length.(gmap.marker_name)))
+# for i in  eachindex(gmap.chr)
+#     l_i=length(gmap.marker_name[i])
+#     Chr[start+1:l_i+start] .= gmap.chr[i]
+#     start=start+l_i
+# end
 
 
 gmap2df(gInfo);
@@ -149,6 +164,9 @@ gInfo3=gmap2df(gInfo)
 # Plot #
 ########
 
-plot_QTL(single_results_perms, gInfo3);
+plot_QTL(single_results_perms, gInfo3, mbColname = "Pos")
+
+
+# -
 
 
