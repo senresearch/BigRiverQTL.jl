@@ -53,12 +53,23 @@ module BigRiverQTL
     export Gmap, Alleles, CrossType, GenoType, GenoTranspose,Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar,  CrossInfo
     export GeneticStudyData
 
-    #############
+    ######
     # IO #
-    #############
+    ######
     include("io/io_utils.jl")
     include("io/export_to_type.jl")
     export get_geneticstudydata
+
+
+
+
+    #########
+    # Plots #
+    #########
+    include("plots/plots_qtl.jl")
+    export plot_QTL
+
+
 
     
     
