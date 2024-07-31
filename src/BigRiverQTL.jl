@@ -65,7 +65,7 @@ module BigRiverQTL
     # using BigRiverQTLPlots #
     ##########################
     using Reexport
-    @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan, plot_QTL!, plot_eQTL!, plot_manhattan!
+    @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
 
     #########
     # Plots #
