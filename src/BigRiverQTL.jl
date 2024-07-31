@@ -71,7 +71,7 @@ module BigRiverQTL
     # Plots #
     #########
     include("plots/plots_utils.jl")
-    export gmap2df
+    export gmap2df pmap2df
 
     include("plots/plots_qtl.jl")
     export plot_QTL 
