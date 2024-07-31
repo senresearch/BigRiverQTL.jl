@@ -1,7 +1,7 @@
 ########
 data_dir = joinpath(@__DIR__, "../data/BXD/");
 file = joinpath(data_dir, "bxd.json");
-# -
+
 
 # Transforming data to a optimised and accessible data type
 data = get_geneticstudydata(file);
@@ -28,7 +28,7 @@ pheno_y2[idx_nothing]=pheno_y[idx_nothing];
 ###########
 kinship = kinship_gs(geno_processed,.99);
 
-# +
+
 ########
 # Scan #
 ########
@@ -41,7 +41,7 @@ single_results_perms = scan(
 	nperms = 1000,
 );
 
-# +
+
 #########
 # Plots #
 #########
@@ -53,7 +53,7 @@ p1=plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
 
 
 
-# -
+
 
 # Manhattan plots
 p2=plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
