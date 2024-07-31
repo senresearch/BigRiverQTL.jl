@@ -76,6 +76,13 @@ module BigRiverQTL
     include("plots/plots_qtl.jl")
     export plot_QTL
 
+    include("plots/plots_manhattan.jl")
+    export plot_manhattan
+
+
+    include("plots/plots_eqtl.jl")
+    export plot_eQTL
+
 
 
 
