@@ -74,14 +74,14 @@ module BigRiverQTL
     export gmap2df
 
     include("plots/plots_qtl.jl")
-    export plot_QTL plot_QTL! 
+    export plot_QTL 
 
     include("plots/plots_manhattan.jl")
-    export plot_manhattan plot_manhattan!
+    export plot_manhattan 
 
 
     include("plots/plots_eqtl.jl")
-    export plot_eQTL plot_eQTL!
+    export plot_eQTL 
 
 
 
