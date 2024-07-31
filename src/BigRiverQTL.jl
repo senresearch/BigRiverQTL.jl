@@ -61,13 +61,31 @@ module BigRiverQTL
     export get_geneticstudydata
 
 
-
+    ##########################
+    # using BigRiverQTLPlots #
+    ##########################
+    using Reexport
+    @reexport import BigRiverQTLPlots: plot_QTL
 
     #########
     # Plots #
     #########
+    include("plots/plots_utils.jl")
+    export gmap2df
+
     include("plots/plots_qtl.jl")
     export plot_QTL
+
+
+
+
+
+
+    
+    
+
+
+
 
 
 
