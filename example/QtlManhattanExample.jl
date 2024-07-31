@@ -16,9 +16,8 @@
 using Pkg
 Pkg.activate("../")
 
-Pkg.instantiate()
 
-using Revise
+Pkg.instantiate()
 
 # Libraries
 using BigRiverQTLPlots
@@ -45,6 +44,7 @@ file = joinpath(data_dir, "bxd.json");
 # Transforming data to a optimised and accessible data type
 data = get_geneticstudydata(file);
 
+
 # Data types
 gInfo=data.gmap;
 pInfo=data.phenocov;
@@ -62,12 +62,10 @@ pheno_y2=ones(length(pheno_y));
 idx_nothing = findall(x->x!=nothing,pheno_y)
 pheno_y2[idx_nothing]=pheno_y[idx_nothing];
 
-
 ###########
 # Kinship #
 ###########
 kinship = kinship_gs(geno_processed,.99);
-
 
 # +
 ########
@@ -80,8 +78,7 @@ single_results_perms = scan(
 	kinship;
 	permutation_test = true,
 	nperms = 1000,
-);
-
+)
 
 # +
 #########
@@ -91,6 +88,7 @@ single_results_perms = scan(
 
 # QTL plots
 plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
+
 # -
 
 # Manhattan plots
