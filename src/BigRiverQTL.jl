@@ -2,7 +2,6 @@ module BigRiverQTL
     using BulkLMM
     using DataFrames, JSON, CSV
     using Statistics
-    using Distributed
     using LinearAlgebra
     import StatsBase: sample
 
