@@ -1,5 +1,5 @@
 """
-plot_QTL(vLOD::Vector{<: AbstractFloat}, dfgInfo::DataFrame;
+plot_manhattan(vLOD::Vector{<: AbstractFloat}, dfgInfo::DataFrame;
 		chrColname::String="Chr", mbColname::String="Mb",
 		thresholds::Vector{<: AbstractFloat}=[], kwargs...)
 
@@ -14,7 +14,7 @@ Generates a scatter plot for QTL analysis.
 
 ---
 
-plot_QTL(scanresult::NamedTuple, dfgInfo::DataFrame;
+plot_manhattan(scanresult::NamedTuple, dfgInfo::DataFrame;
 		chrColname::String="Chr", mbColname::String="Mb", 
 		thresholds::Vector{<: AbstractFloat}=[], kwargs...)
 
@@ -31,22 +31,43 @@ If the `scanresult` does not contain a permutation matrix, the original maximum 
 the `significance` vector will be used as the threshold values for comparison.
 
 """
-function plot_QTL(vLOD::Vector{<:AbstractFloat}, dfgInfo::Gmap; kwargs...)
-    return plot_QTL(vLOD, gmap2df(dfgInfo); kwargs...)
-end
+function plot_manhattan(vLOD::Vector{<: AbstractFloat}, dfgInfo::Gmap;
+	kwargs...)
 
-function plot_QTL(scanresult::NamedTuple, dfgInfo::Gmap; kwargs...)
-    return plot_QTL(scanresult, gmap2df(dfgInfo); kwargs...)
-end
+	return plot_manhattan(vLOD, gmap2df(dfgInfo); kwargs...)
 
-
-function plot_QTL!(vLOD::Vector{<: AbstractFloat}, dfgInfo::Gmap;
-	 kwargs...)
-	 return plot_QTL!(vLOD, gmap2df(dfgInfo); kwargs...) 
 end
 
 
-function plot_QTL!(scanresult::NamedTuple, dfgInfo::Gmap; kwargs...)
-    return plot_QTL!(scanresult, gmap2df(dfgInfo); kwargs...)
+function plot_manhattan(scanresult::NamedTuple, dfgInfo::Gmap;
+	kwargs...)
+
+	return plot_manhattan(scanresult, gmap2df(dfgInfo); kwargs...)
+
 end
+
+
+
+
+
+function plot_manhattan!(vLOD::Vector{<: AbstractFloat}, dfgInfo::Gmap;
+	kwargs...)
+
+	return plot_manhattan!(vLOD, gmap2df(dfgInfo); kwargs...)
+
+end
+
+
+function plot_manhattan!(scanresult::NamedTuple, dfgInfo::Gmap;
+	kwargs...)
+
+	return plot_manhattan!(scanresult, gmap2df(dfgInfo); kwargs...)
+
+end
+
+
+
+
+
+
 

@@ -102,8 +102,16 @@ single_results_perms = scan(
 # Plot #
 ########
 
-plot_QTL(single_results_perms, gInfo)
+# QTL plots
+plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
+
+```
+![image](https://github.com/Durbadal0/BigRiverQTL.jl/blob/main/images/QTL_example.png)
+
+```julia
+# Manhattan plots
+plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
 
 
 ```
-![image](https://github.com/senresearch/BigRiverQTLPlots.jl/blob/main/images/QTL_thrs_example.png)
+![image](https://github.com/Durbadal0/BigRiverQTL.jl/blob/main/images/manhattan_example.png)
