@@ -1,15 +1,15 @@
 
 """
-`Gmap` type contains relative position of marker_name in each chromosome.
+`Gmap` type contains markers names and their relative positions in each chromosome.
 
 * `chr` contains chromosomes names.
 * `marker_name` contains marker name's names for each chromosome.
 * `pos` is a vector of vector  containing relative position of marker_name in each chromosome.
 """
 struct Gmap
-    chr::Vector{String}
-    marker_name::Vector{Vector{String}}
-    pos::Vector{Vector{Float64}}
+	chr::Vector{String}
+	marker_name::Vector{Vector{String}}
+	pos::Vector{Vector{Float64}}
 end
 
 
@@ -18,8 +18,9 @@ end
 * `type` is a string indicating the type of the cross.
 """
 struct CrossType
-    type::String
+	type::String
 end
+
 
 """
 `CrossInfo` type contains information about the cross direction of sample_id.
@@ -27,13 +28,9 @@ end
 * `direction` is a vector containing the cross direction of sample_id.
 """
 struct CrossInfo
-    sample_id::Vector{String}
-    direction:: Vector{String}
+	sample_id::Vector{String}
+	direction::Vector{String}
 end
-
-
-
-
 
 
 """
@@ -41,13 +38,8 @@ end
 * `val` is a vector containing the names of the alleles.
 """
 struct Alleles
-    val::Vector{String}
+	val::Vector{String}
 end
-
-
-
-
-
 
 
 """
@@ -55,12 +47,8 @@ end
 * `label` is a dictionary type indicating the transformation or label for genotypes.
 """
 struct GenoType
-    label::Dict
+	label::Dict
 end
-
-
-
-
 
 
 """
@@ -68,12 +56,8 @@ end
 * `val` is a boolean type indicating whether the geno matrix is transposed.
 """
 struct GenoTranspose
-    val::Bool
+	val::Bool
 end
-
-
-
-
 
 
 """
@@ -85,23 +69,16 @@ end
 * `val` is a vector of matrices containing allele information in each chromosome.
 """
 struct Geno
-    sample_id::Vector{String}
-    chromosomes::Vector{String}
-    marker_name::Vector{Vector{String}}
-    val::Vector{Matrix{Int16}}
-    cross_type::CrossType
-    alleles::Alleles
-    geno_type::GenoType
-    geno_transpose::GenoTranspose
-    
+	sample_id::Vector{String}
+	chromosomes::Vector{String}
+	marker_name::Vector{Vector{String}}
+	val::Vector{Matrix{Int16}}
+	cross_type::CrossType
+	alleles::Alleles
+	geno_type::GenoType
+	geno_transpose::GenoTranspose
+
 end
-
-
-
-
-
-
-
 
 
 """
@@ -112,17 +89,10 @@ end
 * `val` is a vector of matrices containing allele information in the chromosome.
 """
 struct Chromosome
-    name:: String
-    marker_name::Vector{String}
-    val::Matrix{Int}
+	name::String
+	marker_name::Vector{String}
+	val::Matrix{Int}
 end
-
-
-
-
-
-
-
 
 
 """
@@ -133,13 +103,9 @@ end
 
 """
 struct Geno2
-    sample_id::Vector{String}
-    chromosomes::Vector{Chromosome}
+	sample_id::Vector{String}
+	chromosomes::Vector{Chromosome}
 end
-
-
-
-
 
 
 """
@@ -150,11 +116,12 @@ end
 * `unit` contains unit for the chromosome length.
 """
 struct Pmap
-    chromosomes::Vector{String}
-    marker_name::Vector{Vector{String}}
-    pos::Vector{Vector{Float64}}
-    unit::String
+	chromosomes::Vector{String}
+	marker_name::Vector{Vector{String}}
+	pos::Vector{Vector{Float64}}
+	unit::String
 end
+
 
 """
 `Pheno` type contains phenotypes data.
@@ -163,10 +130,11 @@ end
 *  `val` is a matrix containing phenotype/ traits values.
 """
 struct Pheno
-    sample_id::Vector{String}
-    traits::Vector{String}
-    val::Matrix{Union{Nothing, Float64}}
+	sample_id::Vector{String}
+	traits::Vector{String}
+	val::Matrix{Union{Nothing, Float64}}
 end
+
 
 """
 `Phenocov` type contains the description of the phenotypes.
@@ -174,8 +142,8 @@ end
 * `descriptions` is a vector containing the description for each phenotype.
 """
 struct Phenocov
-    traits::Vector{String}
-    descriptions::Vector{String}
+	traits::Vector{String}
+	descriptions::Vector{String}
 end
 
 
@@ -185,8 +153,8 @@ IsFemale type indicates if the sample_id (genotypes or individuals) are females.
 * `val` is a vector containing boolean values indicating if each sample (genotype or individual) is a female.
 """
 struct IsFemale
-    sample_id::Vector{String}
-    val::Vector{Bool}
+	sample_id::Vector{String}
+	val::Vector{Bool}
 end
 
 
@@ -196,12 +164,9 @@ end
 * `val` is a vector of boolean values indicating which chromosome is the X one.
 """
 struct IsXChar
-    chromosomes::Vector{String}
-    val::Vector{Bool}
+	chromosomes::Vector{String}
+	val::Vector{Bool}
 end
-
-
-
 
 
 """
@@ -220,13 +185,13 @@ end
 * `genotranspose` is a field of type `GenoTranspose`. Refer to `GenoTranspose` type for more imformation.
 """
 struct GeneticStudyData
-    gmap::Gmap
-    geno::Geno
-    pmap::Pmap
-    pheno::Pheno
-    phenocov::Phenocov
-    isXchar::IsXChar
-    isfemale::IsFemale
-    crossinfo::CrossInfo
-  
+	gmap::Gmap
+	geno::Geno
+	pmap::Pmap
+	pheno::Pheno
+	phenocov::Phenocov
+	isXchar::IsXChar
+	isfemale::IsFemale
+	crossinfo::CrossInfo
+
 end

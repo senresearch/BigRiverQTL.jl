@@ -1,5 +1,9 @@
-# BigRiverQTL.jl
+[![CI](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml/badge.svg?branch=testing)](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/senresearch/BigRiverQTL.jl/branch/testing/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/BigRiverQTL.jl)
+[![Pkg Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
+
+# BigRiverQTL.jl
 
 
 *A Statistical Toolbox for QTL Analysis*
@@ -27,18 +31,34 @@ Pkg.add("BigRiverQTL")
 Contributions to BigRiverQTL.jl are welcome and appreciated. If you'd like to contribute, please fork the repository and make changes as you'd like. If you have any questions or issues, feel free to open an 
 
 
-## Examples
+# Example QTL
+___
+
+This example is also available as a [notebook](example/example_qtl.ipynb) in the 'example' directory.
+
+## Data
+
+In this example, we will use a dataset available from the `R/qtl2` package. Specifically, we will use the BXD dataset, which is obtained from the [GeneNetwork](https://genenetwork.org/) website.
+
+You can download the BXD genotype data from the following link:
+[Download BXD Genotype Data](https://raw.githubusercontent.com/rqtl/qtl2data/master/BXD/bxd.zip)
+
+
+### Example - BXD 
+
+
 ```julia
-using Plots
+# Libraries
 using BigRiverQTL
+using Plots
 ```
 
+#### Data
+
+We assume that the data is stored in `..\data\BXD` directory.
+
 
 ```julia
-##############
-# BXD spleen #
-##############
-
 ########
 # Data #
 ########
@@ -46,21 +66,31 @@ data_dir = joinpath(@__DIR__, "../data/BXD/");
 file = joinpath(data_dir, "bxd.json");
 ```
 
+Load bxd data using the function `get_geneticstudydata()`: 
+
 
 ```julia
-# Transforming data to a optimised and accessible data type
+# Load bxd data
 data = get_geneticstudydata(file);
 ```
 
 
 ```julia
-gInfo=data.gmap;
-pInfo=data.phenocov;
-pheno=data.pheno;
-pheno=data.pheno.val;
-geno=data.geno.val[1];
-geno_processed=convert(Array{Float64}, geno);
+# Data types
+# makers info 
+gInfo = data.gmap;
+# pehnotype info 
+pInfo = data.phenocov;
+# phenotype values 
+pheno = data.pheno.val;
+
+# We can get the genotype matrix using the following command:
+geno = reduce(hcat, data.geno.val);
+# For computing reasons, we need to convert the geno matrix in Float64
+geno_processed = convert(Array{Float64}, geno);
 ```
+
+#### Preprocessing
 
 
 ```julia
@@ -70,16 +100,21 @@ geno_processed=convert(Array{Float64}, geno);
 traitID = 1112;
 pheno_y = pheno[:, traitID];
 pheno_y2=ones(length(pheno_y));
-pheno_y2[findall(x->x!=nothing,pheno_y)]=pheno_y[findall(x->x!=nothing,pheno_y)];
+idx_nothing = findall(x->x!=nothing,pheno_y)
+pheno_y2[idx_nothing]=pheno_y[idx_nothing];
 ```
+
+#### Kinship
 
 
 ```julia
 ###########
 # Kinship #
 ###########
-kinship = kinship_gs(geno_processed,.99)
+kinship = kinship_gs(geno_processed,.99);
 ```
+
+#### Scan
 
 
 ```julia
@@ -96,22 +131,24 @@ single_results_perms = scan(
 );
 ```
 
+#### Preprocessing
+
+#### Plots
+
 
 ```julia
-########
-# Plot #
-########
+#########
+# Plots #
+#########
 
 # QTL plots
 plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
 
 ```
-![image](https://github.com/Durbadal0/BigRiverQTL.jl/blob/main/images/QTL_example.png)
+![image](images/QTL_example.png)
 
 ```julia
 # Manhattan plots
 plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
-
-
 ```
-![image](https://github.com/Durbadal0/BigRiverQTL.jl/blob/main/images/manhattan_example.png)
+![image](images/manhattan_example.png)
