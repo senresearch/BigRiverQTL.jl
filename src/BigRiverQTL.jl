@@ -1,6 +1,6 @@
 module BigRiverQTL
     using BulkLMM
-    using DataFrames, JSON, CSV, CategoricalArrays
+    using DataFrames, JSON, CSV
     using Statistics
     using Distributed
     using LinearAlgebra
