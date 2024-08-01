@@ -102,7 +102,13 @@ single_results_perms = scan(
 # Plot #
 ########
 
-plot_QTL(single_results_perms, gInfo)
+# QTL plots
+plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
+
+
+
+# Manhattan plots
+plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
 
 
 ```
