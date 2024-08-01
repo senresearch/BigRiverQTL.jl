@@ -16,7 +16,7 @@
 # # Example QTL
 # ___
 
-# This notebook gives an example......
+# This notebook gives an example of QTL analysis using `BigRiverQTL.jl`.
 
 # ## Data
 

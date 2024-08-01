@@ -30,7 +30,7 @@ Contributions to BigRiverQTL.jl are welcome and appreciated. If you'd like to co
 # Example QTL
 ___
 
-This notebook gives an example......
+This example is also available as a [notebook](example/example_qtl.ipynb) in the 'example' directory.
 
 ## Data
 
