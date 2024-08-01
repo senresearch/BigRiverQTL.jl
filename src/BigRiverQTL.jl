@@ -5,6 +5,11 @@ module BigRiverQTL
     using Distributed
     using LinearAlgebra
     import StatsBase: sample
+
+    using Reexport
+    @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
+
+
     ########
     # Loco #
     ########
@@ -59,19 +64,12 @@ module BigRiverQTL
     include("io/io_utils.jl")
     include("io/export_to_type.jl")
     export get_geneticstudydata
-
-
-    ##########################
-    # using BigRiverQTLPlots #
-    ##########################
-    using Reexport
-    @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
-
+    
     #########
     # Plots #
     #########
     include("plots/plots_utils.jl")
-    export gmap2df pmap2df
+    export gmap2df, pmap2df
 
     include("plots/plots_qtl.jl")
     export plot_QTL 
@@ -82,21 +80,5 @@ module BigRiverQTL
 
     include("plots/plots_eqtl.jl")
     export plot_eQTL 
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-    
-    
 
 end

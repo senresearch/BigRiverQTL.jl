@@ -20,11 +20,13 @@
 
 # ## Data
 
-# We now want to get genotype data for the BXD panel. We first need to install the R/qtl2 package. As with R/GNapi, it is not available on CRAN, but rather is distributed via a private repository.
+# In this example, we will use a dataset available from the `R/qtl2` package. Specifically, we will use the BXD dataset, which is obtained from the [GeneNetwork](https://genenetwork.org/) website.
 #
-# [https://raw.githubusercontent.com/rqtl/qtl2data/master/BXD/bxd.zip](https://raw.githubusercontent.com/rqtl/qtl2data/master/BXD/bxd.zip)
+# You can download the BXD genotype data from the following link:
+# [Download BXD Genotype Data](https://raw.githubusercontent.com/rqtl/qtl2data/master/BXD/bxd.zip)
+#
 
-# ### Example BXD 
+# ### Example - BXD 
 
 # Libraries
 using BigRiverQTL
@@ -49,13 +51,13 @@ data = get_geneticstudydata(file);
 # +
 # Data types
 # gmap contains 
+# makers info 
 gInfo = data.gmap;
-# gmap contains 
+# pehnotype info 
 pInfo = data.phenocov;
-# gmap contains 
-pheno = data.pheno;
-# gmap contains 
+# phenotype values 
 pheno = data.pheno.val;
+
 
 # We can get the genotype matrix using the following command:
 geno = reduce(hcat, data.geno.val);
