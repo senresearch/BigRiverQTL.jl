@@ -58,8 +58,8 @@ kinship_test(K1, "kinship_4way()")
 # Test: kinship_gs #
 ####################
 
-K1 = kinship_gs(geno1)
-K2 = kinship_gs(geno2)
+K1 = kinship_gs(geno1,0.9)
+K2 = kinship_gs(geno2,0.9)
 
 kinship_test(K1, "kinship_gs()")
 
