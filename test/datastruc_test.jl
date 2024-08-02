@@ -2,6 +2,7 @@
 # Generate Data for testing #
 #############################
 
+
 gmap = Gmap(["chr1", "chr2"], [["m1", "m2"], ["m3"]], [[1.0, 2.0], [3.0]])
 cross_info = CrossInfo(["sample1", "sample2"], [1, 0])
 cross_type = CrossType("risib")
@@ -70,31 +71,6 @@ end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Checks whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`
 function BigRiverQTLData_struct_test(filename::String, testname::String)
     @testset "BigRiverQTLData_struct_test" begin
@@ -114,6 +90,8 @@ end
 # Test: BigRiverQTLData #
 #########################
 
+data_dir = joinpath(@__DIR__, "data/BXD/");
+file = joinpath(data_dir, "bxd.json");
 
 
 BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
