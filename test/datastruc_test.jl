@@ -2,7 +2,7 @@
 # Generate Data for testing #
 #############################
 
-
+#=
 gmap = Gmap(["chr1", "chr2"], [["m1", "m2"], ["m3"]], [[1.0, 2.0], [3.0]])
 cross_info = CrossInfo(["sample1", "sample2"], [1, 0])
 cross_type = CrossType("risib")
@@ -18,8 +18,8 @@ geno = Geno(
     GenoType(Dict("A" => 1)), 
     GenoTranspose(false)
 )
-
-pheno = Pheno(["individual1", "individual2"], ["trait1", "trait2"], [1.0 2.0; nothing 3.0])
+=#
+#pheno = Pheno(["individual1", "individual2"], ["trait1", "trait2"], [1.0 2.0; nothing 3.0])
 
 
 # Testing the Gmap type
