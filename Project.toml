@@ -24,6 +24,7 @@ JSON = "0.21, 1"
 Missings = "1"
 Reexport = "1.2"
 Statistics = "1"
+StatsBase = "0.34"
 julia = "1"
 
 [extras]
