@@ -14,6 +14,7 @@ using DelimitedFiles
 
 @testset "BigRiverQTL" begin 
     include("kinship_test.jl")
-    include("datastruct_test.jl")
+    include("datastruc_test.jl")
+    include("plots_test.jl")
     
 end
