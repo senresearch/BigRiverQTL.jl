@@ -12,7 +12,7 @@ Generates a scatter plot for eQTL analysis.
 - `threshold` is the LOD threshold value, default is `5.0``.
 
 """
-function plot_eQTL(multiLODs::Array{Float64, 2}, dfpInfo::DataFrame, dfgInfo::DataFrame;
+function plot_eQTL(multiLODs::Array{Float64, 2}, dfpInfo::Pmap, dfgInfo::Gmap;
                    kwargs...)
 
                    return plot_eQTL(multiLODs,pmap2df(dfpInfo), gmap2df(dfgInfo); kwargs...)
