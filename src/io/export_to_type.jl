@@ -269,9 +269,11 @@ function get_geno(filename::String)
 	val = [Matrix{Int}(undef, length(samples), length(marker[i])) for i in 1:length(chr)]
 	for i in 1:length(chr)
 		for j in 1:length(marker[i])
-			uni = unique(Vector(df_geno[findfirst(x -> x == marker[i][j], marker[i]), 2:end]))
-			map = Dict(uni[1] => 1, uni[2] => 2, uni[3] => 0)
-            val[i][:, j]=[map[v] for v in Vector(df_geno[findfirst(x -> x == marker[j], marker), 2:end])]
+			#uni = unique(Vector(df_geno[findfirst(x -> x == marker[i][j], marker[i]), 2:end]))
+			#map = Dict(uni[1] => 1, uni[2] => 2, uni[3] => 0)
+			map=get_genotype(filename).label
+			
+            val[i][:, j]=[map[v] for v in Vector(df_geno[findfirst(x -> x == marker[i][j], marker[i]), 2:end])]
 		end
 
 	end
@@ -339,8 +341,9 @@ function get_chromosome(gmapfile::String, genofile::String, number::Int)
 	# values
 	val = Matrix{Int}(undef, length(samples), length(marker))
 	for j in 1:length(marker)
-		uni = unique(Vector(df_geno[findfirst(x -> x == marker[j], marker), 2:end]))
-		map = Dict(uni[1] => 1, uni[2] => 2, uni[3] => 0)
+		#uni = unique(Vector(df_geno[findfirst(x -> x == marker[j], marker), 2:end]))
+		#map = Dict(uni[1] => 1, uni[2] => 2, uni[3] => 0)
+		map=get_genotype(filename).label
         val[:, j]=[map[v] for v in Vector(df_geno[findfirst(x -> x == marker[j], marker), 2:end])]
 	end
 
