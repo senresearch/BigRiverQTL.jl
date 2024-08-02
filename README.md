@@ -7,11 +7,10 @@
 
 *A Statistical Toolbox for QTL Analysis*
 
-`BigRiverQTL.jl` is a user-friendly Julia package that supports
-efficient and interpretable quantitative trait locus (QTL)
-analysis. This comprehensive toolbox encompasses three core components
-tailored to streamline the entire QTL analysis workflow:
-preprocessing, genomic scanning, and result visualization.
+`BigRiverQTL.jl` is a package that makes it easier to perform
+quantitative trait locus (QTL) analysis in Julia.  It consists of
+three components streamline the QTL analysis workflow:
+preprocessing, genome scans, and visualization.
 
 - **Preprocessing:** The preprocessing functions are designed to
   seamlessly import and convert genomic data into an efficient and
@@ -19,19 +18,18 @@ preprocessing, genomic scanning, and result visualization.
   capabilities for quickly calculating kinship matrices, ensuring data
   readiness for subsequent analysis phases.
 
-- **Genomic Scanning:** `BigRiverQTL.jl` provides advanced genomic
-  scanning capabilities through `BulkLMM.jl` for swift single-trait
-  scans, which surpass other methods in terms of computational
-  speed. For analyses involving multiple traits, the package employs
-  `FlxQTL.jl`, a cutting-edge approach that detects complex trait
-  interrelations.
+- **Genome Scans:** We provide the capabilities to perform a large
+  number of univariate genome scans using
+  [`BulkLMM.jl`](https://github.com/senresearch/BulkLMM.jl). For
+  analyses involving multiple traits, we provide an interface to
+  [`FlxQTL.jl`](https://github.com/senresearch/FlxQTL.jl) to analyze
+  longitudinal traits and complex trait correlations.
 
-- **Result Visualization:** The third component of `BigRiverQTL.jl`
-  enriches the analytical experience by offering plotting tools
-  designed to illustrate the outcomes of genomic scans. The plotting
-  functions are useful for interpreting the results and aid in the
-  derivation of meaningful conclusions
-
+- **Visualization:** The third component of the package offers
+  plotting tools designed to visualize genome scans including eQTL
+  scans using the
+  [`BigRiverQTLPlots.jl`](https://github.com/senresearch/BigRiverQTLPlots.jl)
+  package.
 
 ## Installation
 
