@@ -1,10 +1,14 @@
 module BigRiverQTL
     using BulkLMM
-    using DataFrames, JSON, CSV, CategoricalArrays
+    using DataFrames, JSON, CSV
     using Statistics
-    using Distributed
     using LinearAlgebra
     import StatsBase: sample
+
+    using Reexport
+    @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
+
+
     ########
     # Loco #
     ########
@@ -53,14 +57,27 @@ module BigRiverQTL
     export Gmap, Alleles, CrossType, GenoType, GenoTranspose,Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar,  CrossInfo
     export GeneticStudyData
 
-    #############
+    ######
     # IO #
-    #############
+    ######
     include("io/io_utils.jl")
     include("io/export_to_type.jl")
     export get_geneticstudydata
+    
+    #########
+    # Plots #
+    #########
+    include("plots/plots_utils.jl")
+    export gmap2df, pmap2df
 
-    
-    
+    include("plots/plots_qtl.jl")
+    export plot_QTL 
+
+    include("plots/plots_manhattan.jl")
+    export plot_manhattan
+
+
+    include("plots/plots_eqtl.jl")
+    export plot_eQTL 
 
 end
