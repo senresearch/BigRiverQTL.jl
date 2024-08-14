@@ -61,8 +61,11 @@ module BigRiverQTL
     # IO #
     ######
     include("io/io_utils.jl")
+    export encode_genotype
     include("io/export_to_type.jl")
     export get_geneticstudydata
+    export get_gmap, get_alleles, get_chromosome, get_crossinfo, get_crosstype, get_geno
+    
     
     #########
     # Plots #

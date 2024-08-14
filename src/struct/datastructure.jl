@@ -193,5 +193,4 @@ struct GeneticStudyData
 	isXchar::IsXChar
 	isfemale::IsFemale
 	crossinfo::CrossInfo
-
 end
