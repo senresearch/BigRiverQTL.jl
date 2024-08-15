@@ -32,15 +32,15 @@ Writes a CSV file to data frame excluding the comments lines.
 
 Returns a data frame.
 """
-function read_data(filename::String)
-	# read the file into lines
-	lines = readlines(filename)
-	# which lines have # as first character
-	firstpound = (x->match(r"^#",x)).( lines ) .!= nothing
-	# last line of comment
-	startdata = findfirst(firstpound.==0)
-    # Check if the comment lines can be run directly from "CSV.read". 
-	return CSV.read(filename, DataFrame; header = startdata)#comment="#")
+function read_data(filename::String; kwargs...)
+	# # read the file into lines
+	# lines = readlines(filename)
+	# # which lines have # as first character
+	# firstpound = (x->match(r"^#",x)).( lines ) .!= nothing
+	# # last line of comment
+	# startdata = findfirst(firstpound.==0)
+    # # Check if the comment lines can be run directly from "CSV.read". 
+	return CSV.read(filename, DataFrame; kwargs...)#comment="#")
 end
 
 
@@ -148,3 +148,41 @@ function encode_genotype(geno_dict::Dict{String, Any}, geno_val::AbstractArray)
 
 	return encoded_val
 end
+
+
+"""
+    check_key(control_dict::Dict, s::String) -> Any
+
+Check if a specified key exists in the given dictionary and return its corresponding value.
+
+# Arguments
+- `control_dict::Dict`: A dictionary from which the value associated with a key is to be retrieved.
+- `s::String`: The key for which the existence and value are checked within the dictionary.
+
+# Returns
+- `Any`: Returns the value associated with the key `s` in `control_dict` if it exists.
+
+# Throws
+- Throws an error if the key `s` is not found in `control_dict`.
+
+# Description
+This function checks if the given string `s` exists as a key in the provided dictionary 
+`control_dict`. If the key exists, the function returns the value associated with this 
+key. If the key does not exist, it throws an error with a message indicating that the 
+key was not found in the control file.
+
+"""
+function check_key(control_dict::Dict, s::String)
+	# check geno file exists
+	if (in(s, keys(control_dict)))
+		val = control_dict[s]
+	else
+		throw("Error: $(s) not found in control file")
+	end
+	
+	return val
+end
+
+
+
+

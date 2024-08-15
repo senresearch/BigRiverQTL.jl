@@ -21,15 +21,18 @@ function get_gmap(filename::String)
 	# load control file   
 	jsondict = parse_json(filename)
 
-	#  check gmap file exists
-	if (in("gmap", keys(jsondict)))
-		gmapfile = joinpath(data_dir, jsondict["gmap"])
-	else
-		throw("Error: gmap not found in control file")
-	end
+	#  get gmap file
+	gmapfile = joinpath(data_dir, check_key(jsondict, "gmap"))
 
 	# load gmap file   
-	gdf = groupby(read_data(gmapfile), :chr)
+	gdf = groupby(
+		read_data(
+			gmapfile;
+			delim = check_key(jsondict, "sep"),
+			comment = check_key(jsondict, "comment.char")
+		),
+		:chr,
+	)
 
 	# chromosome
 	chr = [group.chr[1] for group in gdf]
@@ -65,17 +68,11 @@ function get_crosstype(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
+	# load control file   
 	jsondict = BigRiverQTL.parse_json(filename)
 
-	# make type
-
-	#crosstype
-	if (in("crosstype", keys(jsondict)))
-		crosstype = jsondict["crosstype"]
-	else
-		throw("Error: CrossType not found")
-	end
+	# get crosstype
+	crosstype = check_key(jsondict, "crosstype")
 
 	return CrossType(crosstype)
 end
@@ -98,13 +95,11 @@ function get_alleles(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
+	# load control file   
 	jsondict = BigRiverQTL.parse_json(filename)
 
-	# make type
-
 	#alleles
-	alleles = jsondict["alleles"]
+	alleles = check_key(jsondict, "alleles")
 
 	return Alleles(alleles)
 end
@@ -191,31 +186,31 @@ function get_geno(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
+	# load control file   
 	jsondict = BigRiverQTL.parse_json(filename)
 
-	#  check gmap file exists
-	if (in("gmap", keys(jsondict)))
-		gmapfile = joinpath(data_dir, jsondict["gmap"])
-	else
-		throw("Error: gmap not found in control file")
-	end
+	# get gmap file
+	gmapfile = joinpath(data_dir, check_key(jsondict, "gmap"))
 
-	# check geno file exists
-	if (in("geno", keys(jsondict)))
-		genofile = joinpath(data_dir, jsondict["geno"])
-	else
-		throw("Error: geno not found in control file")
-	end
+	# get geno file 
+	genofile = joinpath(data_dir, check_key(jsondict, "geno"))
 
 	# get gmap object
 	gmap = get_gmap(filename)
 
 	# load gmap dataframe
-	df_gmap = read_data(gmapfile)
+	df_gmap = read_data(
+		gmapfile; 
+		delim = check_key(jsondict, "sep"),
+		comment = check_key(jsondict, "comment.char")
+		)
 
 	# load geno dataframe
-	df_geno = read_data(genofile)
+	df_geno = read_data(
+		genofile; 
+		delim = check_key(jsondict, "sep"),
+		comment = check_key(jsondict, "comment.char")
+		)
 
 	# get samples names
 	samples = names(df_geno)[2:end]
@@ -240,20 +235,20 @@ function get_geno(filename::String)
 	insertcols!(df_encoded, 1, :marker => df_geno.marker)
 
 	gdf = innerjoin(
-		select(df_gmap, [:chr, :marker]), 
-		df_encoded, 
-		on = :marker
-	) |> x -> groupby(x, :chr);
-		
-	val = [Matrix(select(group, Not(:marker, :chr))) for group in gdf];
-	
-	#crosstype
+		select(df_gmap, [:chr, :marker]),
+		df_encoded,
+		on = :marker,
+	) |> x -> groupby(x, :chr)
+
+	val = [Matrix(select(group, Not(:marker, :chr))) for group in gdf]
+
+	# crosstype
 	crosstype = get_crosstype(filename)
 
-	#alleles
+	# alleles
 	alleles = get_alleles(filename)
 
-	#genotranspose
+	# genotranspose
 	genotranspose = get_genotranspose(filename)
 
 	return Geno(samples, chr, marker, val, crosstype, alleles, genotype, genotranspose)
@@ -281,25 +276,28 @@ function get_pmap(filename::String)
 	# load control file   
 	jsondict = parse_json(filename)
 
-	#  check pmap file exists
-	if (in("pmap", keys(jsondict)))
-		pmapfile = joinpath(data_dir, jsondict["pmap"])
-	else
-		throw("Error: pmap not found in control file")
-	end
+	# get pmap file
+	pmapfile = joinpath(data_dir, check_key(jsondict, "pmap"))
 
-	# load pmap file   
-	gdf = groupby(read_data(pmapfile), :chr)
+	# load pmap file
+	gdf = groupby(
+		read_data(
+			pmapfile;
+			delim = check_key(jsondict, "sep"),
+			comment = check_key(jsondict, "comment.char")
+		),
+		:chr,
+	)
 
 	# chromosome
 	chr = [group.chr[1] for group in gdf]
-	
+
 	# marker
 	marker = [group.marker for group in gdf]
-	
+
 	# relative position
 	pos = [group.pos for group in gdf]
-	
+
 	# unit
 	unit = ""
 	f = open(pmapfile, "r")
@@ -312,7 +310,7 @@ function get_pmap(filename::String)
 		unit = "Mb"
 	elseif occursin("cm", s_lower)
 		unit = "cM"
-	else 
+	else
 		@warn "No unit detected!"
 	end
 
@@ -335,32 +333,33 @@ Creates a `Pheno` type/struct from Pheno CSV file.
 
 Returns a `Pheno` type/struct.
 """
-function get_pheno(filename::String)
+function get_pheno(filename::String; samples_col_name::Symbol = :id)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
 	# load control file   
 	jsondict = parse_json(filename)
 
-	#  check pheno file exists
-	if (in("pheno", keys(jsondict)))
-		phenofile = joinpath(data_dir, jsondict["pheno"])
-	else
-		throw("Error: pheno not found in control file")
-	end	
+	# get pheno file
+	phenofile = joinpath(data_dir, check_key(jsondict, "pheno"))
 
-	# load file   
-	df_pheno = read_data(phenofile)
+	# load pheno file   
+	df_pheno = read_data(
+		phenofile;
+		delim = check_key(jsondict, "sep"),
+		comment = check_key(jsondict, "comment.char"),
+		missingstring = "NA"
+	)
 
 	# samples
-	samples = df_pheno[:, 1]
+	samples = df_pheno[:, samples_col_name]
 
 	# traits' names
-	traits = names(df_pheno)[2:end]
+	traits = names(df_pheno)
+	setdiff!(traits, [string(samples_col_name)])
 
 	# value of the traits
-	df_pheno = Matrix(df_pheno)
-	val = tryparse.(Float64, df_pheno[:, 2:end])
+	val = Matrix(df_pheno[:, traits])
 
 	return Pheno(samples, traits, val)
 end
@@ -383,15 +382,21 @@ function get_phenocovar(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
-
-	df_phenocovar = read_data(filename)
-
-	# make type
+	# load control file   
+	jsondict = parse_json(filename)
+	
+	# get phenocovar file
+	phenocovarfile = joinpath(data_dir, check_key(jsondict, "phenocovar"))
+	
+	# load phenocovar file   
+	df_phenocovar = read_data(
+		phenocovarfile;
+		delim = check_key(jsondict, "sep"),
+		comment = check_key(jsondict, "comment.char")
+	)
 
 	# traits' names
 	traits = string.(df_phenocovar[:, 1])
-
 
 	# description
 	description = df_phenocovar[:, 2]
@@ -417,14 +422,21 @@ function get_crossinfo(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
-	df_crossdirection = read_data(filename)
-
-	# make type
-
-	# traits' names
+	# load control file   
+	jsondict = parse_json(filename)
+	
+	# get crossdirection file
+	crossdirectionfile = joinpath(data_dir, check_key(jsondict, "crossdirection"))
+	
+	# load crossdirection file   
+	df_crossdirection = read_data(
+		crossdirectionfile;
+		delim = check_key(jsondict, "sep"),
+		comment = check_key(jsondict, "comment.char")
+	)
+	
+	# samples names
 	samples = df_crossdirection[:, 1]
-
 
 	# description
 	direction = df_crossdirection[:, 2]
@@ -450,21 +462,19 @@ function get_isxchar(filename::String)
 	# check if filename is directory or file name
 	data_dir, filename = get_control_file(filename)
 
-	# load file   
+	# load control file   
+	jsondict = parse_json(filename)
 
-	gmap = get_gmap(filename)
+	# get gmap file
+	gmapfile = joinpath(data_dir, check_key(jsondict, "gmap"))
 
-	# make type
-
-	# chromosome
-	chr = gmap.chr
+	# load gmap
+	gmap = get_gmap(gmapfile)
 
 	# isXchar
-
-	isxchar = zeros(Bool, length(chr))
-	isxchar[findfirst(x -> x == "X", chr)] = 1
-
-	return IsXChar(chr, isxchar)
+	isxchar = map(x -> x == "X", gmap.chr)
+	
+	return IsXChar(gmap.chr, isxchar)
 end
 
 
@@ -486,8 +496,9 @@ function get_isfemale(filename::String)
 	data_dir, filename = get_control_file(filename)
 
 	# load file   
-	jsondict = BigRiverQTL.parse_json(filename)
-	crossinfofile = joinpath(data_dir, jsondict["cross_info"]["file"])
+	jsondict = parse_json(filename)
+
+	crossinfofile = get_crossinfo(filename)
 
 	# make type
 
@@ -528,12 +539,6 @@ function get_geneticstudydata(filename::String)
 	# make type
 
 	#gmap
-	if (in("gmap", keys(jsondict)))
-		gmapfile = joinpath(data_dir, jsondict["gmap"])
-
-	else
-		throw("Error: gmap not found in control file")
-	end
 
 	gmap = get_gmap(gmapfile)
 

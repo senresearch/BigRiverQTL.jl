@@ -64,13 +64,13 @@ end
 `Geno` type contains genotype information for all chromosomes.
 
 * `sample_id` contains sample names such as genotypes or individual IDs.
-* `chromosomes` contains chromosome names.
+* `chr` contains chromosome names.
 * `marker_name` contains marker names for each chromosome.
 * `val` is a vector of matrices containing allele information in each chromosome.
 """
 struct Geno
 	sample_id::Vector{AbstractString}
-	chromosomes::Vector{AbstractString}
+	chr::Vector{AbstractString}
 	marker_name::Vector{Vector{AbstractString}}
 	val::Vector{Matrix{Union{Missing, Int16}}}
 	cross_type::CrossType
@@ -83,13 +83,13 @@ end
 
 """
  `Pmap` type contains the genetic map showing the relative location of genetic marker_name as phenotype.
-* `chromosomes` contains chromosomes names.
+* `chr` contains chromosomes names.
 * `marker_name` contains marker  names for each chromosome.
 * `pos` is a vector of vector containing relative position of marker_name as phenotypes in each chromosome.
 * `unit` contains unit for the chromosome length.
 """
 struct Pmap
-	chromosomes::Vector{AbstractString}
+	chr::Vector{AbstractString}
 	marker_name::Vector{Vector{AbstractString}}
 	pos::Vector{Vector{Float64}}
 	unit::AbstractString
@@ -105,7 +105,7 @@ end
 struct Pheno
 	sample_id::Vector{AbstractString}
 	traits::Vector{AbstractString}
-	val::Matrix{Union{Nothing, Float64}}
+	val::Matrix{Union{Missing, Float64}}
 end
 
 

@@ -27,7 +27,7 @@ data_dir = joinpath(@__DIR__, "data/BXD/");
 file = joinpath(data_dir, "bxd.json");
 
 
-data_dir, filename = BigRiverQTL.get_control_file(file)
+# data_dir, filename = BigRiverQTL.get_control_file(file)
 
 
 
@@ -98,25 +98,57 @@ end
 end
 
 
-##############################
-# Testing the CrossInfo type #
-##############################
-cross_info = data.cross_info
-@testset "CrossInfo Tests" begin
-	cross_info = data.cross_info
-	@test length(cross_info.sample_id) == length(cross_info.direction)
-	@test all(isa.(cross_info.direction, Int))
+##########################
+# Testing the Pheno type #
+##########################
+@testset "Pheno Tests" begin
+	pheno = get_pheno(file)
+	@test length(pheno.sample_id) == 198
+	@test length(pheno.sample_id) == 5806
+	@test pheno.val[1:2, 1:2] ==  [61.4  54.1;49.0  50.1]
 end
 
 
+#############################
+# Testing the Phenocov type #
+#############################
+@testset "Phenocov Tests" begin
+	phenocovar = get_phenocovar(file)
+	@test length(phenocovar.traits) == 5806
+	@test phenocovar.descriptions[5800] == "MFL-54"
+end
 
 
-# # Testing the Pheno type
-# pheno = data.pheno
-# @testset "Pheno Tests" begin
-# 	@test size(pheno.val, 1) == length(pheno.sample_id)
-# 	# @test pheno.val[2, 1] === nothing
-# end
+##############################
+# Testing the CrossInfo type #
+##############################
+@testset "CrossInfo Tests" begin
+	cross_info = get_crossinfo(file)
+	@test length(cross_info.sample_id) == 198
+	@test cross_info.direction[1] == "BxD"
+end
+
+
+############################
+# Testing the IsXChar type #
+############################
+@testset "IsXChar Tests" begin
+	isxchar = get_isxchar(file)
+	@test length(isxchar.chr) == 20
+	@test isxchar.val[20] == true
+end
+
+
+############################
+# Testing the IsFemale type #
+############################
+@testset "IsFemale Tests" begin
+	isfemale = get_isfemale(file)
+	@test length(isxchar.chr) == 20
+	@test isxchar.val[20] == true
+end
+
+
 
 
 # # Checks whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`
