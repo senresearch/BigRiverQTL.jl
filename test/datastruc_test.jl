@@ -22,88 +22,125 @@ geno = Geno(
 #pheno = Pheno(["individual1", "individual2"], ["trait1", "trait2"], [1.0 2.0; nothing 3.0])
 
 ########
+
 data_dir = joinpath(@__DIR__, "data/BXD/");
 file = joinpath(data_dir, "bxd.json");
 
+
+data_dir, filename = BigRiverQTL.get_control_file(file)
+
+
+
+
+
+
 # Transforming data to a optimised and accessible data type
-data = get_geneticstudydata(file);
+# data = get_geneticstudydata(file);
 
-# Testing the Gmap type
-gmap = data.gmap
+#########################
+# Testing the Gmap type #
+#########################
 @testset "Gmap Tests" begin
-
-	# @test gmap.chr == ["chr1", "chr2"]
-	# @test length(gmap.marker_name) == 2
+	gmap = get_gmap(file)
 	@test all(isa.(gmap.pos, Vector{Float64}))
 end
 
-# Testing the CrossType type
-crosstype = data.geno.cross_type
+##############################
+# Testing the CrossType type #
+##############################
 @testset "CrossType Tests" begin
+	cross_type = get_crosstype(file)
 	@test isa(cross_type.type, String)
 end
 
-# Testing the CrossInfo type
-cross_info = data.cross_info
-@testset "CrossInfo Tests" begin
-	@test length(cross_info.sample_id) == length(cross_info.direction)
-	@test all(isa.(cross_info.direction, Int))
-end
-
-# Testing the Alleles type
-alleles = data.geno.alleles
+############################
+# Testing the Alleles type #
+############################
 @testset "Alleles Tests" begin
+	alleles = get_alleles(file)
 	# @test length(alleles.val) == 3
 	@test all(isa.(alleles.val, String))
 end
 
-# Testing the GenoType type
-#@testset "GenoType Tests" begin
-# @test geno_type.label["A"] == 1
-# @test geno_type.label["H"] == 2
-#end
+#############################
+# Testing the GenoType type #
+#############################
+@testset "GenoType Tests" begin
+	genotype_dict = get_genotype(file)
+	@test genotype_dict.label["B"] == 1
+	@test genotype_dict.label["D"] == 2
+end
 
-# Testing the GenoTranspose type
-#@testset "GenoTranspose Tests" begin
-# @test geno_transpose.val == true
-#end
+##################################
+# Testing the GenoTranspose type #
+##################################
+@testset "GenoTranspose Tests" begin
+	geno_transpose = get_genotranspose(file)
+	@test geno_transpose.val == true
+end
 
-# Testing the Geno type
-#@testset "Geno Tests" begin
-# @test length(geno.sample_id) == 1
-#  @test size(geno.val[1]) == (2, 2)
-#end
+#########################
+# Testing the Geno type #
+#########################
+@testset "Geno Tests" begin
+	geno = get_geno(file)
+	@test length(geno.sample_id) == 198
+	@test size(geno.val[1]) == (636, 198)
+end
 
-# Testing the Pheno type
-pheno = data.pheno
-@testset "Pheno Tests" begin
-	@test size(pheno.val, 1) == length(pheno.sample_id)
-	# @test pheno.val[2, 1] === nothing
+#########################
+# Testing the Pmap type #
+#########################
+@testset "Pmap Tests" begin
+	pmap = get_pmap(file)
+	@test length(pmap.pos[1]) == 636
+	@test pmap.unit == "Mbp"
 end
 
 
-# Checks whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`
-function BigRiverQTLData_struct_test(filename::String, testname::String)
-	@testset "BigRiverQTLData_struct_test" begin
-
-		println("Test results for checking whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`: ",
-			@test typeof(get_geneticstudydata(filename)) == GeneticStudyData)
-
-
-	end
-
+##############################
+# Testing the CrossInfo type #
+##############################
+cross_info = data.cross_info
+@testset "CrossInfo Tests" begin
+	cross_info = data.cross_info
+	@test length(cross_info.sample_id) == length(cross_info.direction)
+	@test all(isa.(cross_info.direction, Int))
 end
 
 
 
 
-#########################
-# Test: BigRiverQTLData #
-#########################
+# # Testing the Pheno type
+# pheno = data.pheno
+# @testset "Pheno Tests" begin
+# 	@test size(pheno.val, 1) == length(pheno.sample_id)
+# 	# @test pheno.val[2, 1] === nothing
+# end
 
-data_dir = joinpath(@__DIR__, "data/BXD/");
-file = joinpath(data_dir, "bxd.json");
+
+# # Checks whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`
+# function BigRiverQTLData_struct_test(filename::String, testname::String)
+# 	@testset "BigRiverQTLData_struct_test" begin
+
+# 		println("Test results for checking whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`: ",
+# 			@test typeof(get_geneticstudydata(filename)) == GeneticStudyData)
 
 
-BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
+# 	end
+
+# end
+
+
+
+
+# #########################
+# # Test: BigRiverQTLData #
+# #########################
+
+# data_dir = joinpath(@__DIR__, "data/BXD/");
+# file = joinpath(data_dir, "bxd.json");
+
+
+# BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
 
