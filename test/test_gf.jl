@@ -25,7 +25,7 @@ jsondict = BigRiverQTL.parse_json(file)
 
 	# load file 
 	
-	CSV.read(phenofile, DataFrame; comment="#")
+	df_pheno = CSV.read(phenofile, DataFrame; comment="#")
 
 	df_pheno = 	BigRiverQTL.read_data(
 		phenofile; 

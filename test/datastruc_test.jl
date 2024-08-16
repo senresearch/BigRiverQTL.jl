@@ -27,16 +27,6 @@ data_dir = joinpath(@__DIR__, "data/BXD/");
 file = joinpath(data_dir, "bxd.json");
 
 
-# data_dir, filename = BigRiverQTL.get_control_file(file)
-
-
-
-
-
-
-# Transforming data to a optimised and accessible data type
-# data = get_geneticstudydata(file);
-
 #########################
 # Testing the Gmap type #
 #########################
@@ -45,6 +35,7 @@ file = joinpath(data_dir, "bxd.json");
 	@test all(isa.(gmap.pos, Vector{Float64}))
 end
 
+
 ##############################
 # Testing the CrossType type #
 ##############################
@@ -52,6 +43,7 @@ end
 	cross_type = get_crosstype(file)
 	@test isa(cross_type.type, String)
 end
+
 
 ############################
 # Testing the Alleles type #
@@ -62,6 +54,7 @@ end
 	@test all(isa.(alleles.val, String))
 end
 
+
 #############################
 # Testing the GenoType type #
 #############################
@@ -71,6 +64,7 @@ end
 	@test genotype_dict.label["D"] == 2
 end
 
+
 ##################################
 # Testing the GenoTranspose type #
 ##################################
@@ -78,6 +72,7 @@ end
 	geno_transpose = get_genotranspose(file)
 	@test geno_transpose.val == true
 end
+
 
 #########################
 # Testing the Geno type #
@@ -87,6 +82,7 @@ end
 	@test length(geno.sample_id) == 198
 	@test size(geno.val[1]) == (636, 198)
 end
+
 
 #########################
 # Testing the Pmap type #
@@ -139,40 +135,21 @@ end
 end
 
 
-############################
+#############################
 # Testing the IsFemale type #
-############################
-# @testset "IsFemale Tests" begin
-# 	isfemale = get_isfemale(file)
-# 	@test length(isxchar.chr) == 20
-# 	@test isxchar.val[20] == true
-# end
+#############################
+@testset "IsFemale Tests" begin
+	isfemale = get_isfemale(file)
+	@test length(isfemale.sample_id) == 198
+	@test isfemale.val[1] == true
+end
 
 
-
-
-# # Checks whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`
-# function BigRiverQTLData_struct_test(filename::String, testname::String)
-# 	@testset "BigRiverQTLData_struct_test" begin
-
-# 		println("Test results for checking whether the output of `get_geneticstudydata` function is of type `GeneticStudyData`: ",
-# 			@test typeof(get_geneticstudydata(filename)) == GeneticStudyData)
-
-
-# 	end
-
-# end
-
-
-
-
-# #########################
-# # Test: BigRiverQTLData #
-# #########################
-
-# data_dir = joinpath(@__DIR__, "data/BXD/");
-# file = joinpath(data_dir, "bxd.json");
-
-
-# BigRiverQTLData_struct_test(file, "get_bigriverqtldata")
+#####################################
+# Testing the GeneticStudyData type #
+#####################################
+@testset "GeneticStudyData Test" begin
+	geneticstudydata = get_geneticstudydata(file)
+	@test isa(geneticstudydata, GeneticStudyData)
+end
 
