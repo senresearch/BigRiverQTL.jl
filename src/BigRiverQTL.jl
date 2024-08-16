@@ -7,6 +7,7 @@ module BigRiverQTL
 
     using Reexport
     @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
+    @reexport import BulkLMM: scan
 
 
     ########

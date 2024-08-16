@@ -15,6 +15,7 @@ geno = reduce(vcat, data.geno.val);
 geno_processed = geno .- 1.0
 replace!(geno_processed, missing => 0.5);
 geno_processed = convert(Matrix{Float64}, geno_processed);
+geno_processed = permutedims(geno_processed);
 
 #################
 # Preprocessing #
@@ -35,7 +36,7 @@ kinship = kinship_gs(geno_processed, 0.99);
 # Scan #
 ########
 
-single_results_perms = scan(
+single_results_perms = BigRiverQTL.BulkLMM.scan(
 	pheno_y2,
 	geno_processed,
 	kinship;
