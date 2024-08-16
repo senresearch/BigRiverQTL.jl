@@ -133,11 +133,11 @@ end
 
 """
 `IsXChar` type indicates which chromosome is the X one.
-* `chromosomes` contains chromosome names.
+* `chr` contains chromosome names.
 * `val` is a vector of boolean values indicating which chromosome is the X one.
 """
 struct IsXChar
-	chromosomes::Vector{AbstractString}
+	chr::Vector{AbstractString}
 	val::Vector{Bool}
 end
 

@@ -11,8 +11,10 @@ gInfo = data.gmap;
 pInfo = data.phenocov;
 # pheno=data.pheno;
 pheno = data.pheno.val;
-geno = reduce(hcat, data.geno.val);
-geno_processed = convert(Array{Float64}, geno);
+geno = reduce(vcat, data.geno.val);
+geno_processed = geno .- 1.0
+replace!(geno_processed, missing => 0.5);
+geno_processed = convert(Matrix{Float64}, geno_processed);
 
 #################
 # Preprocessing #
@@ -20,8 +22,8 @@ geno_processed = convert(Array{Float64}, geno);
 traitID = 1112;
 pheno_y = pheno[:, traitID];
 pheno_y2 = ones(length(pheno_y));
-idx_nothing = findall(x -> x != nothing, pheno_y)
-pheno_y2[idx_nothing] = pheno_y[idx_nothing];
+idx_not_missing = findall(!ismissing, pheno_y)
+pheno_y2[idx_not_missing] = pheno_y[idx_not_missing];
 
 ###########
 # Kinship #

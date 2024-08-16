@@ -426,11 +426,12 @@ function get_crossinfo(filename::String)
 	jsondict = parse_json(filename)
 	
 	# get crossdirection file
-	crossdirectionfile = joinpath(data_dir, check_key(jsondict, "crossdirection"))
+	crossinfo_dict = check_key(jsondict, "cross_info")
+	crossinfofile = joinpath(data_dir, crossinfo_dict["file"])
 	
 	# load crossdirection file   
 	df_crossdirection = read_data(
-		crossdirectionfile;
+		crossinfofile;
 		delim = check_key(jsondict, "sep"),
 		comment = check_key(jsondict, "comment.char")
 	)
@@ -465,11 +466,8 @@ function get_isxchar(filename::String)
 	# load control file   
 	jsondict = parse_json(filename)
 
-	# get gmap file
-	gmapfile = joinpath(data_dir, check_key(jsondict, "gmap"))
-
 	# load gmap
-	gmap = get_gmap(gmapfile)
+	gmap = get_gmap(filename)
 
 	# isXchar
 	isxchar = map(x -> x == "X", gmap.chr)
@@ -503,7 +501,7 @@ function get_isfemale(filename::String)
 	# make type
 
 	# samples
-	samples = get_crossinfo(crossinfofile).sample_id
+	samples = get_crossinfo(filename).sample_id
 
 	# isfemale
 
@@ -534,65 +532,34 @@ function get_geneticstudydata(filename::String)
 	data_dir, filename = get_control_file(filename)
 
 	# load file   
-	jsondict = BigRiverQTL.parse_json(filename)
+	jsondict = parse_json(filename)
 
-	# make type
+	# gmap
+	gmap = get_gmap(filename)
 
-	#gmap
-
-	gmap = get_gmap(gmapfile)
-
-	#geno
-	if (in("geno", keys(jsondict)))
-		genofile = joinpath(data_dir, jsondict["geno"])
-
-	else
-		throw("Error: geno not found in control file")
-	end
-
+	# geno
 	geno = get_geno(filename)
-
-	#pmap
-	if (in("pmap", keys(jsondict)))
-		pmapfile = joinpath(data_dir, jsondict["pmap"])
-
-	else
-		throw("Error: pmap not found in control file")
-	end
-
-	pmap = get_pmap(pmapfile)
+	
+	# pmap
+	pmap = get_pmap(filename)
 
 	#pheno
-	if (in("pheno", keys(jsondict)))
-		phenofile = joinpath(data_dir, jsondict["pheno"])
-
-	else
-		throw("Error: pheno not found in control file")
-	end
-
-	pheno = get_pheno(phenofile)
+	pheno = get_pheno(filename)
 
 	#phenocov
-	if (in("phenocovar", keys(jsondict)))
-		phenocovfile = joinpath(data_dir, jsondict["phenocovar"])
-
-	else
-		throw("Error: phenocovar not found in control file")
-	end
-
-	phenocov = get_phenocovar(phenocovfile)
+	phenocov = get_phenocovar(filename)
 
 	#isXchar
-	isXchar = get_isxchar(gmapfile)
+	isXchar = get_isxchar(filename)
 
 	#isfemale
 	isfemale = get_isfemale(filename)
 
 	#crossinfo
-	crossinfofile = joinpath(data_dir, jsondict["cross_info"]["file"])
-	crossinfo = get_crossinfo(crossinfofile)
+	crossinfo = get_crossinfo(filename)
 
-	return GeneticStudyData(gmap,
+	return GeneticStudyData(
+		gmap,
 		geno,
 		pmap,
 		pheno,
