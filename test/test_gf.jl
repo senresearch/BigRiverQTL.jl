@@ -7,6 +7,7 @@ using Test
 using DelimitedFiles
 using CSV
 using DataFrames
+using Plots
 
 
 
