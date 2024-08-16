@@ -56,7 +56,7 @@ module BigRiverQTL
     #############
     include("struct/datastructure.jl")
     export Gmap, Alleles, CrossType, GenoType, GenoTranspose, Geno, Pmap
-    export Pheno, Phenocov, IsFemale, IsXChar, CrossInfo
+    export Pheno, Phenocov, IsFemale, IsXChar, CrossInfo, Covar
     export GeneticStudyData
 
     ######
@@ -68,7 +68,7 @@ module BigRiverQTL
     export get_geneticstudydata
     export get_gmap, get_alleles, get_chromosome, get_crossinfo, get_crosstype 
     export get_geno, get_genotype, get_genotranspose, get_pmap
-    export get_phenocovar, get_pheno, get_isxchar
+    export get_phenocovar, get_pheno, get_isxchar, get_covar, get_isfemale
     
     #########
     # Plots #

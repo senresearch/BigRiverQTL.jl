@@ -121,6 +121,16 @@ end
 
 
 """
+`Covar` type contains a dataframe comprising covariates.
+* `val` contains covariates dataframe.
+"""
+struct Covar
+	val::Union{Missing, DataFrame}
+end
+
+
+
+"""
 IsFemale type indicates if the sample_id (genotypes or individuals) are females.
 * `sample_id` contains sample names such as genotypes or individual IDs.
 * `val` is a vector containing boolean values indicating if each sample (genotype or individual) is a female.
@@ -166,4 +176,5 @@ struct GeneticStudyData
 	isXchar::IsXChar
 	isfemale::IsFemale
 	crossinfo::CrossInfo
+	covar::Covar
 end

@@ -177,7 +177,9 @@ function check_key(control_dict::Dict, s::String)
 	if (in(s, keys(control_dict)))
 		val = control_dict[s]
 	else
-		throw("Error: $(s) not found in control file")
+		@warn "Error: $(s) not found in control file"
+		val = missing
+		# throw("Error: $(s) not found in control file")
 	end
 	
 	return val
