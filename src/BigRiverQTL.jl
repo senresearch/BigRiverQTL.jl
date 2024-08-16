@@ -7,6 +7,7 @@ module BigRiverQTL
 
     using Reexport
     @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
+    @reexport import BulkLMM: scan
 
 
     ########
@@ -54,15 +55,20 @@ module BigRiverQTL
     # Structure #
     #############
     include("struct/datastructure.jl")
-    export Gmap, Alleles, CrossType, GenoType, GenoTranspose,Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar,  CrossInfo
+    export Gmap, Alleles, CrossType, GenoType, GenoTranspose, Geno, Pmap
+    export Pheno, Phenocov, IsFemale, IsXChar, CrossInfo
     export GeneticStudyData
 
     ######
     # IO #
     ######
     include("io/io_utils.jl")
+    export get_control_file, encode_genotype
     include("io/export_to_type.jl")
     export get_geneticstudydata
+    export get_gmap, get_alleles, get_chromosome, get_crossinfo, get_crosstype 
+    export get_geno, get_genotype, get_genotranspose, get_pmap
+    export get_phenocovar, get_pheno, get_isxchar
     
     #########
     # Plots #
@@ -75,7 +81,6 @@ module BigRiverQTL
 
     include("plots/plots_manhattan.jl")
     export plot_manhattan
-
 
     include("plots/plots_eqtl.jl")
     export plot_eQTL 

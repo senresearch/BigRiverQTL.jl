@@ -7,8 +7,8 @@
 * `pos` is a vector of vector  containing relative position of marker_name in each chromosome.
 """
 struct Gmap
-	chr::Vector{String}
-	marker_name::Vector{Vector{String}}
+	chr::Vector{AbstractString}
+	marker_name::Vector{Vector{AbstractString}}
 	pos::Vector{Vector{Float64}}
 end
 
@@ -18,7 +18,7 @@ end
 * `type` is a string indicating the type of the cross.
 """
 struct CrossType
-	type::String
+	type::AbstractString
 end
 
 
@@ -28,8 +28,8 @@ end
 * `direction` is a vector containing the cross direction of sample_id.
 """
 struct CrossInfo
-	sample_id::Vector{String}
-	direction::Vector{Integer}
+	sample_id::Vector{AbstractString}
+	direction::Vector{AbstractString}
 end
 
 
@@ -38,7 +38,7 @@ end
 * `val` is a vector containing the names of the alleles.
 """
 struct Alleles
-	val::Vector{String}
+	val::Vector{AbstractString}
 end
 
 
@@ -64,15 +64,15 @@ end
 `Geno` type contains genotype information for all chromosomes.
 
 * `sample_id` contains sample names such as genotypes or individual IDs.
-* `chromosomes` contains chromosome names.
+* `chr` contains chromosome names.
 * `marker_name` contains marker names for each chromosome.
 * `val` is a vector of matrices containing allele information in each chromosome.
 """
 struct Geno
-	sample_id::Vector{String}
-	chromosomes::Vector{String}
-	marker_name::Vector{Vector{String}}
-	val::Vector{Matrix{Int16}}
+	sample_id::Vector{AbstractString}
+	chr::Vector{AbstractString}
+	marker_name::Vector{Vector{AbstractString}}
+	val::Vector{Matrix{Union{Missing, Int16}}}
 	cross_type::CrossType
 	alleles::Alleles
 	geno_type::GenoType
@@ -82,44 +82,17 @@ end
 
 
 """
-`Chromosome` type contains genotype information for a chromosome.
-
-* `name` contains name of the chromosome.
-* `marker_name` contains names of marker_name in the chromosome.
-* `val` is a vector of matrices containing allele information in the chromosome.
-"""
-struct Chromosome
-	name::String
-	marker_name::Vector{String}
-	val::Matrix{Int}
-end
-
-
-"""
-`Geno2` type contains genotype information for all chromosomes.
-
-* `sample_id` contains sample names such as genotypes or individual IDs.
-* `chromosomes` is a vector of type `Chromosome` containing genotype informaton for each chromosome.
-
-"""
-struct Geno2
-	sample_id::Vector{String}
-	chromosomes::Vector{Chromosome}
-end
-
-
-"""
  `Pmap` type contains the genetic map showing the relative location of genetic marker_name as phenotype.
-* `chromosomes` contains chromosomes names.
+* `chr` contains chromosomes names.
 * `marker_name` contains marker  names for each chromosome.
 * `pos` is a vector of vector containing relative position of marker_name as phenotypes in each chromosome.
 * `unit` contains unit for the chromosome length.
 """
 struct Pmap
-	chromosomes::Vector{String}
-	marker_name::Vector{Vector{String}}
+	chr::Vector{AbstractString}
+	marker_name::Vector{Vector{AbstractString}}
 	pos::Vector{Vector{Float64}}
-	unit::String
+	unit::AbstractString
 end
 
 
@@ -130,9 +103,9 @@ end
 *  `val` is a matrix containing phenotype/ traits values.
 """
 struct Pheno
-	sample_id::Vector{String}
-	traits::Vector{String}
-	val::Matrix{Union{Nothing, Float64}}
+	sample_id::Vector{AbstractString}
+	traits::Vector{AbstractString}
+	val::Matrix{Union{Missing, Float64}}
 end
 
 
@@ -142,8 +115,8 @@ end
 * `descriptions` is a vector containing the description for each phenotype.
 """
 struct Phenocov
-	traits::Vector{String}
-	descriptions::Vector{String}
+	traits::Vector{AbstractString}
+	descriptions::Vector{AbstractString}
 end
 
 
@@ -153,18 +126,18 @@ IsFemale type indicates if the sample_id (genotypes or individuals) are females.
 * `val` is a vector containing boolean values indicating if each sample (genotype or individual) is a female.
 """
 struct IsFemale
-	sample_id::Vector{String}
+	sample_id::Vector{AbstractString}
 	val::Vector{Bool}
 end
 
 
 """
 `IsXChar` type indicates which chromosome is the X one.
-* `chromosomes` contains chromosome names.
+* `chr` contains chromosome names.
 * `val` is a vector of boolean values indicating which chromosome is the X one.
 """
 struct IsXChar
-	chromosomes::Vector{String}
+	chr::Vector{AbstractString}
 	val::Vector{Bool}
 end
 
@@ -193,5 +166,4 @@ struct GeneticStudyData
 	isXchar::IsXChar
 	isfemale::IsFemale
 	crossinfo::CrossInfo
-
 end
