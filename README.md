@@ -1,5 +1,5 @@
-[![CI](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml/badge.svg?branch=testing)](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/senresearch/BigRiverQTL.jl/branch/testing/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/BigRiverQTL.jl)
+[![CI](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/senresearch/BigRiverQTL.jl/branch/main/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/BigRiverQTL.jl)
 [![Pkg Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
