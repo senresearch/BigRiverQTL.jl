@@ -217,7 +217,7 @@ function get_geno(filename::String)
 		# get samples names
 		samples = names(df_geno)[2:end]
 		# get values 
-		mat_geno = df_geno[:, 2:end] |> x -> Matrix(x)
+		mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) 
 		# get markers names
 		marker = df_geno.marker
 	else
@@ -251,7 +251,7 @@ function get_geno(filename::String)
 		on = :marker,
 	) |> x -> groupby(x, :chr)
 
-	val = [Matrix(select(group, Not(:marker, :chr))) for group in gdf]
+	val = [permutedims(Matrix(select(group, Not(:marker, :chr)))) for group in gdf]
 
     # marker
 	marker = [String.(group.marker) for group in gdf]
