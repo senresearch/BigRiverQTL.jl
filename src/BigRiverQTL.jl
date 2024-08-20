@@ -62,7 +62,7 @@ module BigRiverQTL
     ######
     # IO #
     ######
-    include("io/io_utils.jl")
+    include("io/io_helpers.jl")
     export get_control_file, encode_genotype
     include("io/export_to_type.jl")
     export get_geneticstudydata
@@ -73,7 +73,7 @@ module BigRiverQTL
     #########
     # Plots #
     #########
-    include("plots/plots_utils.jl")
+    include("plots/plots_helpers.jl")
     export gmap2df, pmap2df
 
     include("plots/plots_qtl.jl")
