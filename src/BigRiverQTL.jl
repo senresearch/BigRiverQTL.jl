@@ -90,6 +90,6 @@ module BigRiverQTL
     # Utils #
     #########
     include("utils/wrangling_utils.jl")
-    export get_geno_completecases, summary_missing
+    export get_geno_completecases, summary_missing, select_sample, select_marker
     
 end

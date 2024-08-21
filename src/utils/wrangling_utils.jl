@@ -1,4 +1,166 @@
 
+"""
+    select_sample(geno_selection::Geno, markers_selection:: Union{Vector{String}, InvertedIndex{Vector{String}}}) -> Geno
+
+Select and return a subset of genetic samples from a `Geno` object based on specified samples names or their indices.
+
+# Arguments
+- `geno_selection`: A `Geno` type or struct that contains genetic data.
+- `samples_selection`: A vector of samples names or an inverted index of samples names 
+    to be selected from the `geno_selection`. The selection is applied to the samples names in the `Geno` object.
+
+# Returns
+- `Geno`: A new `Geno` object that contains only the selected samples, their corresponding genetic information, 
+and the subset of the original genotypes related to these samples.
+
+"""
+function select_sample(geno_selection::Geno, sample_selection:: Union{Vector{String}, InvertedIndex{Vector{String}}})
+
+	geno = deepcopy(geno_selection)
+
+	# get geno values
+	mat_geno = reduce(hcat, geno.val)
+
+	# build dataframe
+	df_geno = DataFrame(
+		mat_geno,
+		reduce(vcat, geno.marker_name),
+	)
+	insertcols!(df_geno, 1, :samples => geno.sample_id)
+
+	# permute dataframe to fit Geno type/struct
+	df_geno = permutedims(df_geno, 1, "marker")
+
+    # selection
+    if (typeof(sample_selection) <: InvertedIndex{Vector{String}})
+	    select!(df_geno, sample_selection);
+    else
+        select!(df_geno, vcat(["marker"], sample_selection));
+    end
+
+	# get samples names
+	samples = names(df_geno)[2:end]
+
+	# get df_gmap: chromosomes-markers
+	chr = deepcopy(geno.marker_name)
+	for i in eachindex(geno.chr)
+		chr[i][:] .= geno.chr[i]
+	end
+
+	df_gmap = DataFrame(
+		chr = reduce(vcat, chr),
+		marker = reduce(vcat, geno.marker_name),
+	)
+
+	# get data per chromosome
+	gdf = innerjoin(
+		df_gmap,
+		df_geno,
+		on = :marker,
+	) |> x -> groupby(x, :chr)
+
+
+	# permute back such rows are samples and columns ar markers
+	val = [permutedims(Matrix(select(group, Not(:marker, :chr)))) for group in gdf]
+
+	# marker
+	marker = [String.(group.marker) for group in gdf]
+
+	return Geno(
+		samples,
+		geno.chr,
+		marker,
+		val,
+		geno.cross_type,
+		geno.alleles,
+		geno.geno_type,
+		geno.geno_transpose,
+	)
+end
+
+
+"""
+    select_marker(geno_selection::Geno, markers_selection:: Union{Vector{String}, InvertedIndex{Vector{String}}}) -> Geno
+
+Select and return a subset of genetic markers from a `Geno` object based on specified marker names or their indices.
+
+# Arguments
+- `geno_selection`: A `Geno` type or struct that contains genetic data.
+- `markers_selection`: A vector of marker names or an inverted index of marker names 
+    to be selected from the `geno_selection`. The selection is applied to the marker names in the `Geno` object.
+
+# Returns
+- `Geno`: A new `Geno` object that contains only the selected markers, their corresponding genetic information, 
+and the subset of the original genotypes related to these markers.
+
+"""
+function select_marker(geno_selection::Geno, marker_selection:: Union{Vector{String}, InvertedIndex{Vector{String}}})
+
+	geno = deepcopy(geno_selection)
+
+	# get geno values
+	mat_geno = reduce(hcat, geno.val)
+
+	# build dataframe
+	df_geno = DataFrame(
+		mat_geno,
+		reduce(vcat, geno.marker_name),
+	)
+	insertcols!(df_geno, 1, :samples => geno.sample_id)
+
+    # selection
+    if (typeof(marker_selection) <: InvertedIndex{Vector{String}})
+	    select!(df_geno, marker_selection);
+    else
+        select!(df_geno, vcat(["samples"], marker_selection));
+    end
+
+	# permute dataframe to fit Geno type/struct
+	df_geno = permutedims(df_geno, 1, "marker")
+
+	# get samples names
+	samples = names(df_geno)[2:end]
+
+	# get df_gmap: chromosomes-markers
+	chr = deepcopy(geno.marker_name)
+	for i in eachindex(geno.chr)
+		chr[i][:] .= geno.chr[i]
+	end
+
+	df_gmap = DataFrame(
+		chr = reduce(vcat, chr),
+		marker = reduce(vcat, geno.marker_name),
+	)
+
+	# get data per chromosome
+	gdf = innerjoin(
+		df_gmap,
+		df_geno,
+		on = :marker,
+	) |> x -> groupby(x, :chr)
+
+
+	# permute back such rows are samples and columns ar markers
+	val = [permutedims(Matrix(select(group, Not(:marker, :chr)))) for group in gdf]
+
+	# marker
+	marker = [String.(group.marker) for group in gdf]
+
+    # chromosome
+	chr = [group.chr[1] for group in gdf]
+
+	return Geno(
+		samples,
+		chr,
+		marker,
+		val,
+		geno.cross_type,
+		geno.alleles,
+		geno.geno_type,
+		geno.geno_transpose,
+	)
+end
+
 
 """
     get_geno_completecases(geno_missing::Geno) -> Geno
@@ -89,9 +251,12 @@ function get_geno_completecases(geno_missing::Geno)
 	# marker
 	marker = [String.(group.marker) for group in gdf]
 
+    # chromosome
+	chr = [group.chr[1] for group in gdf]
+
 	return Geno(
 		samples,
-		geno.chr,
+		chr,
 		marker,
 		val,
 		geno.cross_type,
