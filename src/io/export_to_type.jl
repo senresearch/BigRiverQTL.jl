@@ -213,21 +213,34 @@ function get_geno(filename::String)
 	)
 
 	# check if geno data are transposed
-	if jsondict["geno_transposed"]
-		# get samples names
-		samples = names(df_geno)[2:end]
-		# get values 
-		mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) 
-		# get markers names
-		marker = df_geno.marker
-	else
-		# get samples names
-		samples = df_geno[:, 1]
-		# get values
-		mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) |> permutedims
-		# get markers names
-		marker = names(df_geno)[2:end]
+	if !jsondict["geno_transposed"]
+		# permutedims
+		df_geno = permutedims(df_geno, 1, "marker")
 	end
+
+	# get samples names
+	samples = names(df_geno)[2:end]
+	# get values 
+	mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) 
+	# get markers names
+	marker = df_geno[:, 1]
+
+	# # check if geno data are transposed
+	# if jsondict["geno_transposed"]
+	# 	# get samples names
+	# 	samples = names(df_geno)[2:end]
+	# 	# get values 
+	# 	mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) 
+	# 	# get markers names
+	# 	marker = df_geno.marker
+	# else
+	# 	# get samples names
+	# 	samples = df_geno[:, 1]
+	# 	# get values
+	# 	mat_geno = df_geno[:, 2:end] |> x -> Matrix(x) |> permutedims
+	# 	# get markers names
+	# 	marker = names(df_geno)[2:end]
+	# end
 
 	# get chromosomes names
 	chr = gmap.chr
