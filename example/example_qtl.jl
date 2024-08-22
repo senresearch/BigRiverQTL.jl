@@ -6,7 +6,7 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.16.2
+#       jupytext_version: 1.16.4
 #   kernelspec:
 #     display_name: Julia 1.10.4
 #     language: julia
@@ -62,7 +62,11 @@ pheno = data.pheno.val;
 # We can get the genotype matrix using the following command:
 geno = reduce(hcat, data.geno.val);
 # For computing reasons, we need to convert the geno matrix in Float64
-geno_processed = convert(Array{Float64}, geno);
+geno_processed = geno .- 1.0 |>
+    x -> replace(x, missing => 0.5) |>
+
+# geno_processed = convert(Matrix{Float64}, geno_processed);
+
 # -
 
 # #### Preprocessing

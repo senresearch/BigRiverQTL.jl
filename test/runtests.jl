@@ -5,7 +5,7 @@
 using BigRiverQTL, LinearAlgebra
 using Statistics
 using Test
-using DelimitedFiles, Plots
+using DelimitedFiles, DataFrames, Plots
 
 ########
 # Test #

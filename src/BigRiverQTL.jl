@@ -62,8 +62,9 @@ module BigRiverQTL
     ######
     # IO #
     ######
-    include("io/io_utils.jl")
+    include("io/io_helpers.jl")
     export get_control_file, encode_genotype
+
     include("io/export_to_type.jl")
     export get_geneticstudydata
     export get_gmap, get_alleles, get_chromosome, get_crossinfo, get_crosstype 
@@ -73,7 +74,7 @@ module BigRiverQTL
     #########
     # Plots #
     #########
-    include("plots/plots_utils.jl")
+    include("plots/plots_helpers.jl")
     export gmap2df, pmap2df
 
     include("plots/plots_qtl.jl")
@@ -85,4 +86,10 @@ module BigRiverQTL
     include("plots/plots_eqtl.jl")
     export plot_eQTL 
 
+    #########
+    # Utils #
+    #########
+    include("utils/wrangling_utils.jl")
+    export get_geno_completecases, summary_missing, select_sample, select_marker
+    
 end

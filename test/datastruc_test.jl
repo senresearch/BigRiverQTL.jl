@@ -80,7 +80,7 @@ end
 @testset "Geno Tests" begin
 	geno = get_geno(file)
 	@test length(geno.sample_id) == 198
-	@test size(geno.val[1]) == (636, 198)
+	@test size(geno.val[1]) == (198, 636)
 end
 
 
