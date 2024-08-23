@@ -10,7 +10,7 @@ Calculate kinship from the genotype probability array.
 
 # Arguments
 
-- `geno` is the genotype probability matrix for n individuals and p markers. 
+* `geno` is the genotype probability matrix for n individuals and p markers. 
 
 # Output
 
@@ -24,7 +24,7 @@ Calculate kinship from the genotype probability array.
 
 # Arguments
 
-- `geno` is the genotype probability matrix, n individuals and p markers, which 
+* `geno` is the genotype probability matrix, n individuals and p markers, which 
     contains `missing` values.
 
 # Output

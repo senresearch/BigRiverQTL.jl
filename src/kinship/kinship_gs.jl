@@ -6,9 +6,9 @@ Computes a kinship matrix using the Gaussian Kernel.
 
 # Arguments
 
-- `climate`: A matrix of genotype or climate information data. size(climate)=(m,r), such that `r` genotype markers (or days/years of climate factors,
+* `climate`: A matrix of genotype or climate information data. size(climate)=(m,r), such that `r` genotype markers (or days/years of climate factors,
             i.e. precipitations, temperatures, etc.), and `m` individuals (or environments/sites)
-- `ρ`: A free parameter determining the width of the kernel. It could be attained empirically.
+* `ρ`: A free parameter determining the width of the kernel. It could be attained empirically.
 
 # Output
 

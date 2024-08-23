@@ -68,8 +68,8 @@ end
 # Test selection #
 ##################
 
-# Test the `select_samples` function
-@testset "Testing select_samples function" begin
+# Test the `select_marker` function
+@testset "Testing select_marker function" begin
     geno_subset_1 = select_marker(test_geno, ["marker2", "marker5"]);
     geno_subset_2 = select_marker(test_geno, Not(["marker3"]));
     geno_subset_3 = select_marker(test_geno, ["marker2"]);
@@ -85,7 +85,7 @@ end
 
 
 # Test the `select_sample` function
-@testset "Testing select_samples function" begin
+@testset "Testing select_sample function" begin
     geno_subset_1 = select_sample(test_geno, ["sample1"]);
     geno_subset_2 = select_sample(test_geno, Not(["sample3"]));
 
@@ -93,5 +93,4 @@ end
     @test size(geno_subset_1.val[1], 1) == 1 # Check size of the geno matrix
     @test geno_subset_2.sample_id == ["sample1", "sample2"] # Check sample selection
     @test size(geno_subset_2.val[1], 1) == 2 # Check size of the geno matrix
-
 end

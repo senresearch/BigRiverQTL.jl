@@ -4,9 +4,9 @@ get_loco_geno(dfG::DataFrame; chromosome_colname::String = "Chr", idx_start::Int
 Returns a vector of genotype matrices based on the chromosome.
 
 # Arguments
-- `dfG` is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
-- `chromosome_colname` column name containing chromosome information
-- `idx_start` indicates the first column index containing the genotype values 
+* `dfG` is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
+* `chromosome_colname` column name containing chromosome information
+* `idx_start` indicates the first column index containing the genotype values 
 """
 function get_loco_geno(dfG::DataFrame;
 	chromosome_colname::String = "Chr",
@@ -34,9 +34,9 @@ get_loco_geno_info(dfG::DataFrame; chromosome_colname::String = "Chr", idx_info 
 Returns a vector of genotype information dataframes based on the chromosome.
 
 # Arguments
-- `dfG` is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
-- `chromosome_colname` column name containing chromosome information
-- `idx_info` indicates columns containing genotype information (e.g., Locus, Mb...) 
+* `dfG` is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
+* `chromosome_colname` column name containing chromosome information
+* `idx_info` indicates columns containing genotype information (e.g., Locus, Mb...) 
 """
 function get_loco_geno_info(dfG::DataFrame;
 	chromosome_colname = "Chr",
@@ -57,7 +57,7 @@ Calculates kinship matrices leaving out one chromosome out, and returns a vector
 of kinship matrices per chromosome.
 
 # Arguments
-- `G` is a vector of genotype matrices
+* `G` is a vector of genotype matrices
 """
 function calcLocoKinship(G::Vector{Matrix{Float64}})
 

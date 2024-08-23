@@ -5,7 +5,7 @@ Parses a JSON file to a dictionary with keys containing the names of CSV file fo
 
 # Argument
 
-- `file` : A string containing the name of the JSON file
+* `file` : A string containing the name of the JSON file
 
 # Output
 
@@ -26,7 +26,7 @@ Writes a CSV file to data frame excluding the comments lines.
 
 # Argument
 
-- `filename` : A string containing the name of the CSVfile
+* `filename` : A string containing the name of the CSVfile
 
 # Output
 
@@ -51,10 +51,10 @@ end
 Locate the control file and determine the directory where it resides.
 
 # Arguments
-- `filename::String`: A string representing either the path to a file or a directory.
+* `filename::String`: A string representing either the path to a file or a directory.
 
 # Returns
-- `(String, String)`: A tuple containing the directory of the control file and the path 
+* `(String, String)`: A tuple containing the directory of the control file and the path 
 to the control file. If the provided `filename` is a directory, the function will search 
 for JSON files within and return the path to the first JSON file found.
 
@@ -88,11 +88,11 @@ end
 Encode a matrix of genotype values using a dictionary of predefined mappings.
 
 # Arguments
-- `geno_dict::Dict{String, Any}`: A dictionary mapping genotype strings to integer codes.
-- `geno_val::AbstractArray`: An array of genotype strings to be encoded.
+* `geno_dict::Dict{String, Any}`: A dictionary mapping genotype strings to integer codes.
+* `geno_val::AbstractArray`: An array of genotype strings to be encoded.
 
 # Returns
-- `Matrix{Union{Missing, Int64}}` or `Matrix{Int64}`: A matrix of the same dimensions as 
+* `Matrix{Union{Missing, Int64}}` or `Matrix{Int64}`: A matrix of the same dimensions as 
 `geno_val` where each genotype string is replaced by its corresponding integer code. 
 Genotypes not found in `geno_dict` are encoded as `missing`.
 
@@ -156,11 +156,11 @@ end
 Check if a specified key exists in the given dictionary and return its corresponding value.
 
 # Arguments
-- `control_dict::Dict`: A dictionary from which the value associated with a key is to be retrieved.
-- `s::String`: The key for which the existence and value are checked within the dictionary.
+* `control_dict::Dict`: A dictionary from which the value associated with a key is to be retrieved.
+* `s::String`: The key for which the existence and value are checked within the dictionary.
 
 # Returns
-- `Any`: Returns the value associated with the key `s` in `control_dict` if it exists.
+* `Any`: Returns the value associated with the key `s` in `control_dict` if it exists.
 
 # Throws
 - Throws an error if the key `s` is not found in `control_dict`.
@@ -177,7 +177,7 @@ function check_key(control_dict::Dict, s::String)
 	if (in(s, keys(control_dict)))
 		val = control_dict[s]
 	else
-		@warn "Error: $(s) not found in control file"
+		@warn "$(s) file not found in control file"
 		val = missing
 		# throw("Error: $(s) not found in control file")
 	end

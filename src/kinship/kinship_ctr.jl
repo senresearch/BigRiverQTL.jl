@@ -6,7 +6,7 @@ Calculates a kinship by a centered genotype matrix (linear kernel), i.e. genotyp
 
 # Argument
 
-- `genmat` : A matrix of genotype data (0,1,2). size(genmat)=(n,p) for `n` individuals x `p` markers
+* `genmat` : A matrix of genotype data (0,1,2). size(genmat)=(n,p) for `n` individuals x `p` markers
 
 # Output
 
