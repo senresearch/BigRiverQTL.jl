@@ -36,7 +36,7 @@
 	###########
 	# Kinship #
 	###########
-	kinship = kinship_gs(geno_processed, 0.99);
+	kinship = kinship_gs(geno, 0.99);
 
 
 	########
@@ -45,7 +45,7 @@
 
 	single_results_perms = BigRiverQTL.scan(
 		pheno_y2,
-		geno_processed,
+		geno,
 		kinship;
 		permutation_test = true,
 		nperms = 1000,
