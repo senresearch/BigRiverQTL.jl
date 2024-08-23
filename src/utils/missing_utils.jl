@@ -103,6 +103,74 @@ function get_geno_completecases(geno_missing::Geno)
 	)
 end
 
+"""
+	get_geno_completecases(data_missing::GeneticStudyData) -> GeneticStudyData
+
+Identify and remove rows or columns from a data structure `GeneticStudyData` containing missing values in geno, 
+prioritizing those with the highest percentage of missing data.
+
+# Arguments
+* `data_missing`: A genetic study data structure containing possibly missing values.
+
+# Returns
+* `GeneticStudyData`: A new genetic study data structure with the same fields as the input, but where rows and columns 
+with missing data have been systematically removed until no missing data remains.
+
+# Description
+
+The core of the function involves iteratively identifying and removing rows or columns with the highest percentage of missing data
+in the geno object. This decision is based on whether the maximum percentage of missing data across rows exceeds that across
+columns. Rows or columns are removed until there are no missing values left in the matrix.
+
+After cleaning, the function reconstructs the `GeneticStudyData` data structure. 
+It ensures the data aligns with the expected format by adjusting the dimensions of the data, regrouping by chromosomes, 
+and ensuring marker and sample identifiers are correctly aligned.
+
+"""
+function get_data_completecases(data_missing::GeneticStudyData)
+	data = deepcopy(data_missing)
+
+    # get summary geno missing
+    tbl_missing = summary_missing(data.geno)
+    if (sum(tbl_missing[1].percentage) == 0) && (sum(tbl_missing[2].percentage) == 0)
+        @warn "No missiing data in Geno"
+        return data
+    end
+
+    # remove missing in geno
+    new_geno = get_geno_completecases(data.geno)
+
+    # get new gmap
+    new_gmap = subset_gmap(data.gmap, String.(reduce(vcat, new_geno.marker_name)));
+
+    # get new pmap
+    new_pmap = deepcopy(data.pmap);
+    
+    # get new pheno
+    new_pheno = subset_pheno(data.pheno, String.(new_geno.sample_id));
+
+    # get new isXchar
+    new_isXchar = subset_isXchar(data.isXchar, String.(reduce(vcat, new_gmap.chr)));
+
+    # get new isfemale
+    new_isfemale = subset_isfemale(data.isfemale, String.(new_geno.sample_id));
+
+    # get new covar
+    new_covar = subset_covar(data.covar, String.(new_geno.sample_id));
+
+	return GeneticStudyData(
+		new_gmap,
+		new_geno,
+		new_pmap,
+		new_pheno,
+		data.phenocov,
+		new_isXchar,
+		new_isfemale,
+		data.crossinfo,
+        new_covar
+	)
+end
+
 
 """
 	summary_missing(geno_missing::Geno; issorted::Bool = false) -> (missing_per_row::DataFrame, missing_per_col::DataFrame)

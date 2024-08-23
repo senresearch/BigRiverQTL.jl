@@ -140,7 +140,7 @@ function subset_gmap(
     if (typeof(subset_selection) <: InvertedIndex{Vector{String}})
         select!(df_gmap, subset_selection)
     else
-        select!(df_gmap, vcat(["trait"], subset_selection))
+        select!(df_gmap, vcat(["variables"], subset_selection))
     end
 
     # permute dataframe to fit Gmap type/struct
@@ -150,7 +150,7 @@ function subset_gmap(
 	gdf = groupby(df_gmap, :Chr)
 
 	# chromosome
-	chr = [group.chr[1] for group in gdf]
+	chr = [group.Chr[1] for group in gdf]
 
 	# marker
 	marker = [String.(group.Locus) for group in gdf]
@@ -203,7 +203,7 @@ function subset_pheno(
 
     return Pheno(
 		names(df_pheno)[2:end],
-		df_pheno.traits[:],
+		df_pheno.trait[:],
 		permutedims(Matrix(df_pheno[:, 2:end]))
 	)
 end
@@ -275,11 +275,16 @@ function subset_covar(
 	covar_selection::Covar,
 	subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}
 )
+    # check if covar is missing
+    if ismissing(covar_selection.val)
+        return Covar(covar_selection.val)
+    end
+
     covar = deepcopy(covar_selection)
   
 	# covar dataframe
 	df_covar = covar.val
-    
+
     # permute dataframe to fit Geno type/struct
 	df_covar = permutedims(df_covar, 1, "covariates")
 

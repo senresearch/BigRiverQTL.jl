@@ -6,14 +6,22 @@ file = joinpath(data_dir, "bxd.json");
 # Transforming data to a optimised and accessible data type
 data = get_geneticstudydata(file);
 
+# Remove the  missing data
+data = get_data_completecases(data);
+
 # Data types
+# makers info 
 gInfo = data.gmap;
+
+# phenotype info 
 pInfo = data.phenocov;
-# pheno=data.pheno;
+# phenotype values 
 pheno = data.pheno.val;
-geno = reduce(hcat, data.geno.val);
-geno_processed = geno .- 1.0 |>
-    x -> replace(x, missing => 0.5)
+
+# We can get the genotype matrix using the following command.
+# For computing reasons, we need to convert the geno matrix in Float64.
+# One way to do it is to multiply by 1.0
+geno = reduce(hcat, data.geno.val).*1.0;
 
 #################
 # Preprocessing #

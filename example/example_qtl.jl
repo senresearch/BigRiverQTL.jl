@@ -48,25 +48,25 @@ file = joinpath(data_dir, "bxd.json");
 data = get_geneticstudydata(file);
 
 
+# The current version of `BigRiverQTL` does not have imputation functions.
+# Remove the  missing data
+data = get_data_completecases(data);
+
 # +
 # Data types
 # gmap contains 
 # makers info 
 gInfo = data.gmap;
-# pehnotype info 
+
+# phenotype info 
 pInfo = data.phenocov;
 # phenotype values 
 pheno = data.pheno.val;
 
-
-# We can get the genotype matrix using the following command:
-geno = reduce(hcat, data.geno.val);
-# For computing reasons, we need to convert the geno matrix in Float64
-geno_processed = geno .- 1.0 |>
-    x -> replace(x, missing => 0.5) |>
-
-# geno_processed = convert(Matrix{Float64}, geno_processed);
-
+# We can get the genotype matrix using the following command.
+# For computing reasons, we need to convert the geno matrix in Float64.
+# One way to do it is to multiply by 1.0
+geno = reduce(hcat, data.geno.val).*1.0;
 # -
 
 # #### Preprocessing
@@ -76,16 +76,16 @@ geno_processed = geno .- 1.0 |>
 #################
 traitID = 1112;
 pheno_y = pheno[:, traitID];
-pheno_y2=ones(length(pheno_y));
-idx_nothing = findall(x->x!=nothing,pheno_y)
-pheno_y2[idx_nothing]=pheno_y[idx_nothing];
+pheno_y2 = ones(length(pheno_y));
+idx_not_missing = findall(!ismissing, pheno_y)
+pheno_y2[idx_not_missing] = pheno_y[idx_not_missing];
 
 # #### Kinship
 
 ###########
 # Kinship #
 ###########
-kinship = kinship_gs(geno_processed,.99);
+kinship = kinship_gs(geno,.99);
 
 # #### Scan
 
@@ -96,7 +96,7 @@ kinship = kinship_gs(geno_processed,.99);
 
 single_results_perms = scan(
 	pheno_y2,
-	geno_processed,
+	geno,
 	kinship;
 	permutation_test = true,
 	nperms = 1000,
@@ -114,8 +114,9 @@ single_results_perms = scan(
 
 # QTL plots
 plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
-
+savefig(joinpath(@__DIR__, "..", "images", "QTL_thrs_example.png"))
 # -
 
 # Manhattan plots
 plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
+savefig(joinpath(@__DIR__, "..", "images", "manhattan_thrs_example.png"))
