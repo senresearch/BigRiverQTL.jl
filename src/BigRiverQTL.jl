@@ -89,7 +89,9 @@ module BigRiverQTL
     #########
     # Utils #
     #########
-    include("utils/wrangling_utils.jl")
-    export get_geno_completecases, summary_missing, select_sample, select_marker
+    include("utils/subset_utils.jl")
+    export  select_sample, select_marker
     
+    include("utils/missing_utils.jl")
+    export get_geno_completecases, get_data_completecases, summary_missing
 end
