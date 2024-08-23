@@ -10,7 +10,7 @@ Note: In [R/qtl](https://cran.r-project.org/web/packages/qtl/qtl.pdf), genotypes
 
 # Argument
 
-- `genmat` : A matrix of genotypes for `four-way cross` ``(1,2, \\dots)``.
+* `genmat` : A matrix of genotypes for `four-way cross` ``(1,2, \\dots)``.
            size(genematrix)= (p,n), for `p` genetic markers x `n` individuals(or lines).
 
 # Output

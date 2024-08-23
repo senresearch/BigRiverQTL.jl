@@ -6,7 +6,7 @@ Creates a `Gmap` type/struct from gmap CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the gmap CSV file.
+* `filename` : A string containing the name(with directory) of the gmap CSV file.
 
 # Output
 
@@ -56,7 +56,7 @@ Creates a `CrossType` type/struct from  control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -85,7 +85,7 @@ Creates a `Alleles` type/struct from  control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -112,7 +112,7 @@ Creates a `GenoType` type/struct from  control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -144,7 +144,7 @@ Creates a `GenoTranspose` type/struct from  control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -175,7 +175,7 @@ Creates a `Geno` type/struct from gmap CSV file and geno CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 
 # Output
@@ -289,7 +289,7 @@ Creates a `Pmap` type/struct from Pmap CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the pmap CSV file.
+* `filename` : A string containing the name(with directory) of the pmap CSV file.
 
 # Output
 
@@ -354,7 +354,7 @@ Creates a `Pheno` type/struct from Pheno CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the pheno CSV file.
+* `filename` : A string containing the name(with directory) of the pheno CSV file.
 
 # Output
 
@@ -399,7 +399,7 @@ Creates a `Phenocovar` type/struct from phenocovar CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the phenocovar CSV file.
+* `filename` : A string containing the name(with directory) of the phenocovar CSV file.
 
 # Output
 
@@ -439,7 +439,7 @@ Creates a `Crossinfo` type/struct from crossinfo CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the crossinfo CSV file.
+* `filename` : A string containing the name(with directory) of the crossinfo CSV file.
 
 # Output
 
@@ -480,7 +480,7 @@ Creates a `IsXChar` type/struct from gmap CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the gmap CSV file.
+* `filename` : A string containing the name(with directory) of the gmap CSV file.
 
 # Output
 
@@ -510,7 +510,7 @@ Creates a `Covar` type/struct from gmap CSV file.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the gmap CSV file.
+* `filename` : A string containing the name(with directory) of the gmap CSV file.
 
 # Output
 
@@ -554,7 +554,7 @@ If control file does not stipulate sex information, we assume all female
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 
@@ -601,7 +601,7 @@ Creates a `GeneticStudyData` type/struct from  control file in json format.
 
 # Argument
 
-- `filename` : A string containing the name(with directory) of the control file in json format.
+* `filename` : A string containing the name(with directory) of the control file in json format.
 
 # Output
 

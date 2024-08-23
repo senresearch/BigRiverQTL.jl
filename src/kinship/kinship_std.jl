@@ -8,7 +8,7 @@ It can also do with climatic information data. See [`kinship_gs`](@ref).
 
 # Argument
 
-- `genmat` : A matrix of genotype data (0,1,2). size(genmat)=(n,p) for `n` individuals x `p` markers
+* `genmat` : A matrix of genotype data (0,1,2). size(genmat)=(n,p) for `n` individuals x `p` markers
 
 # Output
 

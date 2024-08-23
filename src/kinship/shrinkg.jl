@@ -7,9 +7,9 @@ This function runs faster by CPU parallelization.  Add workers/processes using `
 
 # Arguments
 
-- `f `: A function of computing a kinship. It can only be used with [`kinship_man`](@ref), [`kinship_4way`](@ref).
-- `nb` : An integer indicating the number of bootstraps. It does not have to be a large number.
-- `geno` : A matrix of genotypes. See [`kinship_man`](@ref), [`kinship_4way`](@ref) for dimension.
+* `f `: A function of computing a kinship. It can only be used with [`kinship_man`](@ref), [`kinship_4way`](@ref).
+* `nb` : An integer indicating the number of bootstraps. It does not have to be a large number.
+* `geno` : A matrix of genotypes. See [`kinship_man`](@ref), [`kinship_4way`](@ref) for dimension.
 
 # Example
 
