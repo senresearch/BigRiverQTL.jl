@@ -115,7 +115,7 @@ Create a subset of a genetic map (`Gmap`) based on specified markers.
 * `gmap_selection`: A genetic map from which a subset will be created. 
 It is assumed that `Gmap` is a custom type or struct representing genetic maps, 
 which might contain fields such as chromosome (Chr), marker (Locus), and position (Pos).
-* `subset_selection`: A list of marker or sample names to select, or an 
+* `subset_selection`: A list of marker names to select, or an 
 `InvertedIndex` for deselection.
 
 # Returns
@@ -162,6 +162,25 @@ function subset_gmap(
 end
 
 
+"""
+    subset_pheno(
+        pheno_selection::Pheno,
+        subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}
+    ) -> Pheno
+
+Filter and return a subset of a phenotype data structure based on specified criteria.
+
+# Arguments
+* `pheno_selection`: A `Pheno` object containing phenotype data.
+* `subset_selection`: This argument can either be a vector of strings specifying 
+the sample id to retain, or an `InvertedIndex` of a vector of strings 
+specifying the sample id to exclude.
+
+# Returns
+* A new `Pheno` object containing only the selected subset of traits and 
+corresponding samples.
+
+"""
 function subset_pheno(
 	pheno_selection::Pheno,
 	subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}
@@ -190,6 +209,23 @@ function subset_pheno(
 end
 
 
+"""
+    subset_isXchar(isXchar_selection::IsXChar, subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}) -> IsFemale
+
+Create a subset of an `IsXChar` selection based on specified columns and return an `IsFemale` object containing the subsetted data.
+
+# Arguments
+* `isXchar_selection`: An `IsXChar` object containing a data representation which 
+presumably includes values (`val`) and chromosome identifiers (`chr`).
+* `subset_selection`: This argument can either be a vector of strings specifying 
+the chromosomes to retain, or an `InvertedIndex` of a vector of strings 
+specifying the chromosomes to exclude.
+
+# Returns
+* A new `IsXChar` object constructed with the names of the subsetted dataframe 
+as chromosome identifiers and the first row of the subsetted dataframe as values.
+
+"""
 function subset_isXchar(
 	isXchar_selection::IsXChar,
 	subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}
@@ -206,7 +242,7 @@ function subset_isXchar(
     # selection
     select!(df_isxchar, subset_selection)
     
-    return IsFemale(
+    return IsXChar(
 		names(df_isxchar),
 		Vector(df_isxchar[1, :])
 	)
@@ -234,6 +270,7 @@ function subset_isfemale(
 	)
 end
 
+
 function subset_covar(
 	covar_selection::Covar,
 	subset_selection::Union{Vector{String}, InvertedIndex{Vector{String}}}
@@ -255,8 +292,6 @@ function subset_covar(
 
     return Covar(permutedims(df_covar, 1, "id"))
 end
-
-
 
 
 """
