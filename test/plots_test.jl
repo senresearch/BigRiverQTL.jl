@@ -1,8 +1,11 @@
+
+###########################
+# Test Plotting functions #
+###########################
 @testset "Testing plotting function" begin
 	########
 	data_dir = joinpath(@__DIR__, "data/BXD/");
 	file = joinpath(data_dir, "bxd.json");
-
 
 	# Transforming data to a optimised and accessible data type
 	data = get_geneticstudydata(file);
@@ -51,24 +54,26 @@
 		nperms = 1000,
 	);
 
-
 	#########
 	# Plots #
 	#########
 
-
 	# QTL plots
-	p1 = plot_QTL(single_results_perms, gInfo, mbColname = "Pos");
+	p1a = plot_QTL(single_results_perms, gInfo, mbColname = "Pos");
+	p1b = plot_QTL(single_results_perms.lod, gInfo, mbColname = "Pos");
 
 	# Manhattan plots
-	p2 = plot_manhattan(single_results_perms, gInfo, mbColname = "Pos");
+	p2a = plot_manhattan(single_results_perms, gInfo, mbColname = "Pos");
+	p2b = plot_manhattan(single_results_perms.lod, gInfo, mbColname = "Pos");
 
 	@testset "QTL plot Tests" begin
-		@test isa(p1[1][4], Plots.Series)
+		@test isa(p1a[1][4], Plots.Series)
+		@test isa(p1b[1][3], Plots.Series)
 	end
 
-	@testset "Mahattan plot Tests" begin
-		@test isa(p2[1][2], Plots.Series)
+	@testset "Manhattan plot Tests" begin
+		@test isa(p2a[1][2], Plots.Series)
+		@test isa(p2b[1][1], Plots.Series)
 	end
 
 end

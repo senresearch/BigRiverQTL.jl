@@ -13,6 +13,18 @@ using Plots
 
 data_dir = joinpath(@__DIR__, "data/BXD/");
 file = joinpath(data_dir, "bxd.json");
+
+# Transforming data to a optimised and accessible data type
+data = get_geneticstudydata(file);
+
+df_g = gmap2df(data.gmap);
+
+df_p1 = pmap2df(data.pmap);
+
+df_p2 = pmap2df(data.pmap);
+
+
+
 jsondict = BigRiverQTL.parse_json(file)
 
 # function get_geno(filename::String)
