@@ -158,7 +158,7 @@ function subset_gmap(
 	# relative position
 	pos = [group.Pos for group in gdf]
 
-	return Gmap(chr, marker, pos)
+	return Gmap(chr, marker, pos, gmap.unit)
 end
 
 

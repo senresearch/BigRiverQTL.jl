@@ -5,11 +5,13 @@
 * `chr` contains chromosomes names.
 * `marker_name` contains marker name's names for each chromosome.
 * `pos` is a vector of vector  containing relative position of marker_name in each chromosome.
+* `unit` contains unit for the chromosome length.
 """
 struct Gmap
 	chr::Vector{AbstractString}
 	marker_name::Vector{Vector{AbstractString}}
 	pos::Vector{Vector{Float64}}
+	unit::AbstractString
 end
 
 

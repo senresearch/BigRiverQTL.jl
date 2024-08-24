@@ -74,9 +74,6 @@ module BigRiverQTL
     #########
     # Plots #
     #########
-    include("plots/plots_helpers.jl")
-    export gmap2df, pmap2df
-
     include("plots/plots_qtl.jl")
     export plot_QTL 
 
@@ -89,6 +86,9 @@ module BigRiverQTL
     #########
     # Utils #
     #########
+    include("utils/convert_utils.jl")
+    export gmap2df, pmap2df
+
     include("utils/subset_utils.jl")
     export  select_sample, select_marker
     

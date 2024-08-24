@@ -1,3 +1,7 @@
+
+###########################
+# Test Plotting functions #
+###########################
 @testset "Testing plotting function" begin
 	########
 	data_dir = joinpath(@__DIR__, "data/BXD/");
@@ -51,11 +55,9 @@
 		nperms = 1000,
 	);
 
-
 	#########
 	# Plots #
 	#########
-
 
 	# QTL plots
 	p1 = plot_QTL(single_results_perms, gInfo, mbColname = "Pos");

@@ -1,3 +1,14 @@
+###############
+# Get dataset #
+###############
+
+# get path
+data_dir = joinpath(@__DIR__, "data/BXD/");
+file = joinpath(data_dir, "bxd.json");
+
+# Transforming data to a optimised and accessible data type
+data = get_geneticstudydata(file);
+
 
 ########################
 # Test encode_genotype #
@@ -64,9 +75,21 @@ end
 end
 
 
-##################
-# Test selection #
-##################
+# Test the `get_data_completecases` function
+@testset "Testing get_data_completecases function" begin
+    # Remove the  missing data
+    data_no_missing = get_data_completecases(data);
+    tbl_missing = summary_missing(data_no_missing.geno, issorted = true);
+
+    @test sum(tbl_missing[1].percentage) == 0 # Check no missing row wise
+    @test sum(tbl_missing[2].percentage) == 0 # Check no missing column wise
+    @test data_no_missing.geno.sample_id == data_no_missing.pheno.sample_id # Ensure samples align  with pheno
+    @test data_no_missing.geno.marker_name == data_no_missing.gmap.marker_name # Ensure loci align  with gmap
+end
+
+###############
+# Test subset #
+###############
 
 # Test the `select_marker` function
 @testset "Testing select_marker function" begin
@@ -93,4 +116,45 @@ end
     @test size(geno_subset_1.val[1], 1) == 1 # Check size of the geno matrix
     @test geno_subset_2.sample_id == ["sample1", "sample2"] # Check sample selection
     @test size(geno_subset_2.val[1], 1) == 2 # Check size of the geno matrix
+end
+
+
+
+###################
+# Test converting #
+###################
+
+test_gmap = Gmap(
+    ["1", "2"],
+    [["marker1", "marker2", "marker3"], 
+     ["marker4", "marker5", "marker6", "marker7"]],
+     [[1.58, 2.75, 3.59], 
+     [0.58, 3.67, 8.87, 12.03]],
+     "cM"
+);
+
+# Test the `gmap2df` function
+@testset "Testing gmap2df function" begin
+    df_g = gmap2df(test_gmap);
+    
+    @test isa(df_g, DataFrame) # Check type of output
+    @test size(df_g) == (7, 3) # Check size of the gmap dataframe
+end
+
+test_pmap = Pmap(
+    ["1", "2"],
+    [["marker1", "marker2", "marker3"], 
+     ["marker4", "marker5", "marker6", "marker7"]],
+     [[1.58, 2.75, 3.59], 
+     [0.58, 3.67, 8.87, 12.03]],
+     "cM"
+);
+
+
+# Test the `pmap2df` function
+@testset "Testing pmap2df function" begin
+    df_p = pmap2df(test_pmap);
+    
+    @test isa(df_p, DataFrame) # Check type of output
+    @test size(df_p) == (7, 3) # Check size of the gmap dataframe
 end

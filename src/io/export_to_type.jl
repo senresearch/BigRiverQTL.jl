@@ -43,7 +43,25 @@ function get_gmap(filename::String)
 	# relative position
 	pos = [group.pos for group in gdf]
 
-	return Gmap(chr, marker, pos)
+		# unit
+		unit = ""
+		f = open(gmapfile, "r")
+	
+		s = readline(f)
+		s_lower = lowercase(s)  # Convert the input string to lowercase
+		if occursin("mbp", s_lower)
+			unit = "Mbp"
+		elseif occursin("mb", s_lower)
+			unit = "Mb"
+		elseif occursin("cm", s_lower)
+			unit = "cM"
+		else
+			@warn "No unit detected!"
+		end
+	
+		close(f)
+
+	return Gmap(chr, marker, pos,  unit)
 end
 
 
