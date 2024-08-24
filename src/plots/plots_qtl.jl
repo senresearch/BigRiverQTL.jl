@@ -35,6 +35,7 @@ function plot_QTL(vLOD::Vector{<:AbstractFloat}, dfgInfo::Gmap; kwargs...)
     return plot_QTL(vLOD, gmap2df(dfgInfo); kwargs...)
 end
 
+
 function plot_QTL(scanresult::NamedTuple, dfgInfo::Gmap; kwargs...)
     return plot_QTL(scanresult, gmap2df(dfgInfo); kwargs...)
 end
