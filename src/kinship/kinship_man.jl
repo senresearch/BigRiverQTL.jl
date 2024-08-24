@@ -7,7 +7,7 @@ This function is for recombinant inbred line (RIL) (AA/BB), not for 4-way cross-
 
 # Argument
 
-- `genematrix` : A matrix of genotypes, i.e. 0,1 (or 1,2).  size(genematrix)= (p,n) for `p` genetic markers x `n` individuals(or lines).
+* `genematrix` : A matrix of genotypes, i.e. 0,1 (or 1,2).  size(genematrix)= (p,n) for `p` genetic markers x `n` individuals(or lines).
 
 
 # Output

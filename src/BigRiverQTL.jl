@@ -7,6 +7,7 @@ module BigRiverQTL
 
     using Reexport
     @reexport import BigRiverQTLPlots: plot_QTL, plot_eQTL, plot_manhattan
+    @reexport import BulkLMM: scan
 
 
     ########
@@ -54,30 +55,43 @@ module BigRiverQTL
     # Structure #
     #############
     include("struct/datastructure.jl")
-    export Gmap, Alleles, CrossType, GenoType, GenoTranspose,Geno, Pmap, Pheno, Phenocov, IsFemale, IsXChar,  CrossInfo
+    export Gmap, Alleles, CrossType, GenoType, GenoTranspose, Geno, Pmap
+    export Pheno, Phenocov, IsFemale, IsXChar, CrossInfo, Covar
     export GeneticStudyData
 
     ######
     # IO #
     ######
-    include("io/io_utils.jl")
+    include("io/io_helpers.jl")
+    export get_control_file, encode_genotype
+
     include("io/export_to_type.jl")
     export get_geneticstudydata
+    export get_gmap, get_alleles, get_chromosome, get_crossinfo, get_crosstype 
+    export get_geno, get_genotype, get_genotranspose, get_pmap
+    export get_phenocovar, get_pheno, get_isxchar, get_covar, get_isfemale
     
     #########
     # Plots #
     #########
-    include("plots/plots_utils.jl")
-    export gmap2df, pmap2df
-
     include("plots/plots_qtl.jl")
     export plot_QTL 
 
     include("plots/plots_manhattan.jl")
     export plot_manhattan
 
-
     include("plots/plots_eqtl.jl")
     export plot_eQTL 
 
+    #########
+    # Utils #
+    #########
+    include("utils/convert_utils.jl")
+    export gmap2df, pmap2df
+
+    include("utils/subset_utils.jl")
+    export  select_sample, select_marker
+    
+    include("utils/missing_utils.jl")
+    export get_geno_completecases, get_data_completecases, summary_missing
 end

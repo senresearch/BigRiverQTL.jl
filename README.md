@@ -1,5 +1,5 @@
-[![CI](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml/badge.svg?branch=testing)](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/senresearch/BigRiverQTL.jl/branch/testing/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/BigRiverQTL.jl)
+[![CI](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/senresearch/BigRiverQTL.jl/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/senresearch/BigRiverQTL.jl/branch/main/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/BigRiverQTL.jl)
 [![Pkg Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
@@ -7,11 +7,10 @@
 
 *A Statistical Toolbox for QTL Analysis*
 
-`BigRiverQTL.jl` is a user-friendly Julia package that supports
-efficient and interpretable quantitative trait locus (QTL)
-analysis. This comprehensive toolbox encompasses three core components
-tailored to streamline the entire QTL analysis workflow:
-preprocessing, genomic scanning, and result visualization.
+`BigRiverQTL.jl` is a package that makes it easier to perform
+quantitative trait locus (QTL) analysis in Julia.  It consists of
+three components streamline the QTL analysis workflow:
+preprocessing, genome scans, and visualization.
 
 - **Preprocessing:** The preprocessing functions are designed to
   seamlessly import and convert genomic data into an efficient and
@@ -19,19 +18,18 @@ preprocessing, genomic scanning, and result visualization.
   capabilities for quickly calculating kinship matrices, ensuring data
   readiness for subsequent analysis phases.
 
-- **Genomic Scanning:** `BigRiverQTL.jl` provides advanced genomic
-  scanning capabilities through `BulkLMM.jl` for swift single-trait
-  scans, which surpass other methods in terms of computational
-  speed. For analyses involving multiple traits, the package employs
-  `FlxQTL.jl`, a cutting-edge approach that detects complex trait
-  interrelations.
+- **Genome Scans:** We provide the capabilities to perform a large
+  number of univariate genome scans using
+  [`BulkLMM.jl`](https://github.com/senresearch/BulkLMM.jl). For
+  analyses involving multiple traits, we provide an interface to
+  [`FlxQTL.jl`](https://github.com/senresearch/FlxQTL.jl) to analyze
+  longitudinal traits and complex trait correlations.
 
-- **Result Visualization:** The third component of `BigRiverQTL.jl`
-  enriches the analytical experience by offering plotting tools
-  designed to illustrate the outcomes of genomic scans. The plotting
-  functions are useful for interpreting the results and aid in the
-  derivation of meaningful conclusions
-
+- **Visualization:** The third component of the package offers
+  plotting tools designed to visualize genome scans including eQTL
+  scans using the
+  [`BigRiverQTLPlots.jl`](https://github.com/senresearch/BigRiverQTLPlots.jl)
+  package.
 
 ## Installation
 
@@ -100,20 +98,27 @@ Load bxd data using the function `get_geneticstudydata()`:
 data = get_geneticstudydata(file);
 ```
 
+```julia
+# The current version of `BigRiverQTL` does not have imputation functions.
+# Remove the  missing data
+data = get_data_completecases(data);
+```
 
 ```julia
 # Data types
+# gmap contains 
 # makers info 
 gInfo = data.gmap;
-# pehnotype info 
+
+# phenotype info 
 pInfo = data.phenocov;
 # phenotype values 
 pheno = data.pheno.val;
 
-# We can get the genotype matrix using the following command:
-geno = reduce(hcat, data.geno.val);
-# For computing reasons, we need to convert the geno matrix in Float64
-geno_processed = convert(Array{Float64}, geno);
+# We can get the genotype matrix using the following command.
+# For computing reasons, we need to convert the geno matrix in Float64.
+# One way to do it is to multiply by 1.0
+geno = reduce(hcat, data.geno.val).*1.0;
 ```
 
 #### Preprocessing
@@ -125,9 +130,9 @@ geno_processed = convert(Array{Float64}, geno);
 #################
 traitID = 1112;
 pheno_y = pheno[:, traitID];
-pheno_y2=ones(length(pheno_y));
-idx_nothing = findall(x->x!=nothing,pheno_y)
-pheno_y2[idx_nothing]=pheno_y[idx_nothing];
+pheno_y2 = ones(length(pheno_y));
+idx_not_missing = findall(!ismissing, pheno_y)
+pheno_y2[idx_not_missing] = pheno_y[idx_not_missing];
 ```
 
 #### Kinship
@@ -137,7 +142,7 @@ pheno_y2[idx_nothing]=pheno_y[idx_nothing];
 ###########
 # Kinship #
 ###########
-kinship = kinship_gs(geno_processed,.99);
+kinship = kinship_gs(geno,.99);
 ```
 
 #### Scan
@@ -150,7 +155,7 @@ kinship = kinship_gs(geno_processed,.99);
 
 single_results_perms = scan(
 	pheno_y2,
-	geno_processed,
+	geno,
 	kinship;
 	permutation_test = true,
 	nperms = 1000,
@@ -171,10 +176,10 @@ single_results_perms = scan(
 plot_QTL(single_results_perms, gInfo, mbColname = "Pos")
 
 ```
-![image](images/QTL_example.png)
+![image](images/QTL_thrs_example.png)
 
 ```julia
 # Manhattan plots
 plot_manhattan(single_results_perms, gInfo, mbColname = "Pos")
 ```
-![image](images/manhattan_example.png)
+![image](images/manhattan_thrs_example.png)

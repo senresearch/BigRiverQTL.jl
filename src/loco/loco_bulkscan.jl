@@ -5,9 +5,9 @@ Single trait scan without covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `dfG`is is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.bulkscan()` function. For
+* `y`is the phenotype column matrix. 
+* `dfG`is is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.bulkscan()` function. For
 	example: 
 	- method::String = "null-grid", h2_grid::Array{Float64, 1} = collect(0.0:0.1:0.9),
 	- nb::Int64 = Threads.nthreads(), 
@@ -34,10 +34,10 @@ Single trait scan without covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `G`is vector of genotype matrices based on the chromosome.
-- `K` is a vector of kinship matrices.
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
+* `y`is the phenotype column matrix. 
+* `G`is vector of genotype matrices based on the chromosome.
+* `K` is a vector of kinship matrices.
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
 	example: 
 	- method::String = "null-grid", h2_grid::Array{Float64, 1} = collect(0.0:0.1:0.9),
 	- nb::Int64 = Threads.nthreads(), 
@@ -63,11 +63,11 @@ Single trait scan with covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `G`is vector of genotype matrices based on the chromosome.
-- `covar` is covariate column matrix.
-- `K` is a vector of kinship matrices.
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
+* `y`is the phenotype column matrix. 
+* `G`is vector of genotype matrices based on the chromosome.
+* `covar` is covariate column matrix.
+* `K` is a vector of kinship matrices.
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
 	example: 
 	- method::String = "null-grid", h2_grid::Array{Float64, 1} = collect(0.0:0.1:0.9),
 	- nb::Int64 = Threads.nthreads(), 

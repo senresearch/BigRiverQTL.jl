@@ -5,9 +5,9 @@ Single trait scan without covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `dfG`is is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
+* `y`is the phenotype column matrix. 
+* `dfG`is is a dataframe containing genotype values and genotype info such as the chromosome, loci... 
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
 	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
 	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
@@ -28,10 +28,10 @@ Single trait scan without covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `G`is vector of genotype matrices based on the chromosome.
-- `K` is a vector of kinship matrices.
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
+* `y`is the phenotype column matrix. 
+* `G`is vector of genotype matrices based on the chromosome.
+* `K` is a vector of kinship matrices.
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
 	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
 	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
@@ -51,11 +51,11 @@ Single trait scan with covariates for LOCO data structure.
 
 # Arguments
 
-- `y`is the phenotype column matrix. 
-- `G`is vector of genotype matrices based on the chromosome.
-- `covar` is covariate column matrix.
-- `K` is a vector of kinship matrices.
-- `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
+* `y`is the phenotype column matrix. 
+* `G`is vector of genotype matrices based on the chromosome.
+* `covar` is covariate column matrix.
+* `K` is a vector of kinship matrices.
+* `kwargs` are optional keywords arguments pertaining to the `BulkLMM.scan()` function. For
 	example: `reml` = false, `permutation_test` = true, `nperms` = 1000, 
 	`weights` = missing, `prior_variance` = 0.0, `prior_sample_size` = 0.0. Refer to 
 	`BulkLMM` documentation for more details.
