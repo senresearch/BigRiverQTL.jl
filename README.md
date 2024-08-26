@@ -162,9 +162,7 @@ single_results_perms = scan(
 );
 ```
 
-#### Preprocessing
-
-#### Plots
+### Plots
 
 
 ```julia
