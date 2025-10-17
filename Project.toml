@@ -1,7 +1,7 @@
 name = "BigRiverQTL"
 uuid = "8f8ec94a-26d1-428c-aa0e-4e66223094bc"
 authors = ["Gregory Farage, Durbadal Ghosh, Saunak Sen"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 BigRiverQTLPlots = "042156b7-ffc6-4e52-80f3-70a9c31dd28f"
