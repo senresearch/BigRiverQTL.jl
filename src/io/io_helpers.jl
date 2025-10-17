@@ -172,7 +172,7 @@ key. If the key does not exist, it throws an error with a message indicating tha
 key was not found in the control file.
 
 """
-function check_key(control_dict::Dict, s::String)
+function check_key(control_dict::Union{Dict, JSON.Object}, s::String)
 	# check geno file exists
 	if (in(s, keys(control_dict)))
 		val = control_dict[s]
