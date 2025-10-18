@@ -6,7 +6,7 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.16.7
+#       jupytext_version: 1.17.3
 #   kernelspec:
 #     display_name: Julia 1.11.7
 #     language: julia
@@ -39,8 +39,8 @@ using Plots
 ########
 # Data #
 ########
-data_dir = joinpath(@__DIR__, "../data/BXD/");
-file = joinpath(data_dir, "bxd.json");
+data_dir = (pathof(BigRiverQTL) |> dirname |>dirname);
+file = joinpath(data_dir,  "test", "data", "BXD", "bxd.json");
 
 # Load bxd data using the function `get_geneticstudydata()`: 
 
@@ -74,18 +74,16 @@ geno = reduce(hcat, data.geno.val).*1.0;
 #################
 # Preprocessing #
 #################
-traitID = 1112;
+traitID = 868;
 pheno_y = pheno[:, traitID];
-pheno_y2 = ones(length(pheno_y));
 idx_not_missing = findall(!ismissing, pheno_y)
-pheno_y2[idx_not_missing] = pheno_y[idx_not_missing];
 
 # #### Kinship
 
 ###########
 # Kinship #
 ###########
-kinship = kinship_gs(geno,.99);
+kinship = kinship_gs(geno[idx_not_missing, :],.99);
 
 # #### Scan
 
@@ -95,13 +93,15 @@ kinship = kinship_gs(geno,.99);
 ########
 
 single_results_perms = scan(
-	pheno_y2,
-	geno,
+	pheno_y[idx_not_missing] .|> float, # use float to convert to type Float64 without missing
+	geno[idx_not_missing, :],
 	kinship;
 	permutation_test = true,
 	nperms = 1000,
 );
 # -
+
+# #### Preprocessing
 
 # #### Plots
 
