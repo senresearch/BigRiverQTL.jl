@@ -196,7 +196,7 @@ single_results_perms <- BigRiverQTL$scan(
 #########
 
 # QTL plots
-p <- BigRiverQTL$plot_QTL(single_results_perms, gInfo, mbColname = "Pos", dpi = 600L)
+p <- BigRiverQTL$plot_QTL(single_results_perms, gInfo, mbColname = "Pos", size = list(800,600), dpi = 600L)
 juliaLet('savefig(p, "qtl_plot.png");', p = p)
 ```
 
@@ -215,7 +215,7 @@ juliaLet('display(p)', p = p)
 
 ```{r}
 # Manhattan plots
-p <- BigRiverQTL$plot_manhattan(single_results_perms, gInfo, mbColname = "Pos", dpi = 660L)
+p <- BigRiverQTL$plot_manhattan(single_results_perms, gInfo, mbColname = "Pos", size = list(800,600), dpi = 660L)
 juliaLet('savefig(p, "manhattan_plot.png");', p = p);
 ```
 
@@ -224,7 +224,3 @@ juliaLet('display(p)', p = p)
 ```
 
 <img src="manhattan_plot.png" alt="drawing" width="500" />
-
-```{r}
-
-```
