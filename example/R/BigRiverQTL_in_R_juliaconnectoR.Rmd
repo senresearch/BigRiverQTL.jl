@@ -158,7 +158,7 @@ geno <- juliaLet("reduce(hcat, genoval).*1.0", genoval = data$geno$val)
 #################
 # Preprocessing #
 #################
-traitID <- 868;
+traitID <- 1978;
 pheno_y <- pheno[, traitID];
 idx_not_missing <- which(!is.na(pheno_y));
 ```
@@ -178,6 +178,7 @@ kinship <- BigRiverQTL$kinship_gs(geno[idx_not_missing,],0.99);
 ########
 # Scan #
 ########
+start_time <- Sys.time()
 
 single_results_perms <- BigRiverQTL$scan(
 	pheno_y[idx_not_missing],
@@ -186,6 +187,10 @@ single_results_perms <- BigRiverQTL$scan(
 	permutation_test = TRUE,
 	nperms = 1000L
 );
+
+end_time <- Sys.time()
+time_taken <- end_time - start_time
+time_taken
 ```
 
 ### Plots
@@ -197,7 +202,7 @@ single_results_perms <- BigRiverQTL$scan(
 
 # QTL plots
 p <- BigRiverQTL$plot_QTL(single_results_perms, gInfo, mbColname = "Pos", size = list(800,600), dpi = 600L)
-juliaLet('savefig(p, "qtl_plot.png");', p = p)
+juliaLet('savefig(p, "qtl_plot.png"); println("Plot is saved.")', p = p)
 ```
 
 ```{r}
@@ -215,8 +220,8 @@ juliaLet('display(p)', p = p)
 
 ```{r}
 # Manhattan plots
-p <- BigRiverQTL$plot_manhattan(single_results_perms, gInfo, mbColname = "Pos", size = list(800,600), dpi = 660L)
-juliaLet('savefig(p, "manhattan_plot.png");', p = p);
+p <- BigRiverQTL$plot_manhattan(single_results_perms, gInfo, mbColname = "Pos", size = list(800,500), dpi = 660L)
+juliaLet('savefig(p, "manhattan_plot.png"); println("Plot is saved.")', p = p);
 ```
 
 ```{r}
