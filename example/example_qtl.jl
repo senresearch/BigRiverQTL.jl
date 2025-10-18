@@ -74,7 +74,7 @@ geno = reduce(hcat, data.geno.val).*1.0;
 #################
 # Preprocessing #
 #################
-traitID = 868;
+traitID = 1978;
 pheno_y = pheno[:, traitID];
 idx_not_missing = findall(!ismissing, pheno_y)
 
